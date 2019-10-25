@@ -5,6 +5,8 @@ It reads the vector trees of different objects (eg. muons, electrons, taus, and 
 of variable histograms and/or flat trees.
 
 # Introduction for running the analyzer
+NOTE: This branch has Rochester correction, which is dependent on BOOST C++ library. It is recommended to be run on lxplus or LPC, otherwise one has 
+to install and build the BOOST locally.
 
 First you must make sure you have the ROOT library included in your local environment. 
 
@@ -45,4 +47,4 @@ $ ./runMuTauFlatTreelizer doWhat=Data maxEvents=3000 ###### for producing the fl
 
 NOTE: If the parameters are customized in the command line, their default values in "mumutautau.cfg" will be ignored.
 
-The ``FlatTreelizer'' produces a flat tree containing the variables that will be used for subsequent RooFit/combine steps.
+The ''FlatTreelizer'' produces a flat tree containing the variables that will be used for subsequent RooFit/combine steps.

@@ -1,10 +1,12 @@
 #define MuMuAnalyzer_cxx
 #include "MuMuAnalyzer.h"
+#include "RoccoR.h"
 #include <TH1.h>
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <TFile.h>
+#include <TRandom.h>
 #include <iomanip>
 #include <iostream>
 #include <TLorentzVector.h>
@@ -67,6 +69,11 @@ void MuMuAnalyzer::Loop()
       TLorentzVector unMatchedMu;
       // ============================================================================
 
+      // ---- define the variable for rochester correction ----
+      RoccoR rc("text/RoccoR2017.txt");
+      double dataRochesterSF = 1;
+      double mcRochesterSF = 1;
+
       // ---- start loop on muon candidates ----
       for (unsigned int iMuon=0; iMuon<recoMuonPt->size(); iMuon++)
       {
@@ -78,7 +85,20 @@ void MuMuAnalyzer::Loop()
 
           //cout << "******** Mu1 index: " << iMuon << endl;
           if (recoMuonIsolation->at(iMuon) > 0.25) continue;
-          Mu1.SetPtEtaPhiE(recoMuonPt->at(iMuon), recoMuonEta->at(iMuon), recoMuonPhi->at(iMuon), recoMuonEnergy->at(iMuon));
+
+          // ---- apply rochester correction ---- 
+          if (isMC == false)
+          {
+              dataRochesterSF = rc.kScaleDT(recoMuonPDGId->at(iMuon)/fabs(recoMuonPDGId->at(iMuon)), recoMuonPt->at(iMuon), recoMuonEta->at(iMuon), recoMuonPhi->at(iMuon), 0, 0);
+              Mu1.SetPtEtaPhiE(recoMuonPt->at(iMuon)*dataRochesterSF, recoMuonEta->at(iMuon), recoMuonPhi->at(iMuon), recoMuonEnergy->at(iMuon));
+          } // end if isMC == false
+
+          else{
+              double rng = gRandom->Rndm();
+              mcRochesterSF = rc.kSmearMC(recoMuonPDGId->at(iMuon)/fabs(recoMuonPDGId->at(iMuon)), recoMuonPt->at(iMuon), recoMuonEta->at(iMuon), recoMuonPhi->at(iMuon), recoMuonNTrackerLayers->at(iMuon), rng, 0, 0);
+              Mu1.SetPtEtaPhiE(recoMuonPt->at(iMuon)*mcRochesterSF, recoMuonEta->at(iMuon), recoMuonPhi->at(iMuon), recoMuonEnergy->at(iMuon));
+          } // end isMC == true
+
           float dRCut = 0.3; // dR cut between Mu1 and Mu2
           float highestPt = 0;
           float invMassLowThre = 60.0;
@@ -99,7 +119,19 @@ void MuMuAnalyzer::Loop()
                       && ((Mu1+Mu2Cand).M() > invMassLowThre) && ((Mu1+Mu2Cand).M() < invMassHighThre)
                       && (recoMuonPDGId->at(iMuon) == (-1) * recoMuonPDGId->at(iMuon2)))
               {
-                  Mu2.SetPtEtaPhiE(recoMuonPt->at(iMuon2), recoMuonEta->at(iMuon2), recoMuonPhi->at(iMuon2), recoMuonEnergy->at(iMuon2));
+                  // ---- apply rochester correction ---- 
+                  if (isMC == false)
+                  {
+                      dataRochesterSF = rc.kScaleDT(recoMuonPDGId->at(iMuon2)/fabs(recoMuonPDGId->at(iMuon2)), recoMuonPt->at(iMuon2), recoMuonEta->at(iMuon2), recoMuonPhi->at(iMuon2), 0, 0);
+                      Mu2.SetPtEtaPhiE(recoMuonPt->at(iMuon2)*dataRochesterSF, recoMuonEta->at(iMuon2), recoMuonPhi->at(iMuon2), recoMuonEnergy->at(iMuon2));
+                  } // end if isMC == false
+
+                  else{
+                      double rng = gRandom->Rndm();
+                      mcRochesterSF = rc.kSmearMC(recoMuonPDGId->at(iMuon2)/fabs(recoMuonPDGId->at(iMuon2)), recoMuonPt->at(iMuon2), recoMuonEta->at(iMuon2), recoMuonPhi->at(iMuon2), recoMuonNTrackerLayers->at(iMuon2), rng, 0, 0);
+                      Mu2.SetPtEtaPhiE(recoMuonPt->at(iMuon2)*mcRochesterSF, recoMuonEta->at(iMuon2), recoMuonPhi->at(iMuon2), recoMuonEnergy->at(iMuon2));
+                  } // end isMC == true
+
                   highestPt = Mu2Cand.Pt();
                   findMu2 = true;
                   indexMu2 = iMuon2;

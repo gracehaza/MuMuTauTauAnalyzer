@@ -32,6 +32,7 @@ public :
    vector<float>   *recoMuonEnergy;
    vector<int>     *recoMuonPDGId;
    vector<float>   *recoMuonIsolation;
+   vector<int>     *recoMuonNTrackerLayers;
    vector<float>   *recoJetPt;
    vector<float>   *recoJetEta;
    vector<float>   *recoJetPhi;
@@ -51,6 +52,7 @@ public :
    TBranch        *b_recoMuonEnergy;   //!
    TBranch        *b_recoMuonPDGId;   //!
    TBranch        *b_recoMuonIsolation;   //!
+   TBranch        *b_recoMuonNTrackerLayers;   //!
    TBranch        *b_recoJetPt;   //!
    TBranch        *b_recoJetEta;   //!
    TBranch        *b_recoJetPhi;   //!
@@ -166,6 +168,7 @@ void MuMuAnalyzer::Init()
    recoMuonEnergy = 0;
    recoMuonPDGId = 0;
    recoMuonIsolation = 0;
+   recoMuonNTrackerLayers = 0;
    recoJetPt = 0;
    recoJetEta = 0;
    recoJetPhi = 0;
@@ -183,6 +186,7 @@ void MuMuAnalyzer::Init()
    fChain->SetBranchAddress("recoMuonEnergy", &recoMuonEnergy, &b_recoMuonEnergy);
    fChain->SetBranchAddress("recoMuonPDGId", &recoMuonPDGId, &b_recoMuonPDGId);
    fChain->SetBranchAddress("recoMuonIsolation", &recoMuonIsolation, &b_recoMuonIsolation);
+   fChain->SetBranchAddress("recoMuonNTrackerLayers", &recoMuonNTrackerLayers, &b_recoMuonNTrackerLayers);
    fChain->SetBranchAddress("recoJetPt", &recoJetPt, &b_recoJetPt);
    fChain->SetBranchAddress("recoJetEta", &recoJetEta, &b_recoJetEta);
    fChain->SetBranchAddress("recoJetPhi", &recoJetPhi, &b_recoJetPhi);

@@ -12,11 +12,12 @@ int main(int argc, char **argv)
     //--- Load configuration ---
     ConfigArg cfg;
 
-    TString inputFile  = cfg.getS("inputFile");
-    TString outputDir  = cfg.getS("outputDir");
-    TString doWhat     = cfg.getS("doWhat", "DYJETS");
-    Long_t maxEvents   = cfg.getL("maxEvents", -1);
-    double lumi        = cfg.getD("lumi", 1);
+    TString inputLumiFile  = cfg.getS("inputLumiFile");
+    TString inputFile      = cfg.getS("inputFile");
+    TString outputDir      = cfg.getS("outputDir");
+    TString doWhat         = cfg.getS("doWhat", "DYJETS");
+    Long_t maxEvents       = cfg.getL("maxEvents", -1);
+    double lumi            = cfg.getD("lumi", 1);
 
     //--- Parse the arguments -----------------------------------------------------
     if (argc > 1)
@@ -26,6 +27,11 @@ int main(int argc, char **argv)
             TString currentArg = argv[i];
             
             //--- possible options ---
+            if (currentArg.BeginsWith("inputLumiFile="))
+            {
+                getArg(currentArg, inputLumiFile);
+            }
+
             if (currentArg.BeginsWith("inputFile="))
             {
                 getArg(currentArg, inputFile);
@@ -82,9 +88,9 @@ int main(int argc, char **argv)
     // ------------------------ MC histogram production ------------------
     if (doWhat == "DYJETS" || doWhat == "ALL")
     {
-        if (inputFile.EndsWith(".root"))
+        if (inputFile.EndsWith(".root") && inputLumiFile.EndsWith(".root"))
         {
-            lumiana DYJetsLumi(inputFile);
+            lumiana DYJetsLumi(inputLumiFile);
             summedWeights = DYJetsLumi.Loop();
             MuMuAnalyzer DYJetsHist(inputFile, outputDir, lumi*2075.14*3*1000, summedWeights, maxEvents, true);
             DYJetsHist.Loop();
@@ -92,7 +98,7 @@ int main(int argc, char **argv)
 
         else{
             ifstream finLumi;
-            finLumi.open(inputFile);
+            finLumi.open(inputLumiFile);
             string fileName;
             while (getline(finLumi, fileName))
             {

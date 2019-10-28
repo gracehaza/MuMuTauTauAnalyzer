@@ -177,20 +177,20 @@ void MuMuAnalyzer::Loop()
               if (isMC == false)
               {
                   dataRochesterSF = rc.kScaleDT(Mu1Charge.at(iMuon), Mu1s.at(iMuon).Pt(), Mu1s.at(iMuon).Eta(), Mu1s.at(iMuon).Phi(), 0, 0);
-                  Mu1.SetPtEtaPhiE(Mu1s.at(iMuon).Pt()*dataRochesterSF, Mu1s.at(iMuon).Eta(), Mu1s.at(iMuon).Phi(), Mu1s.at(iMuon).E());
+                  Mu1.SetPtEtaPhiE(Mu1s.at(iMuon).Pt()*dataRochesterSF, Mu1s.at(iMuon).Eta(), Mu1s.at(iMuon).Phi(), Mu1s.at(iMuon).E()*dataRochesterSF);
 
                   dataRochesterSF = rc.kScaleDT(Mu2Charge.at(iMuon), Mu2s.at(iMuon).Pt(), Mu2s.at(iMuon).Eta(), Mu2s.at(iMuon).Phi(), 0, 0);
-                  Mu2.SetPtEtaPhiE(Mu2s.at(iMuon).Pt()*dataRochesterSF, Mu2s.at(iMuon).Eta(), Mu2s.at(iMuon).Phi(), Mu2s.at(iMuon).E());
+                  Mu2.SetPtEtaPhiE(Mu2s.at(iMuon).Pt()*dataRochesterSF, Mu2s.at(iMuon).Eta(), Mu2s.at(iMuon).Phi(), Mu2s.at(iMuon).E()*dataRochesterSF);
               } // end if isMC == false
 
               else{
                   double rng = gRandom->Rndm();
                   mcRochesterSF = rc.kSmearMC(Mu1Charge.at(iMuon), Mu1s.at(iMuon).Pt(), Mu1s.at(iMuon).Eta(), Mu1s.at(iMuon).Phi(), Mu1NTrackerLayers.at(iMuon), rng, 0, 0);
-                  Mu1.SetPtEtaPhiE(Mu1s.at(iMuon).Pt()*mcRochesterSF, Mu1s.at(iMuon).Eta(), Mu1s.at(iMuon).Phi(), Mu1s.at(iMuon).E());
+                  Mu1.SetPtEtaPhiE(Mu1s.at(iMuon).Pt()*mcRochesterSF, Mu1s.at(iMuon).Eta(), Mu1s.at(iMuon).Phi(), Mu1s.at(iMuon).E()*mcRochesterSF);
 
                   rng = gRandom->Rndm();
                   mcRochesterSF = rc.kSmearMC(Mu2Charge.at(iMuon), Mu2s.at(iMuon).Pt(), Mu2s.at(iMuon).Eta(), Mu2s.at(iMuon).Phi(), Mu2NTrackerLayers.at(iMuon), rng, 0, 0);
-                  Mu2.SetPtEtaPhiE(Mu2s.at(iMuon).Pt()*mcRochesterSF, Mu2s.at(iMuon).Eta(), Mu2s.at(iMuon).Phi(), Mu2s.at(iMuon).E());
+                  Mu2.SetPtEtaPhiE(Mu2s.at(iMuon).Pt()*mcRochesterSF, Mu2s.at(iMuon).Eta(), Mu2s.at(iMuon).Phi(), Mu2s.at(iMuon).E()*mcRochesterSF);
               } // end isMC == true
 
               TLorentzVector Mu1Mu2 = Mu1 + Mu2;

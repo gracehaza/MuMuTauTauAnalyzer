@@ -35,6 +35,8 @@ $ ./runMuMuTauMuTauHadAnalyzer doWhat=H125AA5 maxEvents=2000 ###### for producin
 
 $ ./runMuMuTauETauHadAnalyzer doWhat=H125AA5 maxEvents=2000 ###### for producing histograms of the tau_e + tau_had channel
 
+$ ./runMuMuTauHadTauHadAnalyzer doWhat=H125AA5 maxEvents=2000 ###### for producing histograms of the tau_had + tau_had channel
+
 $ ./runFakeMuMuTauMuTauMuAnalyzer doWhat=Data maxEvents=3000 ##### for producing the histograms of dimuon + tau_mu + tau_mu channel (control region for jet faking muon study) 
 
 $ ./runFakeMuMuTauMuTauEAnalyzer doWhat=Data maxEvents=3000 ##### for producing the histograms of dimuon + tau_mu + tau_e channel (control region for jet faking muon study) 
@@ -42,6 +44,10 @@ $ ./runFakeMuMuTauMuTauEAnalyzer doWhat=Data maxEvents=3000 ##### for producing 
 $ ./runFakeMuMuTauMuTauHadAnalyzer doWhat=Data maxEvents=3000 ##### for producing the histograms of dimuon + tau_mu + tau_had channel (control region for jet faking tau study) 
 
 $ ./runFakeMuMuTauETauEAnalyzer doWhat=Data maxEvents=3000 ##### for producing the histograms of dimuon + tau_e + tau_e channel (control region for jet faking muon study) 
+
+$ ./runFakeMuMuTauETauHadAnalyzer doWhat=Data maxEvents=3000 ##### for producing the histograms of dimuon + tau_e + tau_had channel (control region for jet faking muon study) 
+
+$ ./runFakeMuMuTauHadTauHadAnalyzer doWhat=Data maxEvents=3000 ##### for producing the histograms of dimuon + tau_had + tau_had channel (control region for jet faking muon study) 
 
 $ ./runMuTauFlatTreelizer doWhat=Data maxEvents=3000 ###### for producing the flat trees of the tau_mu + tau_had channel
 

@@ -166,6 +166,30 @@ class Histomutau{
         TH2D* nMatchedMuPairNMatchedMuTauPair;
         TH2D* nMatchedMuPairNMatchedEleTauPair;
         TH2D* nMatchedMuPairNMatchedTauTauPair;
+
+
+	TH1D* genmu1Pt;
+	//        TH1D* genmu1Eta;
+        //TH1D* genmu1Phi;
+	//TH1D* genmu1Energy;
+	
+        TH1D* genmu2Pt;
+	//TH1D* genmu2Eta;
+        //TH1D* genmu2Phi;
+	//TH1D* genmu2Energy;
+
+	/*
+	TH1D* genele1Pt;
+	TH1D* genele1Eta;
+	TH1D* genele1Phi;
+
+	TH1D* genele2Pt;
+	TH1D* genele2Eta;
+	TH1D* genele2Phi;
+	*/
+	TH1D* dRgenMu1genMu2;
+              
+//TH1D* dRgenEle1genEle2;
 };
 
 #endif

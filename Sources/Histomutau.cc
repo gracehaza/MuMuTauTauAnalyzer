@@ -87,6 +87,14 @@ Histomutau::Histomutau(){
     double Mu3TauPtBin [] = {0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
     double Mu1Mu2Mu3TauPtBin [] = {0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
 
+
+
+    double genMu1PtBin [] = {3, 18, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 110, 115, 120, 126, 133, 141, 150, 160, 171, 183, 196, 210, 225, 241, 258, 276, 300};
+    double genMu2PtBin [] = {3, 18, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 110, 115, 120, 126, 133, 141, 150, 160, 171, 183, 196, 210, 225, 241, 258, 276, 300};
+    //    double genEle1PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200};
+    //double genEle2PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200};
+
+
     int NBinsMu1Pt = sizeof(Mu1PtBin)/sizeof(Mu1PtBin[0])-1;
     int NBinsMu2Pt = sizeof(Mu2PtBin)/sizeof(Mu2PtBin[0])-1;
     int NBinsMu3Pt = sizeof(Mu3PtBin)/sizeof(Mu3PtBin[0])-1;
@@ -97,6 +105,11 @@ Histomutau::Histomutau(){
     int NBinsTauPt = sizeof(tauPtBin)/sizeof(tauPtBin[0])-1;
     int NBinsMu3TauPt = sizeof(Mu3TauPtBin)/sizeof(Mu3TauPtBin[0])-1;
     int NBinsMu1Mu2Mu3TauPt = sizeof(Mu1Mu2Mu3TauPtBin)/sizeof(Mu1Mu2Mu3TauPtBin[0])-1;
+
+    int NBinsgenMu1Pt = sizeof(genMu1PtBin)/sizeof(genMu1PtBin[0])-1;
+    int NBinsgenMu2Pt = sizeof(genMu2PtBin)/sizeof(genMu2PtBin[0])-1;
+    // int NBinsgenEle1Pt = sizeof(genEle1PtBin)/sizeof(genEle1PtBin[0])-1;
+    //int NBinsgenEle2Pt= sizeof(genEle2PtBin)/sizeof(genEle2PtBin[0])-1;
 
     nMatchedMuPair = newTH1D("nMatchedMuPair", "N(#mu_{1}#mu_{2})", 5, 0, 5);
     nMatchedMuMuPair = newTH1D("nMatchedMuMuPair", "N(#mu_{3}#mu_{4})", 5, 0, 5);
@@ -237,6 +250,23 @@ Histomutau::Histomutau(){
     nMatchedMuPairNMatchedMuTauPair = newTH2D("nMatchedMuPairNMatchedMuTauPair", "N(#mu_{1}#mu_{2})", "N(#mu_{3}#tau)", 4, 0, 4, 4, 0, 4);
     nMatchedMuPairNMatchedEleTauPair = newTH2D("nMatchedMuPairNMatchedEleTauPair", "N(#mu_{1}#mu_{2})", "N(e#tau)", 4, 0, 4, 4, 0, 4);
     nMatchedMuPairNMatchedTauTauPair = newTH2D("nMatchedMuPairNMatchedTauTauPair", "N(#mu_{1}#mu_{2})", "N(#tau#tau)", 4, 0, 4, 4, 0, 4);
+
+    //    if (isMC){
+    genmu1Pt = newTH1D("genmu1Pt", "p_{T}(#mu_{1}) [GeV]", NBinsgenMu1Pt, genMu1PtBin);
+    genmu2Pt = newTH1D("genmu2Pt", "p_{T}(#mu_{1}) [GeV]", NBinsgenMu2Pt, genMu2PtBin);
+
+    //genele1Pt = newTH1D("genele1Pt", "p_{T}(e_{1}) [GeV]", NBinsgenEle1Pt, genEle1PtBin);
+    //genele2Pt = newTH1D("genele2Pt", "p_{T}(e_{2}) [GeV]", NBinsgenEle2Pt, genEle2PtBin);
+
+    dRgenMu1genMu2 = newTH1D("dRgenMu1genMu2", "#Delta R(#mu_{1}#mu_{2})", 25, 0, 1.0);
+    //    dRgenEle1genEle2 = newTH1D("dRgenEle1genEle2", "#Delta_R(e_{1}e_{2}", 25, 0, 1.0);
+     
+ //mu1Eta = newTH1D("mu1Eta", "#eta(#mu_{1})", 20, -2.1, 2.1);
+      //mu1Phi = newTH1D("mu1Phi", "#phi(#mu_{1})", 20, -2.5, 2.5);
+
+    // }
+
+
 }
 
 Histomutau::~Histomutau()

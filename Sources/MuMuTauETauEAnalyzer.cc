@@ -36,6 +36,11 @@ void MuMuTauETauEAnalyzer::Loop()
       vector<TLorentzVector> Mu2s;
       vector<TLorentzVector> Ele1s;
       vector<TLorentzVector> Ele2s;
+      //      std::cout << "hi line 39 .cc" << std::endl;
+      vector<TLorentzVector> genMu1s;
+      vector<TLorentzVector> genMu2s;
+      // vector<TLorentzVector> genEle1s;
+      //vector<TLorentzVector> genEle2s;
 
       vector<float> Mu1Iso;
       vector<float> Mu2Iso;
@@ -47,6 +52,11 @@ void MuMuTauETauEAnalyzer::Loop()
       Ele1s.clear();
       Ele2s.clear();
 
+      genMu1s.clear();
+      genMu2s.clear();
+      //      genEle1s.clear();
+      //genEle2s.clear();
+
       Mu1Iso.clear();
       Mu2Iso.clear();
       Ele1Iso.clear();
@@ -57,8 +67,13 @@ void MuMuTauETauEAnalyzer::Loop()
       vector<int> indexMu1s;
       vector<int> indexMu2s;
 
+      vector<int> indexgenMu1s;
+      vector<int> indexgenMu2s;
+
       indexMu1s.clear();
       indexMu2s.clear();
+      indexgenMu1s.clear();
+      indexgenMu2s.clear();
       // =============================================================================
 
       // ---- these vectors containing the muons and electrons that are not matched into pairs --- 
@@ -81,6 +96,12 @@ void MuMuTauETauEAnalyzer::Loop()
       TLorentzVector Ele1;
       TLorentzVector Ele2;
       TLorentzVector unMatchedMu;
+
+      TLorentzVector genMu1;
+      TLorentzVector genMu2;
+      //      TLorentzVector genEle1;
+      //TLorentzVector genEle2;
+
       // ============================================================================
 
       // ---- start loop on muon candidates ----
@@ -129,6 +150,16 @@ void MuMuTauETauEAnalyzer::Loop()
 
       } // end loop for mu1
 
+      for (unsigned int igenMuon=0; igenMuon<genMuon1Pt->size(); igenMuon++){
+	genMu1.SetPtEtaPhiE(genMuon1Pt->at(igenMuon), genMuon1Eta->at(igenMuon), genMuon1Phi->at(igenMuon), genMuon1Energy->at(igenMuon));
+	genMu1s.push_back(genMu1);
+      }
+
+      for (unsigned int igenMuon2=0; igenMuon2<genMuon2Pt->size(); igenMuon2++){
+        genMu2.SetPtEtaPhiE(genMuon2Pt->at(igenMuon2), genMuon2Eta->at(igenMuon2), genMuon2Phi->at(igenMuon2), genMuon2Energy->at(igenMuon2));
+        genMu2s.push_back(genMu2);
+      }
+
       // ------- start loop on electron candidates -------
       for (unsigned int iEle=0; iEle<recoElectronPt->size(); iEle++)
       {
@@ -165,7 +196,17 @@ void MuMuTauETauEAnalyzer::Loop()
               unMatchedElectronIso.push_back(recoElectronIsolation->at(iEle));
           } // end else findEle2
       } // end loop for electron
+      /*
+            for (unsigned int igenEle1=0; igenEle1<genEle1Pt->size(); igenEle1++){
+        genEle1.SetPtEtaPhiE(genEle1Pt->at(igenEle1), genEle1Eta->at(igenEle1), genEle1Phi->at(igenEle1), genEle1Energy->at(igenEle1));
+        genEle1s.push_back(genEle1);
+      }
 
+      for (unsigned int igenEle2=0; igenEle2<genEle2Pt->size(); igenEle2++){
+	genEle2.SetPtEtaPhiE(genEle2Pt->at(igenEle2), genEle2Eta->at(igenEle2), genEle2Phi->at(igenEle2), genEle2Energy->at(igenEle2));
+	genEle2s.push_back(genEle2);
+      }
+      */
       // ---- search for unMatched muon candidates ----
       for (unsigned int iMuon=0; iMuon<recoMuonPt->size(); iMuon++)
       {
@@ -193,6 +234,46 @@ void MuMuTauETauEAnalyzer::Loop()
       nUnMatchedMu->Fill(unMatchedMus.size(), weight);
       nUnMatchedEle->Fill(unMatchedEles.size(), weight);
       nMatchedMuPairNMatchedEleElePair->Fill(Mu1s.size(), Ele1s.size(), weight);
+
+      if(genMu1s.size() >0){
+	for (unsigned int igenMuon=0; igenMuon<genMu1s.size(); igenMuon++)
+	  { 
+	    genMu1 = genMu1s.at(igenMuon);
+	    genmu1Pt->Fill(genMu1.Pt(), weight);
+
+	    if(genMu2s.size() >0){
+	      for (unsigned int igenMuon2=0; igenMuon2<genMu2s.size(); igenMuon2++)
+		{
+		  genMu2 = genMu2s.at(igenMuon2);
+		  genmu2Pt->Fill(genMu2.Pt(), weight);                                                                                                                                    
+		  dRgenMu1genMu2->Fill(genMu1.DeltaR(genMu2), weight);
+		}
+	    }
+
+	  }
+      }
+
+      /*if(genMu2s.size() >0){
+	for (unsigned int igenMuon2=0; igenMuon2<genMu2s.size(); igenMuon2++)
+          {
+            genMu2 = genMu2s.at(igenMuon2);
+	    //            genmu2Pt->Fill(genMu2.Pt(), weight);
+	  }
+	  }*/
+
+      if ((genMu1s.size() > 0) && (genMu2s.size() > 0)){
+	//	dRgenMu1genMu2->Fill(genMu1.DeltaR(genMu2), weight);
+      }
+      
+      /*      if(genEle1s.size() >0){
+        genele1Pt->Fill(genEle1.Pt(), weight);
+      }
+
+      if(genEle2s.size() >0){
+        genele2Pt->Fill(genEle2.Pt(), weight);
+        dRgenEle1genEle2->Fill(genEle1.DeltaR(genEle2), weight);
+      }
+      */
 
       if (Mu1s.size() >0 && Ele1s.size() >0)
       {
@@ -282,6 +363,9 @@ void MuMuTauETauEAnalyzer::Loop()
 
    }// end loop for events
 
+
+   std::cout << "hi line 347 .cc" << std::endl;
+
    outputFile->cd();
 
    int numberofhist = histColl.size();
@@ -289,10 +373,10 @@ void MuMuTauETauEAnalyzer::Loop()
        if (isMC) histColl[i]->Scale(lumiScale/summedWeights);
        histColl[i]->Write();
    } // end loop for writing all the histograms into the output file
-
+   std::cout << "hi line 356" << std::endl;
    for(int j=0; j<numberofhist; j++){
        delete histColl[j];
    } // end loop for deleting all the histograms
-
+   std::cout << "hi line 360" << std::endl;
    outputFile->Close();
 }

@@ -32,6 +32,10 @@ public :
    vector<float>   *recoMuonEnergy;
    vector<int>     *recoMuonPDGId;
    vector<float>   *recoMuonIsolation;
+   vector<float>   *recoMuonDXY;
+   vector<float>   *recoMuonDZ;
+   vector<int>     *recoMuonNTrackerLayers;
+   vector<int>     *recoMuonTriggerFlag;
    vector<float>   *recoElectronPt;
    vector<float>   *recoElectronEta;
    vector<float>   *recoElectronPhi;
@@ -47,7 +51,10 @@ public :
    vector<float>   *recoJetCSV;
    vector<float>   *recoMET;
    vector<float>   *recoMETPhi;
+   vector<float>   *recoMETPx;
+   vector<float>   *recoMETPy;
    Int_t           recoNPrimaryVertex;
+   Int_t           eventID;
    Int_t           recoNPU;
    Int_t           trueNInteraction;
    Float_t         genEventWeight;
@@ -59,6 +66,10 @@ public :
    TBranch        *b_recoMuonEnergy;   //!
    TBranch        *b_recoMuonPDGId;   //!
    TBranch        *b_recoMuonIsolation;   //!
+   TBranch        *b_recoMuonDXY;   //!
+   TBranch        *b_recoMuonDZ;   //!
+   TBranch        *b_recoMuonNTrackerLayers;   //!
+   TBranch        *b_recoMuonTriggerFlag;   //!
    TBranch        *b_recoElectronPt;   //!
    TBranch        *b_recoElectronEta;   //!
    TBranch        *b_recoElectronPhi;   //!
@@ -74,7 +85,10 @@ public :
    TBranch        *b_recoJetCSV;   //!
    TBranch        *b_recoMET;   //!
    TBranch        *b_recoMETPhi;   //!
+   TBranch        *b_recoMETPx;   //!
+   TBranch        *b_recoMETPy;   //!
    TBranch        *b_recoNPrimaryVertex;   //!
+   TBranch        *b_eventID;   //!
    TBranch        *b_recoNPU;   //!
    TBranch        *b_trueNInteraction;   //!
    TBranch        *b_genEventWeight;   //!
@@ -89,8 +103,10 @@ public :
    bool invertedEle1Iso;
    double Mu2IsoThreshold;
    double Ele1IsoThreshold;
+   double diMuonMassLowThreshold;
+   double diMuonMassHighThreshold;
 
-   MuMuTauMuTauEAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, bool invertedEle1Iso_ = false, double Mu2IsoThreshold_ = 0.25, double Ele1IsoThreshold_ = 0.25);
+   MuMuTauMuTauEAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, bool invertedEle1Iso_ = false, double Mu2IsoThreshold_ = 0.25, double Ele1IsoThreshold_ = 0.25, double diMuonMassLowThreshold_ = 0, double diMuonMassHighThreshold_ = 25.0);
    string createOutputFileName();
    virtual ~MuMuTauMuTauEAnalyzer();
    virtual Int_t    Cut(Long64_t entry);
@@ -105,7 +121,7 @@ public :
 #endif
 
 #ifdef MuMuTauMuTauEAnalyzer_cxx
-MuMuTauMuTauEAnalyzer::MuMuTauMuTauEAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_, bool invertedMu2Iso_, bool invertedEle1Iso_, double Mu2IsoThreshold_, double Ele1IsoThreshold_) : Histomutau() 
+MuMuTauMuTauEAnalyzer::MuMuTauMuTauEAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_, bool invertedMu2Iso_, bool invertedEle1Iso_, double Mu2IsoThreshold_, double Ele1IsoThreshold_, double diMuonMassLowThreshold_, double diMuonMassHighThreshold_) : Histomutau() 
 {
     fileName = fileName_;
     outputDir = outputDir_;
@@ -117,6 +133,9 @@ MuMuTauMuTauEAnalyzer::MuMuTauMuTauEAnalyzer(TString fileName_, TString outputDi
     invertedEle1Iso = invertedEle1Iso_;
     Mu2IsoThreshold = Mu2IsoThreshold_;
     Ele1IsoThreshold = Ele1IsoThreshold_;
+    diMuonMassLowThreshold = diMuonMassLowThreshold_;
+    diMuonMassHighThreshold = diMuonMassHighThreshold_;
+    invMassMu1Mu2->SetBins(20, diMuonMassLowThreshold, diMuonMassHighThreshold);
 
     //--- Create output directory if necessary ---
     if (nMaxEvents > 0) {
@@ -129,7 +148,7 @@ MuMuTauMuTauEAnalyzer::MuMuTauMuTauEAnalyzer(TString fileName_, TString outputDi
     system(command);
 
     TChain *chain = new TChain("", "");
-    TString treePath = fileName + "/MuMuTauMuTauEAnalyzer/objectTree";
+    TString treePath = fileName + "/DiMuDiTauAnalyzer/objectTree";
     chain->Add(treePath);
     fChain = chain;
     Init();
@@ -190,6 +209,10 @@ void MuMuTauMuTauEAnalyzer::Init()
    recoMuonEnergy = 0;
    recoMuonPDGId = 0;
    recoMuonIsolation = 0;
+   recoMuonDXY = 0;
+   recoMuonDZ = 0;
+   recoMuonNTrackerLayers = 0;
+   recoMuonTriggerFlag = 0;
    recoElectronPt = 0;
    recoElectronEta = 0;
    recoElectronPhi = 0;
@@ -205,6 +228,8 @@ void MuMuTauMuTauEAnalyzer::Init()
    recoJetCSV = 0;
    recoMET = 0;
    recoMETPhi = 0;
+   recoMETPx = 0;
+   recoMETPy = 0;
    // Set branch addresses and branch pointers
    fCurrent = -1;
    fChain->SetMakeClass(1);
@@ -215,6 +240,10 @@ void MuMuTauMuTauEAnalyzer::Init()
    fChain->SetBranchAddress("recoMuonEnergy", &recoMuonEnergy, &b_recoMuonEnergy);
    fChain->SetBranchAddress("recoMuonPDGId", &recoMuonPDGId, &b_recoMuonPDGId);
    fChain->SetBranchAddress("recoMuonIsolation", &recoMuonIsolation, &b_recoMuonIsolation);
+   fChain->SetBranchAddress("recoMuonDXY", &recoMuonDXY, &b_recoMuonDXY);
+   fChain->SetBranchAddress("recoMuonDZ", &recoMuonDZ, &b_recoMuonDZ);
+   fChain->SetBranchAddress("recoMuonNTrackerLayers", &recoMuonNTrackerLayers, &b_recoMuonNTrackerLayers);
+   fChain->SetBranchAddress("recoMuonTriggerFlag", &recoMuonTriggerFlag, &b_recoMuonTriggerFlag);
    fChain->SetBranchAddress("recoElectronPt", &recoElectronPt, &b_recoElectronPt);
    fChain->SetBranchAddress("recoElectronEta", &recoElectronEta, &b_recoElectronEta);
    fChain->SetBranchAddress("recoElectronPhi", &recoElectronPhi, &b_recoElectronPhi);
@@ -230,7 +259,10 @@ void MuMuTauMuTauEAnalyzer::Init()
    fChain->SetBranchAddress("recoJetCSV", &recoJetCSV, &b_recoJetCSV);
    fChain->SetBranchAddress("recoMET", &recoMET, &b_recoMET);
    fChain->SetBranchAddress("recoMETPhi", &recoMETPhi, &b_recoMETPhi);
+   fChain->SetBranchAddress("recoMETPx", &recoMETPx, &b_recoMETPx);
+   fChain->SetBranchAddress("recoMETPy", &recoMETPy, &b_recoMETPy);
    fChain->SetBranchAddress("recoNPrimaryVertex", &recoNPrimaryVertex, &b_recoNPrimaryVertex);
+   fChain->SetBranchAddress("eventID", &eventID, &b_eventID);
    if (isMC) 
    {
        fChain->SetBranchAddress("recoNPU", &recoNPU, &b_recoNPU);

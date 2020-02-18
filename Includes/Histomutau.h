@@ -27,17 +27,6 @@ class Histomutau{
         Histomutau();
         ~Histomutau();
 
-        TH1D* nMatchedMuPair;
-        TH1D* nMatchedMuMuPair;
-        TH1D* nMatchedMuElePair;
-        TH1D* nMatchedEleElePair;
-        TH1D* nMatchedMuTauPair;
-        TH1D* nMatchedEleTauPair;
-        TH1D* nMatchedTauTauPair;
-        TH1D* nUnMatchedMu;
-        TH1D* nUnMatchedEle;
-        TH1D* nUnMatchedTau;
-
         TH1D* dRMu1Mu2;
         TH1D* dRMu3Mu4;
         TH1D* dRMu3Ele;
@@ -84,23 +73,6 @@ class Histomutau{
         TH1D* ele2Iso;
         TH1D* tauIsoMVA;
         TH1D* tau2IsoMVA;
-
-        TH1D* unMatchedMuIso;
-        TH1D* unMatchedEleIso;
-        TH1D* unMatchedTauIsoMVA;
-        TH1D* unMatchedTauDecayMode;
-
-        TH1D* unMatchedMuPt;
-        TH1D* unMatchedMuEta;
-        TH1D* unMatchedMuPhi;
-
-        TH1D* unMatchedElePt;
-        TH1D* unMatchedEleEta;
-        TH1D* unMatchedElePhi;
-
-        TH1D* unMatchedTauPt;
-        TH1D* unMatchedTauEta;
-        TH1D* unMatchedTauPhi;
 
         TH1D* mu1Pt;
         TH1D* mu1Eta;
@@ -159,50 +131,6 @@ class Histomutau{
         TH2D* dRInvMassMu3Tau;
         TH2D* dRInvMassEleTau;
         TH2D* dRInvMassTauTau;
-        
-        TH2D* nMatchedMuPairNMatchedMuMuPair;
-        TH2D* nMatchedMuPairNMatchedMuElePair;
-        TH2D* nMatchedMuPairNMatchedEleElePair;
-        TH2D* nMatchedMuPairNMatchedMuTauPair;
-        TH2D* nMatchedMuPairNMatchedEleTauPair;
-        TH2D* nMatchedMuPairNMatchedTauTauPair;
-
-
-	TH1D* genmu1Pt;
-	TH1D* genmu2Pt;
-	TH1D* genmu3Pt;
-	TH1D* genmu4Pt;
-	//        TH1D* genmu1Eta;
-        //TH1D* genmu1Phi;
-	//TH1D* genmu1Energy;
-       	//TH1D* genmu2Eta;
-        //TH1D* genmu2Phi;
-	//TH1D* genmu2Energy;
-	
-	TH1D* genele1Pt;
-	//TH1D* genele1Eta;
-	//TH1D* genele1Phi;
-
-	TH1D* genele2Pt;
-	//	TH1D* genele2Eta;
-	//TH1D* genele2Phi;
-       
-	TH1D* gentauEle1Pt;
-	TH1D* gentauEle2Pt;
-	TH1D* gentauMu1Pt;
-	TH1D* gentauMu2Pt;
-
-	TH1D* dRgenMu1genMu2;
-	TH1D* dRgenMu3genMu4;
-	TH1D* dRgenEle1genEle2;
-	TH1D* dRgenTauEle1genTauEle2;
-	TH1D* dRgenTauMu1genTauMu2;
-           
-	TH2D* dRInvMassgenEle1genEle2;
-	TH2D* dRInvMassgenMu1genMu2;
-	TH2D* dRInvMassgenMu3genMu4;
-	TH2D* dRInvMassgenTauEle1genTauEle2;
-	TH2D* dRInvMassgenTauMu1genTauMu2;
 };
 
 #endif

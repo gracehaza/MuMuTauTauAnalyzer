@@ -32,6 +32,10 @@ public :
    vector<float>   *recoMuonEnergy;
    vector<int>     *recoMuonPDGId;
    vector<float>   *recoMuonIsolation;
+   vector<float>   *recoMuonDXY;
+   vector<float>   *recoMuonDZ;
+   vector<int>     *recoMuonNTrackerLayers;
+   vector<int>     *recoMuonTriggerFlag;
    vector<float>   *recoJetPt;
    vector<float>   *recoJetEta;
    vector<float>   *recoJetPhi;
@@ -39,15 +43,13 @@ public :
    vector<float>   *recoJetCSV;
    vector<float>   *recoMET;
    vector<float>   *recoMETPhi;
+   vector<float>   *recoMETPx;
+   vector<float>   *recoMETPy;
    Int_t           recoNPrimaryVertex;
+   Int_t           eventID;
    Int_t           recoNPU;
    Int_t           trueNInteraction;
    Float_t         genEventWeight;
-
-   vector<float> *genMuonPt;
-   vector<float> *genMuonEta;
-   vector<float> *genMuonPhi;
-   vector<float> *genMuonMass;
 
    // List of branches
    TBranch        *b_recoMuonPt;   //!
@@ -56,6 +58,10 @@ public :
    TBranch        *b_recoMuonEnergy;   //!
    TBranch        *b_recoMuonPDGId;   //!
    TBranch        *b_recoMuonIsolation;   //!
+   TBranch        *b_recoMuonDXY;   //!
+   TBranch        *b_recoMuonDZ;   //!
+   TBranch        *b_recoMuonNTrackerLayers;   //!
+   TBranch        *b_recoMuonTriggerFlag;   //!
    TBranch        *b_recoJetPt;   //!
    TBranch        *b_recoJetEta;   //!
    TBranch        *b_recoJetPhi;   //!
@@ -63,7 +69,10 @@ public :
    TBranch        *b_recoJetCSV;   //!
    TBranch        *b_recoMET;   //!
    TBranch        *b_recoMETPhi;   //!
+   TBranch        *b_recoMETPx;   //!
+   TBranch        *b_recoMETPy;   //!
    TBranch        *b_recoNPrimaryVertex;   //!
+   TBranch        *b_eventID;   //!
    TBranch        *b_recoNPU;   //!
    TBranch        *b_trueNInteraction;   //!
    TBranch        *b_genEventWeight;   //!
@@ -78,13 +87,10 @@ public :
    bool invertedMu4Iso;
    double Mu2IsoThreshold;
    double Mu4IsoThreshold;
+   double diMuonMassLowThreshold;
+   double diMuonMassHighThreshold;
 
-   TBranch *b_genMuonPt;
-   TBranch *b_genMuonEta;
-   TBranch *b_genMuonPhi;
-   TBranch *b_genMuonMass;
-  
-   MuMuTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, bool invertedMu4Iso_ = false, double Mu2IsoThreshold_ = 0.25, double Mu4IsoThreshold_ = 0.25);
+   MuMuTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, bool invertedMu4Iso_ = false, double Mu2IsoThreshold_ = 0.25, double Mu4IsoThreshold_ = 0.25, double diMuonMassLowThreshold_ = 0, double diMuonMassHighThreshold_ = 25.0);
    string createOutputFileName();
    virtual ~MuMuTauMuTauMuAnalyzer();
    virtual Int_t    Cut(Long64_t entry);
@@ -99,7 +105,7 @@ public :
 #endif
 
 #ifdef MuMuTauMuTauMuAnalyzer_cxx
-MuMuTauMuTauMuAnalyzer::MuMuTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_, bool invertedMu2Iso_, bool invertedMu4Iso_, double Mu2IsoThreshold_, double Mu4IsoThreshold_) : Histomutau() 
+MuMuTauMuTauMuAnalyzer::MuMuTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_, bool invertedMu2Iso_, bool invertedMu4Iso_, double Mu2IsoThreshold_, double Mu4IsoThreshold_, double diMuonMassLowThreshold_, double diMuonMassHighThreshold_) : Histomutau() 
 {
     fileName = fileName_;
     outputDir = outputDir_;
@@ -111,6 +117,9 @@ MuMuTauMuTauMuAnalyzer::MuMuTauMuTauMuAnalyzer(TString fileName_, TString output
     invertedMu4Iso = invertedMu4Iso_;
     Mu2IsoThreshold = Mu2IsoThreshold_;
     Mu4IsoThreshold = Mu4IsoThreshold_;
+    diMuonMassLowThreshold = diMuonMassLowThreshold_;
+    diMuonMassHighThreshold = diMuonMassHighThreshold_;
+    invMassMu1Mu2->SetBins(20, diMuonMassLowThreshold, diMuonMassHighThreshold);
 
     //--- Create output directory if necessary ---
     if (nMaxEvents > 0) {
@@ -184,6 +193,10 @@ void MuMuTauMuTauMuAnalyzer::Init()
    recoMuonEnergy = 0;
    recoMuonPDGId = 0;
    recoMuonIsolation = 0;
+   recoMuonDXY = 0;
+   recoMuonDZ = 0;
+   recoMuonNTrackerLayers = 0;
+   recoMuonTriggerFlag = 0;
    recoJetPt = 0;
    recoJetEta = 0;
    recoJetPhi = 0;
@@ -191,13 +204,8 @@ void MuMuTauMuTauMuAnalyzer::Init()
    recoJetCSV = 0;
    recoMET = 0;
    recoMETPhi = 0;
-
-
-   genMuonPt = 0;
-   genMuonEta = 0;
-   genMuonPhi = 0;
-   genMuonMass = 0;
- 
+   recoMETPx = 0;
+   recoMETPy = 0;
    // Set branch addresses and branch pointers
    fCurrent = -1;
    fChain->SetMakeClass(1);
@@ -208,6 +216,10 @@ void MuMuTauMuTauMuAnalyzer::Init()
    fChain->SetBranchAddress("recoMuonEnergy", &recoMuonEnergy, &b_recoMuonEnergy);
    fChain->SetBranchAddress("recoMuonPDGId", &recoMuonPDGId, &b_recoMuonPDGId);
    fChain->SetBranchAddress("recoMuonIsolation", &recoMuonIsolation, &b_recoMuonIsolation);
+   fChain->SetBranchAddress("recoMuonDXY", &recoMuonDXY, &b_recoMuonDXY);
+   fChain->SetBranchAddress("recoMuonDZ", &recoMuonDZ, &b_recoMuonDZ);
+   fChain->SetBranchAddress("recoMuonNTrackerLayers", &recoMuonNTrackerLayers, &b_recoMuonNTrackerLayers);
+   fChain->SetBranchAddress("recoMuonTriggerFlag", &recoMuonTriggerFlag, &b_recoMuonTriggerFlag);
    fChain->SetBranchAddress("recoJetPt", &recoJetPt, &b_recoJetPt);
    fChain->SetBranchAddress("recoJetEta", &recoJetEta, &b_recoJetEta);
    fChain->SetBranchAddress("recoJetPhi", &recoJetPhi, &b_recoJetPhi);
@@ -215,14 +227,12 @@ void MuMuTauMuTauMuAnalyzer::Init()
    fChain->SetBranchAddress("recoJetCSV", &recoJetCSV, &b_recoJetCSV);
    fChain->SetBranchAddress("recoMET", &recoMET, &b_recoMET);
    fChain->SetBranchAddress("recoMETPhi", &recoMETPhi, &b_recoMETPhi);
+   fChain->SetBranchAddress("recoMETPx", &recoMETPx, &b_recoMETPx);
+   fChain->SetBranchAddress("recoMETPy", &recoMETPy, &b_recoMETPy);
    fChain->SetBranchAddress("recoNPrimaryVertex", &recoNPrimaryVertex, &b_recoNPrimaryVertex);
+   fChain->SetBranchAddress("eventID", &eventID, &b_eventID);
    if (isMC) 
    {
-     fChain->SetBranchAddress("genMuonPt", &genMuonPt, &b_genMuonPt);
-     fChain->SetBranchAddress("genMuonEta", &genMuonEta, &b_genMuonEta);
-     fChain->SetBranchAddress("genMuonPhi", &genMuonPhi, &b_genMuonPhi);
-     fChain->SetBranchAddress("genMuonMass", &genMuonMass, &b_genMuonMass);
- 
        fChain->SetBranchAddress("recoNPU", &recoNPU, &b_recoNPU);
        fChain->SetBranchAddress("trueNInteraction", &trueNInteraction, &b_trueNInteraction);
        fChain->SetBranchAddress("genEventWeight", &genEventWeight, &b_genEventWeight);

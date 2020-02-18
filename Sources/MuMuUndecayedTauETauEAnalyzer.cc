@@ -1,5 +1,5 @@
-#define MuMuTauETauEAnalyzer_cxx
-#include "MuMuTauETauEAnalyzer.h"
+#define MuMuUndecayedTauETauEAnalyzer_cxx
+#include "MuMuUndecayedTauETauEAnalyzer.h"
 #include <TH1.h>
 #include <TH2.h>
 #include <TStyle.h>
@@ -11,7 +11,7 @@
 #include <math.h>
 using namespace std;
 
-void MuMuTauETauEAnalyzer::Loop()
+void MuMuUndecayedTauETauEAnalyzer::Loop()
 {
    TString outputfileName = createOutputFileName();
    TFile* outputFile = new TFile(outputfileName, "RECREATE");
@@ -39,8 +39,8 @@ void MuMuTauETauEAnalyzer::Loop()
       //      std::cout << "hi line 39 .cc" << std::endl;
       vector<TLorentzVector> genMu1s;
       vector<TLorentzVector> genMu2s;
-      vector<TLorentzVector> genEle1s;
-      vector<TLorentzVector> genEle2s;
+      vector<TLorentzVector> genTauEle1s;
+      vector<TLorentzVector> genTauEle2s;
 
       vector<float> Mu1Iso;
       vector<float> Mu2Iso;
@@ -54,8 +54,8 @@ void MuMuTauETauEAnalyzer::Loop()
 
       genMu1s.clear();
       genMu2s.clear();
-      genEle1s.clear();
-      genEle2s.clear();
+      genTauEle1s.clear();
+      genTauEle2s.clear();
 
       Mu1Iso.clear();
       Mu2Iso.clear();
@@ -99,8 +99,8 @@ void MuMuTauETauEAnalyzer::Loop()
 
       TLorentzVector genMu1;
       TLorentzVector genMu2;
-      TLorentzVector genEle1;
-      TLorentzVector genEle2;
+      TLorentzVector genTauEle1;
+      TLorentzVector genTauEle2;
 
       // ============================================================================
 
@@ -196,16 +196,15 @@ void MuMuTauETauEAnalyzer::Loop()
               unMatchedElectronIso.push_back(recoElectronIsolation->at(iEle));
           } // end else findEle2
       } // end loop for electron
+      
+      for (unsigned int igenTauEle1=0; igenTauEle1<genTauEle1Pt->size(); igenTauEle1++){
+        genTauEle1.SetPtEtaPhiE(genTauEle1Pt->at(igenTauEle1), genTauEle1Eta->at(igenTauEle1), genTauEle1Phi->at(igenTauEle1), genTauEle1Energy->at(igenTauEle1));
+        genTauEle1s.push_back(genTauEle1);
+      }
 
-      if(genEle1Pt->size() > 0){      
-      for (unsigned int igenEle1=0; igenEle1<genEle1Pt->size(); igenEle1++){
-        genEle1.SetPtEtaPhiE(genEle1Pt->at(igenEle1), genEle1Eta->at(igenEle1), genEle1Phi->at(igenEle1), genEle1Energy->at(igenEle1));
-        genEle1s.push_back(genEle1);
-      }
-      }
-      for (unsigned int igenEle2=0; igenEle2<genEle2Pt->size(); igenEle2++){
-	genEle2.SetPtEtaPhiE(genEle2Pt->at(igenEle2), genEle2Eta->at(igenEle2), genEle2Phi->at(igenEle2), genEle2Energy->at(igenEle2));
-	genEle2s.push_back(genEle2);
+      for (unsigned int igenTauEle2=0; igenTauEle2<genTauEle2Pt->size(); igenTauEle2++){
+	genTauEle2.SetPtEtaPhiE(genTauEle2Pt->at(igenTauEle2), genTauEle2Eta->at(igenTauEle2), genTauEle2Phi->at(igenTauEle2), genTauEle2Energy->at(igenTauEle2));
+	genTauEle2s.push_back(genTauEle2);
       }
      
 
@@ -250,19 +249,19 @@ void MuMuTauETauEAnalyzer::Loop()
 		  genmu2Pt->Fill(genMu2.Pt(), weight);
 		  dRgenMu1genMu2->Fill(genMu1.DeltaR(genMu2), weight);
 		  dRInvMassgenMu1genMu2->Fill(genMu1.DeltaR(genMu2), genMu1genMu2.M(), weight);
-		  if(genEle1s.size() >0){
-		    for (unsigned int igenEle=0; igenEle<genEle1s.size(); igenEle++)
+		  if(genTauEle1s.size() >0){
+		    for (unsigned int igenTauEle=0; igenTauEle<genTauEle1s.size(); igenTauEle++)
 		      {
-			genEle1 = genEle1s.at(igenEle);
-			genele1Pt->Fill(genEle1.Pt(), weight);
-			if(genEle2s.size() >0){
-			  for (unsigned int igenEle2=0; igenEle2<genEle2s.size(); igenEle2++)
+			genTauEle1 = genTauEle1s.at(igenTauEle);
+			gentauEle1Pt->Fill(genTauEle1.Pt(), weight);
+			if(genTauEle2s.size() >0){
+			  for (unsigned int igenTauEle2=0; igenTauEle2<genTauEle2s.size(); igenTauEle2++)
 			    {
-			      TLorentzVector genEle1genEle2 = genEle1 + genEle2;
-			      genEle2 = genEle2s.at(igenEle2);
-			      genele2Pt->Fill(genEle2.Pt(), weight);
-	                     dRgenEle1genEle2->Fill(genEle1.DeltaR(genEle2), weight);                                                   
-			     dRInvMassgenEle1genEle2->Fill(genEle1.DeltaR(genEle2), genEle1genEle2.M(), weight);
+			      TLorentzVector genTauEle1genTauEle2 = genTauEle1 + genTauEle2;
+			      genTauEle2 = genTauEle2s.at(igenTauEle2);
+			      gentauEle2Pt->Fill(genTauEle2.Pt(), weight);
+	                     dRgenTauEle1genTauEle2->Fill(genTauEle1.DeltaR(genTauEle2), weight);                                                   
+			     dRInvMassgenTauEle1genTauEle2->Fill(genTauEle1.DeltaR(genTauEle2), genTauEle1genTauEle2.M(), weight);
 			    }
 			}
 		      }

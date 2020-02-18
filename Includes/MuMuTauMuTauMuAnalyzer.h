@@ -44,6 +44,11 @@ public :
    Int_t           trueNInteraction;
    Float_t         genEventWeight;
 
+   vector<float> *genMuonPt;
+   vector<float> *genMuonEta;
+   vector<float> *genMuonPhi;
+   vector<float> *genMuonMass;
+
    // List of branches
    TBranch        *b_recoMuonPt;   //!
    TBranch        *b_recoMuonEta;   //!
@@ -74,6 +79,11 @@ public :
    double Mu2IsoThreshold;
    double Mu4IsoThreshold;
 
+   TBranch *b_genMuonPt;
+   TBranch *b_genMuonEta;
+   TBranch *b_genMuonPhi;
+   TBranch *b_genMuonMass;
+  
    MuMuTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, bool invertedMu4Iso_ = false, double Mu2IsoThreshold_ = 0.25, double Mu4IsoThreshold_ = 0.25);
    string createOutputFileName();
    virtual ~MuMuTauMuTauMuAnalyzer();
@@ -113,7 +123,7 @@ MuMuTauMuTauMuAnalyzer::MuMuTauMuTauMuAnalyzer(TString fileName_, TString output
     system(command);
 
     TChain *chain = new TChain("", "");
-    TString treePath = fileName + "/MuMuTauMuTauMuAnalyzer/objectTree";
+    TString treePath = fileName + "/DiMuDiTauAnalyzer/objectTree";
     chain->Add(treePath);
     fChain = chain;
     Init();
@@ -181,6 +191,13 @@ void MuMuTauMuTauMuAnalyzer::Init()
    recoJetCSV = 0;
    recoMET = 0;
    recoMETPhi = 0;
+
+
+   genMuonPt = 0;
+   genMuonEta = 0;
+   genMuonPhi = 0;
+   genMuonMass = 0;
+ 
    // Set branch addresses and branch pointers
    fCurrent = -1;
    fChain->SetMakeClass(1);
@@ -201,6 +218,11 @@ void MuMuTauMuTauMuAnalyzer::Init()
    fChain->SetBranchAddress("recoNPrimaryVertex", &recoNPrimaryVertex, &b_recoNPrimaryVertex);
    if (isMC) 
    {
+     fChain->SetBranchAddress("genMuonPt", &genMuonPt, &b_genMuonPt);
+     fChain->SetBranchAddress("genMuonEta", &genMuonEta, &b_genMuonEta);
+     fChain->SetBranchAddress("genMuonPhi", &genMuonPhi, &b_genMuonPhi);
+     fChain->SetBranchAddress("genMuonMass", &genMuonMass, &b_genMuonMass);
+ 
        fChain->SetBranchAddress("recoNPU", &recoNPU, &b_recoNPU);
        fChain->SetBranchAddress("trueNInteraction", &trueNInteraction, &b_trueNInteraction);
        fChain->SetBranchAddress("genEventWeight", &genEventWeight, &b_genEventWeight);

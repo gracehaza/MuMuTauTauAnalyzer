@@ -169,27 +169,40 @@ class Histomutau{
 
 
 	TH1D* genmu1Pt;
+	TH1D* genmu2Pt;
+	TH1D* genmu3Pt;
+	TH1D* genmu4Pt;
 	//        TH1D* genmu1Eta;
         //TH1D* genmu1Phi;
 	//TH1D* genmu1Energy;
-	
-        TH1D* genmu2Pt;
-	//TH1D* genmu2Eta;
+       	//TH1D* genmu2Eta;
         //TH1D* genmu2Phi;
 	//TH1D* genmu2Energy;
-
-	/*
+	
 	TH1D* genele1Pt;
-	TH1D* genele1Eta;
-	TH1D* genele1Phi;
+	//TH1D* genele1Eta;
+	//TH1D* genele1Phi;
 
 	TH1D* genele2Pt;
-	TH1D* genele2Eta;
-	TH1D* genele2Phi;
-	*/
+	//	TH1D* genele2Eta;
+	//TH1D* genele2Phi;
+       
+	TH1D* gentauEle1Pt;
+	TH1D* gentauEle2Pt;
+	TH1D* gentauMu1Pt;
+	TH1D* gentauMu2Pt;
+
 	TH1D* dRgenMu1genMu2;
-              
-//TH1D* dRgenEle1genEle2;
+	TH1D* dRgenMu3genMu4;
+	TH1D* dRgenEle1genEle2;
+	TH1D* dRgenTauEle1genTauEle2;
+	TH1D* dRgenTauMu1genTauMu2;
+           
+	TH2D* dRInvMassgenEle1genEle2;
+	TH2D* dRInvMassgenMu1genMu2;
+	TH2D* dRInvMassgenMu3genMu4;
+	TH2D* dRInvMassgenTauEle1genTauEle2;
+	TH2D* dRInvMassgenTauMu1genTauMu2;
 };
 
 #endif

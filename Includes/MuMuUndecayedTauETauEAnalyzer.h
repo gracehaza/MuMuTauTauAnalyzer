@@ -5,8 +5,8 @@
 // found on file: MuMuTauTauTreelization.root
 //////////////////////////////////////////////////////////
 
-#ifndef MuMuTauETauEAnalyzer_h
-#define MuMuTauETauEAnalyzer_h
+#ifndef MuMuUndecayedTauETauEAnalyzer_h
+#define MuMuUndecayedTauETauEAnalyzer_h
 
 #include <TROOT.h>
 #include <TChain.h>
@@ -18,7 +18,7 @@
 #include <vector>
 #include "Histomutau.h"
 
-class MuMuTauETauEAnalyzer : public Histomutau {
+class MuMuUndecayedTauETauEAnalyzer : public Histomutau {
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
@@ -61,14 +61,14 @@ public :
    vector<float> *genMuon2Eta;
    vector<float> *genMuon2Phi;
    vector<float> *genMuon2Energy;
-   vector<float> *genEle1Pt;
-   vector<float> *genEle1Eta;
-   vector<float> *genEle1Phi;
-   vector<float> *genEle1Energy;
-   vector<float> *genEle2Pt;
-   vector<float> *genEle2Eta;
-   vector<float> *genEle2Phi;
-   vector<float> *genEle2Energy;
+   vector<float> *genTauEle1Pt;
+   vector<float> *genTauEle1Eta;
+   vector<float> *genTauEle1Phi;
+   vector<float> *genTauEle1Energy;
+   vector<float> *genTauEle2Pt;
+   vector<float> *genTauEle2Eta;
+   vector<float> *genTauEle2Phi;
+   vector<float> *genTauEle2Energy;
 
    // List of branches
    TBranch        *b_recoMuonPt;   //!
@@ -117,18 +117,18 @@ public :
    TBranch *b_genMuon2Eta;
    TBranch *b_genMuon2Phi;
    TBranch *b_genMuon2Energy;
-   TBranch *b_genEle1Pt;
-   TBranch *b_genEle1Eta;
-   TBranch *b_genEle1Phi;
-   TBranch *b_genEle1Energy;
-   TBranch *b_genEle2Pt;
-   TBranch *b_genEle2Eta;
-   TBranch *b_genEle2Phi;
-   TBranch *b_genEle2Energy;
+   TBranch *b_genTauEle1Pt;
+   TBranch *b_genTauEle1Eta;
+   TBranch *b_genTauEle1Phi;
+   TBranch *b_genTauEle1Energy;
+   TBranch *b_genTauEle2Pt;
+   TBranch *b_genTauEle2Eta;
+   TBranch *b_genTauEle2Phi;
+   TBranch *b_genTauEle2Energy;
 
-   MuMuTauETauEAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, bool invertedEle1Iso_ = false, double Mu2IsoThreshold_ = 0.25, double Ele1IsoThreshold_ = 0.25);
+   MuMuUndecayedTauETauEAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, bool invertedEle1Iso_ = false, double Mu2IsoThreshold_ = 0.25, double Ele1IsoThreshold_ = 0.25);
    string createOutputFileName();
-   virtual ~MuMuTauETauEAnalyzer();
+   virtual ~MuMuUndecayedTauETauEAnalyzer();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
@@ -140,8 +140,8 @@ public :
 
 #endif
 
-#ifdef MuMuTauETauEAnalyzer_cxx
-MuMuTauETauEAnalyzer::MuMuTauETauEAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_, bool invertedMu2Iso_, bool invertedEle1Iso_, double Mu2IsoThreshold_, double Ele1IsoThreshold_) : Histomutau() 
+#ifdef MuMuUndecayedTauETauEAnalyzer_cxx
+MuMuUndecayedTauETauEAnalyzer::MuMuUndecayedTauETauEAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_, bool invertedMu2Iso_, bool invertedEle1Iso_, double Mu2IsoThreshold_, double Ele1IsoThreshold_) : Histomutau() 
 {
     fileName = fileName_;
     outputDir = outputDir_;
@@ -165,13 +165,13 @@ MuMuTauETauEAnalyzer::MuMuTauETauEAnalyzer(TString fileName_, TString outputDir_
     system(command);
 
     TChain *chain = new TChain("", "");
-    TString treePath = fileName + "/DiMuDiTauAnalyzer/objectTree";
+    TString treePath = fileName + "/MuMuUndecayedTauETauEAnalyzer/objectTree";
     chain->Add(treePath);
     fChain = chain;
     Init();
 }
 
-string MuMuTauETauEAnalyzer::createOutputFileName()
+string MuMuUndecayedTauETauEAnalyzer::createOutputFileName()
 {
     ostringstream outputName;
     fileName.Replace(0, fileName.Last('/'), "");
@@ -184,19 +184,19 @@ string MuMuTauETauEAnalyzer::createOutputFileName()
     return outputName.str();
 }
 
-MuMuTauETauEAnalyzer::~MuMuTauETauEAnalyzer()
+MuMuUndecayedTauETauEAnalyzer::~MuMuUndecayedTauETauEAnalyzer()
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
 }
 
-Int_t MuMuTauETauEAnalyzer::GetEntry(Long64_t entry)
+Int_t MuMuUndecayedTauETauEAnalyzer::GetEntry(Long64_t entry)
 {
 // Read contents of entry.
    if (!fChain) return 0;
    return fChain->GetEntry(entry);
 }
-Long64_t MuMuTauETauEAnalyzer::LoadTree(Long64_t entry)
+Long64_t MuMuUndecayedTauETauEAnalyzer::LoadTree(Long64_t entry)
 {
 // Set the environment to read one entry
    if (!fChain) return -5;
@@ -209,7 +209,7 @@ Long64_t MuMuTauETauEAnalyzer::LoadTree(Long64_t entry)
    return centry;
 }
 
-void MuMuTauETauEAnalyzer::Init()
+void MuMuUndecayedTauETauEAnalyzer::Init()
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
@@ -254,14 +254,14 @@ void MuMuTauETauEAnalyzer::Init()
      genMuon2Eta = 0;
      genMuon2Phi = 0;
      genMuon2Energy = 0;
-     genEle1Pt = 0;
-     genEle1Eta = 0;
-     genEle1Phi = 0;
-     genEle1Energy = 0;
-     genEle2Pt = 0;
-     genEle2Eta = 0;
-     genEle2Phi = 0;
-     genEle2Energy = 0;
+     genTauEle1Pt = 0;
+     genTauEle1Eta = 0;
+     genTauEle1Phi = 0;
+     genTauEle1Energy = 0;
+     genTauEle2Pt = 0;
+     genTauEle2Eta = 0;
+     genTauEle2Phi = 0;
+     genTauEle2Energy = 0;
      // }
 
    fChain->SetBranchAddress("recoMuonPt", &recoMuonPt, &b_recoMuonPt);
@@ -296,15 +296,15 @@ void MuMuTauETauEAnalyzer::Init()
      fChain->SetBranchAddress("genMuon2Eta", &genMuon2Eta, &b_genMuon2Eta);
      fChain->SetBranchAddress("genMuon2Energy", &genMuon2Energy, &b_genMuon2Energy);    
      fChain->SetBranchAddress("genMuon2Phi", &genMuon2Phi, &b_genMuon2Phi);
-     fChain->SetBranchAddress("genEle1Pt", &genEle1Pt, &b_genEle1Pt);
-     fChain->SetBranchAddress("genEle1Eta", &genEle1Eta, &b_genEle1Eta);
-     fChain->SetBranchAddress("genEle1Phi", &genEle1Phi, &b_genEle1Phi);
-     fChain->SetBranchAddress("genEle1Energy", &genEle1Energy, &b_genEle1Energy);
+     fChain->SetBranchAddress("genTauEle1Pt", &genTauEle1Pt, &b_genTauEle1Pt);
+     fChain->SetBranchAddress("genTauEle1Eta", &genTauEle1Eta, &b_genTauEle1Eta);
+     fChain->SetBranchAddress("genTauEle1Phi", &genTauEle1Phi, &b_genTauEle1Phi);
+     fChain->SetBranchAddress("genTauEle1Energy", &genTauEle1Energy, &b_genTauEle1Energy);
 
-     fChain->SetBranchAddress("genEle2Pt", &genEle2Pt, &b_genEle2Pt);
-     fChain->SetBranchAddress("genEle2Eta", &genEle2Eta, &b_genEle2Eta);
-     fChain->SetBranchAddress("genEle2Phi", &genEle2Phi, &b_genEle2Phi);
-     fChain->SetBranchAddress("genEle2Energy", &genEle2Energy, &b_genEle2Energy);
+     fChain->SetBranchAddress("genTauEle2Pt", &genTauEle2Pt, &b_genTauEle2Pt);
+     fChain->SetBranchAddress("genTauEle2Eta", &genTauEle2Eta, &b_genTauEle2Eta);
+     fChain->SetBranchAddress("genTauEle2Phi", &genTauEle2Phi, &b_genTauEle2Phi);
+     fChain->SetBranchAddress("genTauEle2Energy", &genTauEle2Energy, &b_genTauEle2Energy);
      fChain->SetBranchAddress("recoNPU", &recoNPU, &b_recoNPU);
        fChain->SetBranchAddress("trueNInteraction", &trueNInteraction, &b_trueNInteraction);
        fChain->SetBranchAddress("genEventWeight", &genEventWeight, &b_genEventWeight);
@@ -312,7 +312,7 @@ void MuMuTauETauEAnalyzer::Init()
    Notify();
 }
 
-Bool_t MuMuTauETauEAnalyzer::Notify()
+Bool_t MuMuUndecayedTauETauEAnalyzer::Notify()
 {
    // The Notify() function is called when a new file is opened. This
    // can be either for a new TTree in a TChain or when when a new TTree
@@ -323,18 +323,18 @@ Bool_t MuMuTauETauEAnalyzer::Notify()
    return kTRUE;
 }
 
-void MuMuTauETauEAnalyzer::Show(Long64_t entry)
+void MuMuUndecayedTauETauEAnalyzer::Show(Long64_t entry)
 {
 // Print contents of entry.
 // If entry is not specified, print current entry
    if (!fChain) return;
    fChain->Show(entry);
 }
-Int_t MuMuTauETauEAnalyzer::Cut(Long64_t entry)
+Int_t MuMuUndecayedTauETauEAnalyzer::Cut(Long64_t entry)
 {
 // This function may be called from Loop.
 // returns  1 if entry is accepted.
 // returns -1 otherwise.
    return 1;
 }
-#endif // #ifdef MuMuTauETauEAnalyzer_cxx
+#endif // #ifdef MuMuUndecayedTauETauEAnalyzer_cxx

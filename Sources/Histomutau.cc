@@ -91,8 +91,13 @@ Histomutau::Histomutau(){
 
     double genMu1PtBin [] = {3, 18, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 110, 115, 120, 126, 133, 141, 150, 160, 171, 183, 196, 210, 225, 241, 258, 276, 300};
     double genMu2PtBin [] = {3, 18, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 110, 115, 120, 126, 133, 141, 150, 160, 171, 183, 196, 210, 225, 241, 258, 276, 300};
-    //    double genEle1PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200};
-    //double genEle2PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200};
+    double genMu3PtBin []= {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200};
+    double genMu4PtBin []= {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200};
+    double genEle1PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 600};
+    double genEle2PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 600};
+    double genTauEle1PtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
+    double genTauMu1PtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
+    double genTauMu2PtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
 
 
     int NBinsMu1Pt = sizeof(Mu1PtBin)/sizeof(Mu1PtBin[0])-1;
@@ -108,8 +113,13 @@ Histomutau::Histomutau(){
 
     int NBinsgenMu1Pt = sizeof(genMu1PtBin)/sizeof(genMu1PtBin[0])-1;
     int NBinsgenMu2Pt = sizeof(genMu2PtBin)/sizeof(genMu2PtBin[0])-1;
-    // int NBinsgenEle1Pt = sizeof(genEle1PtBin)/sizeof(genEle1PtBin[0])-1;
-    //int NBinsgenEle2Pt= sizeof(genEle2PtBin)/sizeof(genEle2PtBin[0])-1;
+    int NBinsgenMu3Pt = sizeof(genMu3PtBin)/sizeof(genMu3PtBin[0])-1;
+    int NBinsgenMu4Pt = sizeof(genMu4PtBin)/sizeof(genMu4PtBin[0])-1;
+    int NBinsgenEle1Pt = sizeof(genEle1PtBin)/sizeof(genEle1PtBin[0])-1;
+    int NBinsgenEle2Pt= sizeof(genEle2PtBin)/sizeof(genEle2PtBin[0])-1;
+    int NBinsgenTauEle1Pt = sizeof(genTauEle1PtBin)/sizeof(genTauEle1PtBin[0])-1;
+    int NBinsgenTauMu1Pt = sizeof(genTauMu1PtBin)/sizeof(genTauMu1PtBin[0])-1;
+    int NBinsgenTauMu2Pt = sizeof(genTauMu2PtBin)/sizeof(genTauMu2PtBin[0])-1;
 
     nMatchedMuPair = newTH1D("nMatchedMuPair", "N(#mu_{1}#mu_{2})", 5, 0, 5);
     nMatchedMuMuPair = newTH1D("nMatchedMuMuPair", "N(#mu_{3}#mu_{4})", 5, 0, 5);
@@ -239,7 +249,7 @@ Histomutau::Histomutau(){
     dRInvMassMu1Mu2 = newTH2D("dRInvMassMu1Mu2", "#Delta R(#mu_{1}#mu_{2})", "M(#mu_{1}#mu_{2})[GeV]", 25, 0, 1, 100, 0, 100);
     dRInvMassMu3Mu4 = newTH2D("dRInvMassMu3Mu4", "#Delta R(#mu_{3}#mu_{4})", "M(#mu_{3}#mu_{4})[GeV]", 25, 0, 1, 100, 0, 100);
     dRInvMassMu3Ele = newTH2D("dRInvMassMu3Ele", "#Delta R(#mu_{3}e)", "M(#mu_{3}e)[GeV]", 25, 0, 1, 100, 0, 100);
-    dRInvMassEleEle = newTH2D("dRInvMassEleEle", "#Delta R(ee)", "M(ee)[GeV]", 25, 0, 1, 100, 0, 100);
+    dRInvMassEleEle = newTH2D("dRInvMassEleEle", "#Delta R(ee)", "M(ee)[GeV]", 25, 0, 1, 100, 0, 6);
     dRInvMassMu3Tau = newTH2D("dRInvMassMu3Tau", "#Delta R(#mu_{3}#tau)", "M(#mu_{3}#tau)[GeV]", 25, 0, 1, 100, 0, 100);
     dRInvMassEleTau = newTH2D("dRInvMassEleTau", "#Delta R(e#tau)", "M(e#tau)[GeV]", 25, 0, 1, 100, 0, 100);
     dRInvMassTauTau = newTH2D("dRInvMassTauTau", "#Delta R(#tau#tau)", "M(#tau#tau)[GeV]", 25, 0, 1, 100, 0, 100);
@@ -251,22 +261,29 @@ Histomutau::Histomutau(){
     nMatchedMuPairNMatchedEleTauPair = newTH2D("nMatchedMuPairNMatchedEleTauPair", "N(#mu_{1}#mu_{2})", "N(e#tau)", 4, 0, 4, 4, 0, 4);
     nMatchedMuPairNMatchedTauTauPair = newTH2D("nMatchedMuPairNMatchedTauTauPair", "N(#mu_{1}#mu_{2})", "N(#tau#tau)", 4, 0, 4, 4, 0, 4);
 
-    //    if (isMC){
+
     genmu1Pt = newTH1D("genmu1Pt", "p_{T}(#mu_{1}) [GeV]", NBinsgenMu1Pt, genMu1PtBin);
     genmu2Pt = newTH1D("genmu2Pt", "p_{T}(#mu_{1}) [GeV]", NBinsgenMu2Pt, genMu2PtBin);
-
-    //genele1Pt = newTH1D("genele1Pt", "p_{T}(e_{1}) [GeV]", NBinsgenEle1Pt, genEle1PtBin);
-    //genele2Pt = newTH1D("genele2Pt", "p_{T}(e_{2}) [GeV]", NBinsgenEle2Pt, genEle2PtBin);
+    genele1Pt = newTH1D("genele1Pt", "p_{T}(e_{1}) [GeV]", NBinsgenEle1Pt, genEle1PtBin);
+    genele2Pt = newTH1D("genele2Pt", "p_{T}(e_{2}) [GeV]", NBinsgenEle2Pt, genEle2PtBin);
+    genmu3Pt = newTH1D("genmu3Pt", "p_{T}(#mu_{1}) [GeV]", NBinsgenMu3Pt, genMu3PtBin);
+    genmu4Pt = newTH1D("genmu4Pt", "p_{T}(#mu_{1}) [GeV]", NBinsgenMu4Pt, genMu4PtBin);
+    gentauEle1Pt = newTH1D("gentauEle1Pt", "p_{T}(#mu_{1}) [GeV]", NBinsgenTauEle1Pt, genTauEle1PtBin);
+    gentauEle2Pt = newTH1D("gentauEle2Pt", "p_{T}(#mu_{1}) [GeV]", NBinsgenTauEle1Pt, genTauEle1PtBin);
+    gentauMu1Pt = newTH1D("gentauMu1Pt", "p_{T}(#mu_{1}) [GeV]", NBinsgenTauMu1Pt, genTauMu1PtBin);
+    gentauMu2Pt = newTH1D("gentauMu2Pt", "p_{T}(#mu_{1}) [GeV]", NBinsgenTauMu2Pt, genTauMu2PtBin);
 
     dRgenMu1genMu2 = newTH1D("dRgenMu1genMu2", "#Delta R(#mu_{1}#mu_{2})", 25, 0, 1.0);
-    //    dRgenEle1genEle2 = newTH1D("dRgenEle1genEle2", "#Delta_R(e_{1}e_{2}", 25, 0, 1.0);
-     
- //mu1Eta = newTH1D("mu1Eta", "#eta(#mu_{1})", 20, -2.1, 2.1);
-      //mu1Phi = newTH1D("mu1Phi", "#phi(#mu_{1})", 20, -2.5, 2.5);
-
-    // }
-
-
+    dRgenMu3genMu4 = newTH1D("dRgenMu3genMu4", "#Delta R(#mu_{3}#mu_{4})", 25, 0, 1.0);
+    dRgenEle1genEle2 = newTH1D("dRgenEle1genEle2", "#Delta_R(e_{1}e_{2}", 25, 0, 1.0);
+    dRgenTauEle1genTauEle2 = newTH1D("dRgenTauEle1genTauEle2", "#Delta_R(#tau#tau)", 25, 0, 1.0);
+    dRgenTauMu1genTauMu2 =  newTH1D("dRgenTauMu1genTauMu2", "#Delta_R(#tau#tau)", 25, 0, 1.0);
+   
+    dRInvMassgenEle1genEle2 = newTH2D("dRInvMassgenEle1genEle2", "#Delta R(ee)", "M(ee)[GeV]", 25, 0, 0.5, 100, 0, 6);
+    dRInvMassgenMu1genMu2 = newTH2D("dRInvMassgenMu1genMu2", "#Delta R(#mu#mu)", "M(#mu_{1}#mu_{2})[GeV]", 25, 0, 0.5, 100, 0, 6);
+    dRInvMassgenMu3genMu4 = newTH2D("dRInvMassgenMu3genMu4", "#Delta R(#mu#mu)", "M(#mu_{3}#mu_{4})[GeV]", 25, 0, 0.5, 100, 0, 6);   
+    dRInvMassgenTauEle1genTauEle2 = newTH2D("dRInvMassgenTauEle1genTauEle2", "#Delta R(#tau#tau)", "M(#tau#tau)[GeV]", 25, 0, 0.5, 100, 0, 6);
+    dRInvMassgenTauMu1genTauMu2 = newTH2D("dRInvMassgenTauMu1genTauMu2", "#Delta R(#tau#tau)", "M(#tau#tau)[GeV]", 25, 0, 0.5, 100, 0, 6);
 }
 
 Histomutau::~Histomutau()

@@ -36,6 +36,10 @@ void MuMuTauMuTauMuAnalyzer::Loop()
       vector<TLorentzVector> Mu2s;
       vector<TLorentzVector> Mu3s;
       vector<TLorentzVector> Mu4s;
+      vector<TLorentzVector> genMu1s;
+      vector<TLorentzVector> genMu2s;
+      vector<TLorentzVector> genMu3s;
+      vector<TLorentzVector> genMu4s;
 
       vector<float> Mu1Iso;
       vector<float> Mu2Iso;
@@ -46,6 +50,11 @@ void MuMuTauMuTauMuAnalyzer::Loop()
       Mu2s.clear();
       Mu3s.clear();
       Mu4s.clear();
+
+      genMu1s.clear();
+      genMu2s.clear();
+      genMu3s.clear();
+      genMu4s.clear();
 
       Mu1Iso.clear();
       Mu2Iso.clear();
@@ -75,8 +84,33 @@ void MuMuTauMuTauMuAnalyzer::Loop()
       TLorentzVector Mu3;
       TLorentzVector Mu4;
       TLorentzVector unMatchedMu;
+
+      TLorentzVector genMu1;
+      TLorentzVector genMu2;
+      TLorentzVector genMu3;
+      TLorentzVector genMu4;
+
       // ============================================================================
 
+      for (unsigned int igenMuon=0; igenMuon<genMuonPt->size(); igenMuon++){
+        genMu1.SetPtEtaPhiE(genMuonPt->at(igenMuon), genMuonEta->at(igenMuon), genMuonPhi->at(igenMuon), genMuonMass->at(igenMuon));
+        genMu1s.push_back(genMu1);
+      }
+
+      /*      for (unsigned int igenMuon2=0; igenMuon2<genMuon2Pt->size(); igenMuon2++){
+        genMu2.SetPtEtaPhiE(genMuon2Pt->at(igenMuon2), genMuon2Eta->at(igenMuon2), genMuon2Phi->at(igenMuon2), genMuon2Energy->at(igenMuon2));
+        genMu2s.push_back(genMu2);
+      }
+      for (unsigned int igenMuon3=0; igenMuon3<genMuon3Pt->size(); igenMuon3++){
+        genMu3.SetPtEtaPhiE(genMuon3Pt->at(igenMuon3), genMuon3Eta->at(igenMuon3), genMuon3Phi->at(igenMuon3), genMuon3Energy->at(igenMuon3));
+        genMu3s.push_back(genMu3);
+      }
+
+      for (unsigned int igenMuon4=0; igenMuon4<genMuon4Pt->size(); igenMuon4++){
+        genMu4.SetPtEtaPhiE(genMuon4Pt->at(igenMuon4), genMuon4Eta->at(igenMuon4), genMuon4Phi->at(igenMuon4), genMuon4Energy->at(igenMuon4));
+        genMu4s.push_back(genMu4);
+      }
+      */
       // ---- start loop on muon candidates ----
       for (unsigned int iMuon=0; iMuon<recoMuonPt->size(); iMuon++)
       {
@@ -174,6 +208,43 @@ void MuMuTauMuTauMuAnalyzer::Loop()
       {
           weight *= genEventWeight; 
       } // end if isMC == true
+
+      if(genMu1s.size() >0){
+        for (unsigned int igenMuon=0; igenMuon<genMu1s.size(); igenMuon++)
+	   {
+            genMu1 = genMu1s.at(igenMuon);
+            genmu1Pt->Fill(genMu1.Pt(), weight);
+	    /* if(genMu2s.size() >0){
+              for (unsigned int igenMuon2=0; igenMuon2<genMu2s.size(); igenMuon2++)
+                {
+                  TLorentzVector genMu1genMu2 = genMu1 + genMu2;
+                  genMu2 = genMu2s.at(igenMuon2);
+                  genmu2Pt->Fill(genMu2.Pt(), weight);
+                  dRgenMu1genMu2->Fill(genMu1.DeltaR(genMu2), weight);
+                  dRInvMassgenMu1genMu2->Fill(genMu1.DeltaR(genMu2), genMu1genMu2.M(), weight);
+                  if(genMu3s.size() >0){
+                    for (unsigned int igenMuon3=0; igenMuon3<genMu3s.size(); igenMuon3++)
+                      {
+                        genMu3 = genMu3s.at(igenMuon3);
+                        genele1Pt->Fill(genMu3.Pt(), weight);
+                        if(genMu4s.size() >0){
+                          for (unsigned int igenMuon4=0; igenMuon4<genMu4s.size(); igenMuon4++)
+                            {
+                              TLorentzVector genMuon3genMuon4 = genMu3 + genMu4;
+                              genMu4 = genMu4s.at(igenMuon4);
+                              genele2Pt->Fill(genMu4.Pt(), weight);
+                              dRgenMu3genMu4->Fill(genMu3.DeltaR(genMu4), weight);
+                              dRInvMassgenMu3genMu4->Fill(genMu3.DeltaR(genMu4), genMuon3genMuon4.M(), weight);
+                            }
+                        }
+                      }
+                  }
+
+                }
+            } */
+	   }
+      }
+
 
       // ---- fill histograms ----
       nMatchedMuPair->Fill(Mu1s.size(), weight);

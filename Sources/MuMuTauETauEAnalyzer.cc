@@ -43,9 +43,27 @@ void MuMuTauETauEAnalyzer::Loop()
       float Ele2Iso;
 
       unsigned int indexMu1 = -1;
+
+      TLorentzVector genMu;
+
       // ============================================================================
 
       // ---- start loop on muon candidates for mu1 ----
+      // ---- prepare event weight info ----                                                                                                                                                                           
+      double weight = 1;
+
+      //      bool findgenMu = false;                                                                                                                                                                                  
+      if (isMC == true)
+	{
+          weight *= genEventWeight;
+          for (unsigned int igenMuon=0; igenMuon<genMuonPt->size(); igenMuon++)
+            {
+              genMu.SetPtEtaPhiM(genMuonPt->at(igenMuon), genMuonEta->at(igenMuon), genMuonPhi->at(igenMuon), genMuonMass->at(igenMuon));
+              genmuPt->Fill(genMu.Pt(), weight);
+            } // end loop for mu1                                                                                                                                                                                      
+	}// end if isMC == true     
+
+
       bool findMu1 = false;
       for (unsigned int iMuon=0; iMuon<recoMuonPt->size(); iMuon++)
       {
@@ -118,12 +136,22 @@ void MuMuTauETauEAnalyzer::Loop()
           } // end if findEle2
       } // end loop for electron
 
+      /*
       // ---- prepare event weight info ----
       double weight = 1;
+
+      //      bool findgenMu = false;
       if (isMC == true)
       {
           weight *= genEventWeight; 
-      } // end if isMC == true
+	  for (unsigned int igenMuon=0; igenMuon<genMuonPt->size(); igenMuon++)
+	    {
+	      genMu.SetPtEtaPhiM(genMuonPt->at(igenMuon), genMuonEta->at(igenMuon), genMuonPhi->at(igenMuon), genMuonMass->at(igenMuon));
+     	      genmuPt->Fill(genMu.Pt(), weight);
+      	    } // end loop for mu1
+      }// end if isMC == true
+
+      */
 
       // ---- fill histograms ----
       if (findMu1 && findMu2 && findMuElePair)
@@ -168,8 +196,17 @@ void MuMuTauETauEAnalyzer::Loop()
           ptMuMuTauEleTauEle->Fill((Mu1+Mu2+Ele1+Ele2).Pt(), weight);
           invMassMuMuTauEleTauEle->Fill((Mu1+Mu2+Ele1+Ele2).M(), weight);
       } // end if findMu1 && findMu2 && findMuElePair
+
+
+      /*  if (findgenMu){
+	genmuPt->Fill(genMu.Pt(), weight);
+	std::cout << genMu.Pt() << std::endl;
+	//genMuonPt->Fill(genMu.Pt(), weight);                                                                                                                  
+	}*/
+
    }// end loop for events
 
+  
    outputFile->cd();
 
    int numberofhist = histColl.size();

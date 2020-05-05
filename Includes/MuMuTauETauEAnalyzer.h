@@ -59,6 +59,11 @@ public :
    Int_t           trueNInteraction;
    Float_t         genEventWeight;
 
+   vector<float>   *genMuonPt;
+   vector<float>   *genMuonEta;
+   vector<float>   *genMuonPhi;
+   vector<float>   *genMuonMass;
+
    // List of branches
    TBranch        *b_recoMuonPt;   //!
    TBranch        *b_recoMuonEta;   //!
@@ -92,6 +97,11 @@ public :
    TBranch        *b_recoNPU;   //!
    TBranch        *b_trueNInteraction;   //!
    TBranch        *b_genEventWeight;   //!
+
+   TBranch        *b_genMuonPt;   //!
+   TBranch        *b_genMuonEta;   //!
+   TBranch        *b_genMuonPhi;   //! 
+   TBranch        *b_genMuonMass;   //!
 
    TString fileName;
    TString outputDir;
@@ -230,6 +240,12 @@ void MuMuTauETauEAnalyzer::Init()
    recoMETPhi = 0;
    recoMETPx = 0;
    recoMETPy = 0;
+   genMuonPt = 0;
+   genMuonEta = 0;
+   genMuonPhi = 0;
+   genMuonMass = 0;
+
+
    // Set branch addresses and branch pointers
    fCurrent = -1;
    fChain->SetMakeClass(1);
@@ -268,7 +284,13 @@ void MuMuTauETauEAnalyzer::Init()
        fChain->SetBranchAddress("recoNPU", &recoNPU, &b_recoNPU);
        fChain->SetBranchAddress("trueNInteraction", &trueNInteraction, &b_trueNInteraction);
        fChain->SetBranchAddress("genEventWeight", &genEventWeight, &b_genEventWeight);
-   } // end if isMC
+  
+       fChain->SetBranchAddress("genMuonPt", &genMuonPt, &b_genMuonPt);
+       fChain->SetBranchAddress("genMuonEta", &genMuonEta, &b_genMuonEta);
+       fChain->SetBranchAddress("genMuonPhi", &genMuonPhi, &b_genMuonPhi);
+       fChain->SetBranchAddress("genMuonMass", &genMuonMass, &b_genMuonMass);
+
+ } // end if isMC
    Notify();
 }
 

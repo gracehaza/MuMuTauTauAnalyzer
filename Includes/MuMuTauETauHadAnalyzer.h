@@ -165,13 +165,12 @@ public :
    TBranch        *b_recoNPU;   //!
    TBranch        *b_trueNInteraction;   //!
    TBranch        *b_genEventWeight;   //!
-
-   TBranch        *b_genMuonPt;   //!                                                                                         
-   TBranch        *b_genMuonEta;   //!                                                                                        
-   TBranch        *b_genMuonPhi;   //!                                                                                        
+   TBranch        *b_genMuonPt;   //!
+   TBranch        *b_genMuonEta;   //!
+   TBranch        *b_genMuonPhi;   //!
    TBranch        *b_genMuonMass;   //!
-   TBranch        *b_genElectronPt;   //!                                                                                                 
-   TBranch        *b_genElectronEta;   //!                                                                                                
+   TBranch        *b_genElectronPt;   //!
+   TBranch        *b_genElectronEta;   //!
    TBranch        *b_genElectronPhi;   //!                                                                                                
    TBranch        *b_genElectronMass;   //!                                                                                        
    TBranch        *b_genMuonPDGId;   //!                                                                                      

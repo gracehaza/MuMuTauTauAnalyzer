@@ -120,10 +120,10 @@ void MuMuTauETauHadAnalyzer::Loop()
 	for (unsigned int iEle=0; iEle<recoElectronPt->size(); iEle++)
           {
 	    TLorentzVector EleCand; // prepare this variable for dR(Ele, tau) implementation
-	    EleCand.SetPtEtaPhiE(recoElectronPt->at(iEle), recoElectronEta->at(iEle), recoElectronPhi->at(iEle), recoElectronEcalTrkEnergyPostCorr->at(iEle));
+	    EleCand.SetPtEtaPhiE(recoElectronPt->at(iEle), recoElectronEta->at(iEle), recoElectronPhi->at(iEle), recoElectronEnergy->at(iEle));
 	    if ((Tau.DeltaR(EleCand) < smallestDR) && (recoTauPDGId->at(iTau)/fabs(recoTauPDGId->at(iTau)) == (-1) * recoElectronPDGId->at(iEle)/fabs(recoElectronPDGId->at(iEle))) && ((Tau+EleCand).M() < 60.0) && (EleCand.DeltaR(Mu1) > 0.4) && (EleCand.DeltaR(Mu2) > 0.4))
               {
-		Ele.SetPtEtaPhiE(recoElectronPt->at(iEle), recoElectronEta->at(iEle), recoElectronPhi->at(iEle), recoElectronEcalTrkEnergyPostCorr->at(iEle));
+		Ele.SetPtEtaPhiE(recoElectronPt->at(iEle), recoElectronEta->at(iEle), recoElectronPhi->at(iEle), recoElectronEnergy->at(iEle));
 		EleIso = recoElectronIsolation->at(iEle);
 		smallestDR = Tau.DeltaR(Ele);
 		findEle = true;
@@ -321,10 +321,10 @@ void MuMuTauETauHadAnalyzer::Loop()
                 elePhiVSGenElePhi->Fill(Ele.Phi(), GenEle.Phi(), weight);
 
 
-		gentauElePt->Fill(GenTauEle.Pt(), weight);
-                gentauEleEta->Fill(GenTauEle.Eta(), weight);
-                gentauElePhi->Fill(GenTauEle.Phi(), weight);
-                gentauEleMass->Fill(GenTauEle.M(), weight);
+		gentauEle1Pt->Fill(GenTauEle.Pt(), weight);
+                gentauEle1Eta->Fill(GenTauEle.Eta(), weight);
+                gentauEle1Phi->Fill(GenTauEle.Phi(), weight);
+                gentauEle1Mass->Fill(GenTauEle.M(), weight);
 
 		tauPtVSGenTauHadPt->Fill(Tau.Pt(), GenTauHad.Pt(), weight);
                 tauEtaVSGenTauHadEta->Fill(Tau.Eta(), GenTauHad.Eta(), weight);

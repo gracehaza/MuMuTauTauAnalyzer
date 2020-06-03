@@ -131,14 +131,20 @@ class Histomutau{
         TH2D* dRInvMassMu3Tau;
         TH2D* dRInvMassEleTau;
         TH2D* dRInvMassTauTau;
+	//	TH2D* dRInvMassTauEleTauEle;
+
 
 	TH1D* dRgenMu1genMu2;
         TH1D* dRgenMu3genMu4;
         TH1D* dRgenMu3genEle;
-        TH1D* dRgenElegenEle;
+	//        TH1D* dRgenElegenEle;
         TH1D* dRgenMu3genTau;
         TH1D* dRgenElegenTau;
         TH1D* dRgenTaugenTau;
+	TH1D* dRgenEle1genEle2;
+	TH1D* dRgenMu3genTauMu1;
+	TH1D* dRgenMu4genTauMu2;
+	TH1D* dRgenMu2genTauEle1;
 
         TH1D* invMassgenMu1genMu2;
         TH1D* invMassgenMu3genMu4;
@@ -147,6 +153,8 @@ class Histomutau{
         TH1D* invMassgenMu3genTau;
         TH1D* invMassgenElegenTau;
         TH1D* invMassgenTaugenTau;
+	TH1D* invMassgenTauElegenTauEle;
+	TH1D* invMassgenTauMugenTauMu;
 
 	TH1D* invMassgenMuMuTauMuTauMu;
         TH1D* invMassgenMuMuTauMuTauEle;
@@ -207,15 +215,25 @@ class Histomutau{
         TH1D* gentauPhi;
         TH1D* gentauMass;
 
-	TH1D* gentauElePt;
-        TH1D* gentauEleEta;
-        TH1D* gentauElePhi;
-        TH1D* gentauEleMass;
+	TH1D* gentauEle1Pt;
+        TH1D* gentauEle1Eta;
+        TH1D* gentauEle1Phi;
+        TH1D* gentauEle1Mass;
 
-	TH1D* gentauMuPt;
-        TH1D* gentauMuEta;
-        TH1D* gentauMuPhi;
-        TH1D* gentauMuMass;
+	TH1D* gentauEle2Pt;
+        TH1D* gentauEle2Eta;
+        TH1D* gentauEle2Phi;
+        TH1D* gentauEle2Mass;
+
+	TH1D* gentauMu1Pt;
+        TH1D* gentauMu1Eta;
+        TH1D* gentauMu1Phi;
+        TH1D* gentauMu1Mass;
+
+        TH1D* gentauMu2Pt;
+        TH1D* gentauMu2Eta;
+        TH1D* gentauMu2Phi;
+        TH1D* gentauMu2Mass;
 	
 	TH1D* recomatchedtauPt;
 
@@ -237,7 +255,12 @@ class Histomutau{
         TH1D* dRgenMu2genEle2;
         TH1D* dRgenMu2genTau;
         TH1D* dRgenMu2genTau2;
-
+	TH1D* dRgenMu1genTauEle1;
+	TH1D* dRgenMu1genTauEle2;
+	TH1D* dRgenMu3genTauEle1;
+	TH1D* dRgenMu4genTauEle2;
+	TH1D* dRgenMu2genTauEle2;
+ 
         TH2D* dRInvMassgenMu1genMu2;
         TH2D* dRInvMassgenMu3genMu4;
         TH2D* dRInvMassgenMu3genEle;
@@ -245,6 +268,9 @@ class Histomutau{
         TH2D* dRInvMassgenMu3genTau;
         TH2D* dRInvMassgenElegenTau;
         TH2D* dRInvMassgenTaugenTau;
+	TH2D* dRInvMassgenEle1genTauEle1;
+	TH2D* dRInvMassgenEle2genTauEle2;
+	TH2D* dRInvMassgenTauEle1genTauEle2;
 
 	TH2D* mu1PtVSGenMu1Pt;
         TH2D* mu1EtaVSGenMu1Eta;
@@ -257,8 +283,12 @@ class Histomutau{
 	TH2D* mu3PtVSGenMu3Pt;
 	TH2D* mu3EtaVSGenMu3Eta;
 	TH2D* mu3PhiVSGenMu3Phi;
+	TH2D* mu3PtVSGenTauMu1Pt;
 
-	TH2D* mu3PtVSGenTauMuPt;
+	TH2D* mu4PtVSGenMu4Pt;
+        TH2D* mu4EtaVSGenMu4Eta;
+        TH2D* mu4PhiVSGenMu4Phi;
+	TH2D* mu4PtVSGenTauMu2Pt;
 
 	TH2D* tauPtVSGenTauHadPt;
         TH2D* tauEtaVSGenTauHadEta;
@@ -271,6 +301,14 @@ class Histomutau{
 	TH2D* elePhiVSGenElePhi;
 	TH2D* elePtVSGenTauHadVisPt;
 
+	TH2D* ele1PtVSGenEle1Pt;
+	TH2D* ele1EtaVSGenEle1Eta;
+	TH2D* ele1PhiVSGenEle1Phi;
+	TH2D* ele2PtVSGenEle2Pt;
+        TH2D* ele2EtaVSGenEle2Eta;
+        TH2D* ele2PhiVSGenEle2Phi;
+	TH2D* ele1PtVSGenTauEle1Pt;       
+	TH2D* ele2PtVSGenTauEle2Pt;
 
 };
 

@@ -323,20 +323,20 @@ void MuMuTauMuTauHadAnalyzer::Loop()
 		genmu3Eta->Fill(GenMu3.Eta(), weight);
 		genmu3Phi->Fill(GenMu3.Phi(), weight);
 		genmu3Mass->Fill(GenMu3.M(), weight);
-		mu3PtVSGenMu3Pt->Fill(Mu3.Pt(), GenMu3.Pt(), weight);                                                                   
-		mu3EtaVSGenMu3Eta->Fill(Mu3.Eta(), GenMu3.Eta(), weight);                                                               
+		mu3PtVSGenMu3Pt->Fill(Mu3.Pt(), GenMu3.Pt(), weight);
+		mu3EtaVSGenMu3Eta->Fill(Mu3.Eta(), GenMu3.Eta(), weight);
 		mu3PhiVSGenMu3Phi->Fill(Mu3.Phi(), GenMu3.Phi(), weight); 
 
-		gentauMuPt->Fill(GenTauMu.Pt(), weight);
-		gentauMuEta->Fill(GenTauMu.Eta(), weight);
-		gentauMuPhi->Fill(GenTauMu.Phi(), weight);
-		gentauMuMass->Fill(GenTauMu.M(), weight);
+		gentauMu1Pt->Fill(GenTauMu.Pt(), weight);
+		gentauMu1Eta->Fill(GenTauMu.Eta(), weight);
+		gentauMu1Phi->Fill(GenTauMu.Phi(), weight);
+		gentauMu1Mass->Fill(GenTauMu.M(), weight);
 
 		tauPtVSGenTauHadVisPt->Fill(Tau.Pt(), GenTauHadVisiblePt, weight);
 
-		mu3PtVSGenMu3Pt->Fill(Mu3.Pt(), GenMu3.Pt(), weight);
-		mu3EtaVSGenMu3Eta->Fill(Mu3.Eta(), GenMu3.Eta(), weight);
-		mu3PhiVSGenMu3Phi->Fill(Mu3.Phi(), GenMu3.Phi(), weight);
+		//		mu3PtVSGenMu3Pt->Fill(Mu3.Pt(), GenMu3.Pt(), weight);
+		//mu3EtaVSGenMu3Eta->Fill(Mu3.Eta(), GenMu3.Eta(), weight);
+		//mu3PhiVSGenMu3Phi->Fill(Mu3.Phi(), GenMu3.Phi(), weight);
 
 		gentauPt->Fill(GenTauHad.Pt(), weight);
 		gentauEta->Fill(GenTauHad.Eta(), weight);

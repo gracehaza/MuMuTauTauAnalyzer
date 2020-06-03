@@ -51,6 +51,23 @@ public :
    Int_t           trueNInteraction;
    Float_t         genEventWeight;
 
+   vector<float>   *genMuonPt;
+   vector<float>   *genMuonEta;
+   vector<float>   *genMuonPhi;
+   vector<float>   *genMuonMass;
+   vector<int>     *genMuonPDGId;
+   vector<int>     *genMuonMotherPDGId;
+   vector<float>   *genTauMuPt;
+   vector<float>   *genTauMuEta;
+   vector<float>   *genTauMuPhi;
+   vector<float>   *genTauMuMass;
+   vector<int>     *genTauMuPDGId;
+   vector<int>     *genTauMuMotherPDGId;
+   vector<float>   *genTauMuVisPt;
+   vector<float>   *genTauMuVisMass;
+
+
+
    // List of branches
    TBranch        *b_recoMuonPt;   //!
    TBranch        *b_recoMuonEta;   //!
@@ -77,6 +94,24 @@ public :
    TBranch        *b_trueNInteraction;   //!
    TBranch        *b_genEventWeight;   //!
 
+   TBranch        *b_genMuonPt;   //!                                                                            
+   TBranch        *b_genMuonEta;   //!                                                                           
+   TBranch        *b_genMuonPhi;   //!                                                                           
+   TBranch        *b_genMuonMass;   //! 
+   TBranch        *b_genMuonPDGId;   //!
+   TBranch        *b_genMuonMotherPDGId;   //!
+
+   TBranch        *b_genTauMuPt;   //!
+   TBranch        *b_genTauMuEta;   //!
+   TBranch        *b_genTauMuPhi;   //!
+   TBranch        *b_genTauMuMass;   //!
+   TBranch        *b_genTauMuPDGId;   //!
+   TBranch        *b_genTauMuMotherPDGId;   //!
+   TBranch        *b_genTauMuVisPt;   //!                                                                       
+   TBranch        *b_genTauMuVisMass;   //!
+
+
+
    TString fileName;
    TString outputDir;
    Long_t  nMaxEvents;
@@ -86,11 +121,16 @@ public :
    bool invertedMu2Iso;
    bool invertedMu4Iso;
    double Mu2IsoThreshold;
+   double Mu3IsoThreshold;
    double Mu4IsoThreshold;
+   double Mu1IsoThresholdBarrel;
+   double Mu2IsoThresholdBarrel;
+   double Mu1IsoThresholdEndcap;
+   double Mu2IsoThresholdEndcap;
    double diMuonMassLowThreshold;
    double diMuonMassHighThreshold;
 
-   MuMuTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, bool invertedMu4Iso_ = false, double Mu2IsoThreshold_ = 0.25, double Mu4IsoThreshold_ = 0.25, double diMuonMassLowThreshold_ = 0, double diMuonMassHighThreshold_ = 25.0);
+   MuMuTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, bool invertedMu4Iso_ = false, double Mu2IsoThreshold_ = 0.25, double Mu3IsoThreshold_ = 0.25, double Mu4IsoThreshold_ = 0.25, double diMuonMassLowThreshold_ = 0, double diMuonMassHighThreshold_ = 25.0);
    string createOutputFileName();
    virtual ~MuMuTauMuTauMuAnalyzer();
    virtual Int_t    Cut(Long64_t entry);
@@ -105,7 +145,7 @@ public :
 #endif
 
 #ifdef MuMuTauMuTauMuAnalyzer_cxx
-MuMuTauMuTauMuAnalyzer::MuMuTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_, bool invertedMu2Iso_, bool invertedMu4Iso_, double Mu2IsoThreshold_, double Mu4IsoThreshold_, double diMuonMassLowThreshold_, double diMuonMassHighThreshold_) : Histomutau() 
+MuMuTauMuTauMuAnalyzer::MuMuTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_, bool invertedMu2Iso_, bool invertedMu4Iso_, double Mu2IsoThreshold_, double Mu3IsoThreshold_, double Mu4IsoThreshold_, double diMuonMassLowThreshold_, double diMuonMassHighThreshold_) : Histomutau() 
 {
     fileName = fileName_;
     outputDir = outputDir_;
@@ -116,6 +156,7 @@ MuMuTauMuTauMuAnalyzer::MuMuTauMuTauMuAnalyzer(TString fileName_, TString output
     invertedMu2Iso = invertedMu2Iso_;
     invertedMu4Iso = invertedMu4Iso_;
     Mu2IsoThreshold = Mu2IsoThreshold_;
+    Mu3IsoThreshold = Mu3IsoThreshold_; 
     Mu4IsoThreshold = Mu4IsoThreshold_;
     diMuonMassLowThreshold = diMuonMassLowThreshold_;
     diMuonMassHighThreshold = diMuonMassHighThreshold_;
@@ -206,6 +247,25 @@ void MuMuTauMuTauMuAnalyzer::Init()
    recoMETPhi = 0;
    recoMETPx = 0;
    recoMETPy = 0;
+
+   genMuonPt = 0;
+   genMuonEta = 0;
+   genMuonPhi = 0;
+   genMuonMass = 0;
+
+   genMuonPDGId = 0;
+   genMuonMotherPDGId = 0;
+   genTauMuPt = 0;
+   genTauMuEta = 0;
+   genTauMuPhi = 0;
+   genTauMuMass = 0;
+   genTauMuPDGId = 0;
+   genTauMuMotherPDGId = 0;
+   genTauMuVisPt = 0;
+   genTauMuVisMass = 0;
+
+
+
    // Set branch addresses and branch pointers
    fCurrent = -1;
    fChain->SetMakeClass(1);
@@ -236,6 +296,23 @@ void MuMuTauMuTauMuAnalyzer::Init()
        fChain->SetBranchAddress("recoNPU", &recoNPU, &b_recoNPU);
        fChain->SetBranchAddress("trueNInteraction", &trueNInteraction, &b_trueNInteraction);
        fChain->SetBranchAddress("genEventWeight", &genEventWeight, &b_genEventWeight);
+       fChain->SetBranchAddress("genMuonPt", &genMuonPt, &b_genMuonPt);
+       fChain->SetBranchAddress("genMuonEta", &genMuonEta, &b_genMuonEta);
+       fChain->SetBranchAddress("genMuonPhi", &genMuonPhi, &b_genMuonPhi);
+       fChain->SetBranchAddress("genMuonMass", &genMuonMass, &b_genMuonMass);
+       fChain->SetBranchAddress("genMuonPDGId", &genMuonPDGId, &b_genMuonPDGId);
+       fChain->SetBranchAddress("genMuonMotherPDGId", &genMuonMotherPDGId, &b_genMuonMotherPDGId);
+       fChain->SetBranchAddress("genTauMuPt", &genTauMuPt, &b_genTauMuPt);
+       fChain->SetBranchAddress("genTauMuEta", &genTauMuEta, &b_genTauMuEta);
+       fChain->SetBranchAddress("genTauMuPhi", &genTauMuPhi, &b_genTauMuPhi);
+       fChain->SetBranchAddress("genTauMuMass", &genTauMuMass, &b_genTauMuMass);
+       fChain->SetBranchAddress("genTauMuPDGId", &genTauMuPDGId, &b_genTauMuPDGId);
+       fChain->SetBranchAddress("genTauMuMotherPDGId", &genTauMuMotherPDGId, &b_genTauMuMotherPDGId);
+       fChain->SetBranchAddress("genTauMuVisPt", &genTauMuVisPt, &b_genTauMuVisPt);
+       fChain->SetBranchAddress("genTauMuVisMass", &genTauMuVisMass, &b_genTauMuVisMass);
+
+
+
    } // end if isMC
    Notify();
 }

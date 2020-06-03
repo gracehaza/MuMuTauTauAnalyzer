@@ -47,11 +47,6 @@ void MuMuTauMuTauHadAnalyzer::Loop()
       unsigned int indexMu1 = -1;
       unsigned int indexMu2 = -1;
 
-      //      TLorentzVector genMu1;
-      //TLorentzVector genMu2;
-      //TLorentzVector genMu3;
-      //TLorentzVector genTau;
-
 
       // ============================================================================
 
@@ -333,10 +328,6 @@ void MuMuTauMuTauHadAnalyzer::Loop()
 		gentauMu1Mass->Fill(GenTauMu.M(), weight);
 
 		tauPtVSGenTauHadVisPt->Fill(Tau.Pt(), GenTauHadVisiblePt, weight);
-
-		//		mu3PtVSGenMu3Pt->Fill(Mu3.Pt(), GenMu3.Pt(), weight);
-		//mu3EtaVSGenMu3Eta->Fill(Mu3.Eta(), GenMu3.Eta(), weight);
-		//mu3PhiVSGenMu3Phi->Fill(Mu3.Phi(), GenMu3.Phi(), weight);
 
 		gentauPt->Fill(GenTauHad.Pt(), weight);
 		gentauEta->Fill(GenTauHad.Eta(), weight);

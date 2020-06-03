@@ -44,10 +44,9 @@ void MuMuTauMuTauMuAnalyzer::Loop()
 
       unsigned int indexMu1 = -1;
       unsigned int indexMu2 = -1;
-      //      unsigned int indexMu4 = -1;
 
-      bool matchRecGen = true;     
- // =============================================================================
+      // =============================================================================
+
 
       // ---- start loop on muon candidates for mu1 ----
       bool findMu1 = false;
@@ -101,18 +100,19 @@ void MuMuTauMuTauMuAnalyzer::Loop()
           if (Mu4Cand.DeltaR(Mu1) < 0.4 || Mu4Cand.DeltaR(Mu2) < 0.4) continue;
           Mu4.SetPtEtaPhiE(recoMuonPt->at(iMuon), recoMuonEta->at(iMuon), recoMuonPhi->at(iMuon), recoMuonEnergy->at(iMuon));
           Mu4Iso = recoMuonIsolation->at(iMuon);
-          indexMu4 = iMuon;
 
           float smallestDR = 1.0; // dR cut between Mu3 and Mu4
           bool findMu3 = false;
 
           for (unsigned int iMuon3=0; iMuon3<recoMuonPt->size(); iMuon3++)
           {
-              if (iMuon3 == indexMu1 || iMuon3 == indexMu2 || iMuon3 == indexMu4) continue;
+              if (iMuon3 == indexMu1 || iMuon3 == indexMu2 || iMuon3 == iMuon) continue;
 
               TLorentzVector Mu3Cand; // prepare this variable for dR(Mu3, Mu4) implementation
               Mu3Cand.SetPtEtaPhiE(recoMuonPt->at(iMuon3), recoMuonEta->at(iMuon3), recoMuonPhi->at(iMuon3), recoMuonEnergy->at(iMuon3));
+
               if ((Mu4.DeltaR(Mu3Cand) < smallestDR) && (recoMuonPDGId->at(iMuon3) == (-1) * recoMuonPDGId->at(iMuon)) && ((Mu4+Mu3Cand).M() < 60.0) && (Mu3Cand.DeltaR(Mu1) > 0.4) && (Mu3Cand.DeltaR(Mu2) > 0.4) && (recoMuonIsolation->at(iMuon3) < Mu3IsoThreshold))
+
               {
                   Mu3.SetPtEtaPhiE(recoMuonPt->at(iMuon3), recoMuonEta->at(iMuon3), recoMuonPhi->at(iMuon3), recoMuonEnergy->at(iMuon3));
                   Mu3Iso = recoMuonIsolation->at(iMuon3);
@@ -177,6 +177,7 @@ void MuMuTauMuTauMuAnalyzer::Loop()
 
           ptMuMuTauMuTauMu->Fill((Mu1+Mu2+Mu3+Mu4).Pt(), weight);
           invMassMuMuTauMuTauMu->Fill((Mu1+Mu2+Mu3+Mu4).M(), weight);
+
 	  if (isMC && matchRecGen)
 	    {
 	      TLorentzVector GenMu1;
@@ -193,13 +194,12 @@ void MuMuTauMuTauMuAnalyzer::Loop()
               bool findMatchedRecGenTauMu = false;
               bool findMatchedRecGenTauMu2 = false;
 
-              //double GenTauHadVisiblePt = 0;                                                          
               unsigned int indexGenMu1 = -1;
               unsigned int indexGenMu2 = -1;
               unsigned int indexGenMu3 = -1;
               unsigned int indexGenMu4 = -1;
               unsigned int indexGenTauMu1 = -1;
-              //unsigned int indexGenTauMu2 = -1;
+
 	      if (genMuonPt->size()>0)
                 {
                   // --------- search for matched genMu1 for Mu1 --------------                                                                                               
@@ -365,6 +365,32 @@ void MuMuTauMuTauMuAnalyzer::Loop()
 
 	      } // if find rec gen for 4 muons
 	    } // isMC && matchRecGen
+
+          // ----- fill flat trees -----
+          invMassMuMu = (Mu1+Mu2).M();
+          visMassTauTau = (Mu3+Mu4).M();
+          visMassMuMuTauTau = (Mu1+Mu2+Mu3+Mu4).M();
+
+          deltaRMuMu = Mu1.DeltaR(Mu2);
+          deltaRTauTau = Mu3.DeltaR(Mu4);
+
+          Mu1Pt = Mu1.Pt();
+          Mu1Eta = Mu1.Eta();
+
+          Mu2Pt = Mu2.Pt();
+          Mu2Eta = Mu2.Eta();
+
+          Tau1Pt = Mu3.Pt();
+          Tau1Eta = Mu3.Eta();
+          Tau1Isolation = Mu3Iso;
+
+          Tau2Pt = Mu4.Pt();
+          Tau2Eta = Mu4.Eta();
+          Tau2Isolation = Mu4Iso;
+
+          eventWeight = weight/summedWeights;
+          TreeMuMuTauTau->Fill();
+
       } // end if findMu1 && findMu2 && findMuMuPair
    }// end loop for events
 
@@ -380,5 +406,6 @@ void MuMuTauMuTauMuAnalyzer::Loop()
        delete histColl[j];
    } // end loop for deleting all the histograms
 
+   TreeMuMuTauTau->Write("TreeMuMuTauTau", TObject::kOverwrite);
    outputFile->Close();
 }

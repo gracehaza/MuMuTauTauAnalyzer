@@ -11,14 +11,14 @@
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
-#include "HistoZmumu.h"
 #include <TString.h>
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
+#include "Histomutau.h"
 
-class MuMuAnalyzer : public HistoZmumu {
+class MuMuAnalyzer : public Histomutau {
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
@@ -83,8 +83,12 @@ public :
    float lumiScale;
    float summedWeights; // these two factors contribute to the MC normalization
    bool isMC;
+   bool invertedMu2Iso;
+   double Mu2IsoThreshold;
+   double diMuonMassLowThreshold;
+   double diMuonMassHighThreshold;
 
-   MuMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false);
+   MuMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, double Mu2IsoThreshold_ = 0.25, double diMuonMassLowThreshold_ = 0, double diMuonMassHighThreshold_ = 25.0);
    string createOutputFileName();
    virtual ~MuMuAnalyzer();
    virtual Int_t    Cut(Long64_t entry);
@@ -99,7 +103,7 @@ public :
 #endif
 
 #ifdef MuMuAnalyzer_cxx
-MuMuAnalyzer::MuMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_) : HistoZmumu() 
+MuMuAnalyzer::MuMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_, bool invertedMu2Iso_, double Mu2IsoThreshold_, double diMuonMassLowThreshold_, double diMuonMassHighThreshold_) : Histomutau() 
 {
     fileName = fileName_;
     outputDir = outputDir_;
@@ -107,6 +111,11 @@ MuMuAnalyzer::MuMuAnalyzer(TString fileName_, TString outputDir_, float lumiScal
     summedWeights = summedWeights_;
     nMaxEvents = nMaxEvents_;
     isMC = isMC_;
+    invertedMu2Iso = invertedMu2Iso_;
+    Mu2IsoThreshold = Mu2IsoThreshold_;
+    diMuonMassLowThreshold = diMuonMassLowThreshold_;
+    diMuonMassHighThreshold = diMuonMassHighThreshold_;
+    invMassMu1Mu2->SetBins(20, diMuonMassLowThreshold, diMuonMassHighThreshold);
 
     //--- Create output directory if necessary ---
     if (nMaxEvents > 0) {
@@ -119,7 +128,7 @@ MuMuAnalyzer::MuMuAnalyzer(TString fileName_, TString outputDir_, float lumiScal
     system(command);
 
     TChain *chain = new TChain("", "");
-    TString treePath = fileName + "/ZMuMuInclusiveAnalyzer/objectTree";
+    TString treePath = fileName + "/DiMuDiTauAnalyzer/objectTree";
     chain->Add(treePath);
     fChain = chain;
     Init();
@@ -179,7 +188,6 @@ void MuMuAnalyzer::Init()
    recoMuonPhi = 0;
    recoMuonEnergy = 0;
    recoMuonPDGId = 0;
-   recoMuonIsolation = 0;
    recoMuonIsolation = 0;
    recoMuonDXY = 0;
    recoMuonDZ = 0;

@@ -131,10 +131,6 @@ int main(int argc, char **argv)
     
     doWhat.ToUpper();
 
-    // *********** !!!!!!!!! //
-    // ELECTRON ISOLATIONS MUST BE FIXED BEFORE RUNNING OVER ANY BACKGROUNDS !!!!!!! //
-
-
 
     //------------------------- data histograms production -------------------
     if (doWhat == "DATA" || doWhat == "ALL")
@@ -235,7 +231,9 @@ int main(int argc, char **argv)
         {
             lumiana H125AA5Lumi(inputFile);
             summedWeights = H125AA5Lumi.Loop();
+
             MuMuTauETauEAnalyzer H125AA5Hist(inputFile, outputDir, 1, 1, maxEvents, true, invertedMu2Iso, invertedEle1Iso, Mu2IsoThreshold, Ele1IsoThresholdBarrel, Ele2IsoThresholdBarrel, Ele1IsoThresholdEndcap, Ele2IsoThresholdEndcap, diMuonMassLowThreshold, diMuonMassHighThreshold,tauMVAIsoRawORWP, tauMVAIsoRawThreshold, tauMVAIsoWP, tauAntiMuDisc);
+
 
             H125AA5Hist.Loop();
         } // end if inputFile.EndsWith(".root")
@@ -254,6 +252,7 @@ int main(int argc, char **argv)
             finTree.open(inputFile);
             while (getline(finTree, fileName))
             {
+
 	      MuMuTauETauEAnalyzer H125AA5Hist(fileName, outputDir, 1, 1, maxEvents, true, invertedMu2Iso, invertedEle1Iso, Mu2IsoThreshold, Ele1IsoThresholdBarrel, Ele2IsoThresholdBarrel, Ele1IsoThresholdEndcap, Ele2IsoThresholdEndcap, diMuonMassLowThreshold, diMuonMassHighThreshold,tauMVAIsoRawORWP, tauMVAIsoRawThreshold, tauMVAIsoWP, tauAntiMuDisc);
 
                 H125AA5Hist.Loop();

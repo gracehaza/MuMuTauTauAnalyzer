@@ -83,13 +83,12 @@ Histomutau::Histomutau(){
     double Ele1PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200}; 
     double Ele2PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200}; 
     double Mu1Mu2PtBin [] = {0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
-    //double tauPtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
+<<<<<<< HEAD
+
     double tauPtBin [] = {8, 10, 15, 20, 25, 30, 35, 40, 45, 50}; 
    double Mu3TauPtBin [] = {0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
    double Mu1Mu2Mu3TauPtBin [] = {0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250}; 
    //{0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
-
-
 
     double genMuPtBin [] = {3, 18, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93};
     //, 97, 101, 105, 110, 115, 120, 126, 133, 141, 150, 160, 171, 183, 196, 210, 225, 241, 258, 276, 300};
@@ -105,7 +104,7 @@ Histomutau::Histomutau(){
     double genTauEle1PtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
     double genTauMu1PtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
     double genTauMu2PtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
-
+    double tau2PtBin [] = {8, 20, 30, 80};
 
 
     int NBinsMu1Pt = sizeof(Mu1PtBin)/sizeof(Mu1PtBin[0])-1;
@@ -243,6 +242,7 @@ Histomutau::Histomutau(){
     dRMu2Ele2 = newTH1D("dRMu2Ele2", "#Delta R(#mu_{2}e_{2})", 25, 0, 5);
     dRMu2Tau = newTH1D("dRMu2Tau", "#Delta R(#mu_{2}#tau)", 25, 0, 5);
     dRMu2Tau2 = newTH1D("dRMu2Tau2", "#Delta R(#mu_{2}#tau_{2})", 25, 0, 5);
+
 
     dRInvMassMu1Mu2 = newTH2D("dRInvMassMu1Mu2", "#Delta R(#mu_{1}#mu_{2})", "M(#mu_{1}#mu_{2})[GeV]", 25, 0, 1, 100, 0, 100);
     dRInvMassMu3Mu4 = newTH2D("dRInvMassMu3Mu4", "#Delta R(#mu_{3}#mu_{4})", "M(#mu_{3}#mu_{4})[GeV]", 25, 0, 1, 100, 0, 100);
@@ -391,10 +391,6 @@ Histomutau::Histomutau(){
 
 
 
-       //  dRgenTauEle1genTauEle2 = newTH1D("dRgenTauEle1genTauEle2", "#Delta_R(#tau#tau)", 25, 0, 1.0);
-    //dRgenTauMu1genTauMu2 =  newTH1D("dRgenTauMu1genTauMu2", "#Delta_R(#tau#tau)", 25, 0, 1.0);
-  
-    //    dRInvMassgenEle1genEle2 = newTH2D("dRInvMassgenEle1genEle2", "#Delta R(ee)", "M(ee)[GeV]", 25, 0, 0.5, 100, 0, 6);
     dRInvMassgenMu1genMu2 = newTH2D("dRInvMassgenMu1genMu2", "#Delta R(#mu#mu)", "M(#mu_{1}#mu_{2})[GeV]", 25, 0, 0.5, 100, 0, 6);
     dRInvMassgenMu3genMu4 = newTH2D("dRInvMassgenMu3genMu4", "#Delta R(#mu#mu)", "M(#mu_{3}#mu_{4})[GeV]", 25, 0, 0.5, 100, 0, 6); 
     dRInvMassgenMu3genEle = newTH2D("dRInvMassgenMu3genEle", "#Delta R(#mu_{3}e)", "M(#mu_{3}e)[GeV]", 25, 0, 1, 100, 0, 100);
@@ -404,8 +400,6 @@ Histomutau::Histomutau(){
     dRInvMassgenTaugenTau = newTH2D("dRInvMassgenTaugenTau", "#Delta R(#tau#tau)", "M(#tau#tau)[GeV]", 25, 0, 1, 100, 0, 100);
 
    
-      //  dRInvMassgenTauEle1genTauEle2 = newTH2D("dRInvMassgenTauEle1genTauEle2", "#Delta R(#tau#tau)", "M(#tau#tau)[GeV]", 25, 0, 0.5, 100, 0, 6);
-    //dRInvMassgenTauMu1genTauMu2 = newTH2D("dRInvMassgenTauMu1genTauMu2", "#Delta R(#tau#tau)", "M(#tau#tau)[GeV]", 25, 0, 0.5, 100, 0, 6);
 
     mu1PtVSGenMu1Pt = newTH2D("mu1PtVSGenMu1Pt", "p_{T}^{rec}(#mu_{1})[GeV]", "p_{T}^{gen}(#mu_{1})[GeV]", NBinsMu1Pt, Mu1PtBin, NBinsMu1Pt, Mu1PtBin);
     mu1EtaVSGenMu1Eta = newTH2D("mu1EtaVSGenMu1Eta", "#eta^{rec}(#mu_{1})", "#eta^{gen}(#mu_{1})", 20, -2.1, 2.1, 20, -2.1, 2.1);
@@ -443,6 +437,51 @@ Histomutau::Histomutau(){
     tauPtVSGenTauHadVisPt = newTH2D("tauPtVSGenTauHadVisPt", "p_{T}^{rec}(#tau)[GeV]", "p_{T}^{gen}(#tau_{h}^{vis})[GeV]", NBinsTauPt, tauPtBin, NBinsTauPt, tauPtBin);
 
    
+
+    dRInvMassMu1Mu2 = newTH2D("dRInvMassMu1Mu2", "#Delta R(#mu_{1}#mu_{2})", "M(#mu_{1}#mu_{2})[GeV]", 25, 0, 1, 20, 0, 60);
+    dRInvMassMu3Mu4 = newTH2D("dRInvMassMu3Mu4", "#Delta R(#mu_{3}#mu_{4})", "M(#mu_{3}#mu_{4})[GeV]", 25, 0, 1, 20, 0, 60);
+    dRInvMassMu3Ele = newTH2D("dRInvMassMu3Ele", "#Delta R(#mu_{3}e)", "M(#mu_{3}e)[GeV]", 25, 0, 1, 20, 0, 60);
+    dRInvMassEleEle = newTH2D("dRInvMassEleEle", "#Delta R(ee)", "M(ee)[GeV]", 25, 0, 1, 20, 0, 60);
+    dRInvMassMu3Tau = newTH2D("dRInvMassMu3Tau", "#Delta R(#mu_{3}#tau)", "M(#mu_{3}#tau)[GeV]", 25, 0, 1, 20, 0, 60);
+    dRInvMassEleTau = newTH2D("dRInvMassEleTau", "#Delta R(e#tau)", "M(e#tau)[GeV]", 25, 0, 1, 20, 0, 60);
+    dRInvMassTauTau = newTH2D("dRInvMassTauTau", "#Delta R(#tau#tau)", "M(#tau#tau)[GeV]", 25, 0, 1, 20, 0, 60);
+
+    // ----------- flat tree for fit -----------
+    TreeMuMuTauTau = new TTree("TreeMuMuTauTau","TreeMuMuTauTau");
+
+    TreeMuMuTauTau->Branch("invMassMuMu", &invMassMuMu, "invMassMuMu/D");
+    TreeMuMuTauTau->Branch("visMassTauTau", &visMassTauTau, "visMassTauTau/D");
+    TreeMuMuTauTau->Branch("visMassMuMuTauTau", &visMassMuMuTauTau, "visMassMuMuTauTau/D");
+
+    TreeMuMuTauTau->Branch("deltaRMuMu", &deltaRMuMu, "deltaRMuMu/D");
+    TreeMuMuTauTau->Branch("deltaRTauTau", &deltaRTauTau, "deltaRTauTau/D");
+
+    TreeMuMuTauTau->Branch("Mu1Pt", &Mu1Pt, "Mu1Pt/D");
+    TreeMuMuTauTau->Branch("Mu1Eta", &Mu1Eta, "Mu1Eta/D");
+    TreeMuMuTauTau->Branch("Mu1Phi", &Mu1Phi, "Mu1Phi/D");
+    TreeMuMuTauTau->Branch("Mu1Energy", &Mu1Energy, "Mu1Energy/D");
+    TreeMuMuTauTau->Branch("Mu1Charge", &Mu1Charge, "Mu1Charge/D");
+    TreeMuMuTauTau->Branch("Mu1NTrackerLayers", &Mu1NTrackerLayers, "Mu1NTrackerLayers/D");
+
+    TreeMuMuTauTau->Branch("Mu2Pt", &Mu2Pt, "Mu2Pt/D");
+    TreeMuMuTauTau->Branch("Mu2Eta", &Mu2Eta, "Mu2Eta/D");
+    TreeMuMuTauTau->Branch("Mu2Phi", &Mu2Phi, "Mu2Phi/D");
+    TreeMuMuTauTau->Branch("Mu2Energy", &Mu2Energy, "Mu2Energy/D");
+    TreeMuMuTauTau->Branch("Mu2Charge", &Mu2Charge, "Mu2Charge/D");
+    TreeMuMuTauTau->Branch("Mu2NTrackerLayers", &Mu2NTrackerLayers, "Mu2NTrackerLayers/D");
+
+    TreeMuMuTauTau->Branch("Tau1Pt", &Tau1Pt, "Tau1Pt/D");
+    TreeMuMuTauTau->Branch("Tau1Eta", &Tau1Eta, "Tau1Eta/D");
+    TreeMuMuTauTau->Branch("Tau1Isolation", &Tau1Isolation, "Tau1Isolation/D");
+    TreeMuMuTauTau->Branch("Tau1DecayMode", &Tau1DecayMode, "Tau1DecayMode/D");
+
+    TreeMuMuTauTau->Branch("Tau2Pt", &Tau2Pt, "Tau2Pt/D");
+    TreeMuMuTauTau->Branch("Tau2Eta", &Tau2Eta, "Tau2Eta/D");
+    TreeMuMuTauTau->Branch("Tau2Isolation", &Tau2Isolation, "Tau2Isolation/D");
+    TreeMuMuTauTau->Branch("Tau2DecayMode", &Tau2DecayMode, "Tau2DecayMode/D");
+
+    TreeMuMuTauTau->Branch("eventWeight", &eventWeight, "eventWeight/D");
+
 }
 
 Histomutau::~Histomutau()

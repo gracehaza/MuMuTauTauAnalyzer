@@ -83,8 +83,8 @@ HistoZmumu::HistoZmumu(){
     double Ele1PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200}; 
     double Ele2PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200}; 
     double Mu1Mu2PtBin [] = {0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
-    double tauPtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
-    double tau2PtBin [] = {8, 12, 16, 20, 25, 30, 36, 44, 54, 66, 80, 96, 114, 135};
+    double tauPtBin [] = {8, 20, 30, 50, 100, 200};
+    double tau2PtBin [] = {8, 20, 30, 80};
     double Mu3TauPtBin [] = {0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
     double Mu1Mu2Mu3TauPtBin [] = {0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
 
@@ -99,11 +99,6 @@ HistoZmumu::HistoZmumu(){
     int NBinsTau2Pt = sizeof(tau2PtBin)/sizeof(tau2PtBin[0])-1;
     int NBinsMu3TauPt = sizeof(Mu3TauPtBin)/sizeof(Mu3TauPtBin[0])-1;
     int NBinsMu1Mu2Mu3TauPt = sizeof(Mu1Mu2Mu3TauPtBin)/sizeof(Mu1Mu2Mu3TauPtBin[0])-1;
-
-    nMatchedMuPair = newTH1D("nMatchedMuPair", "N(#mu_{1}#mu_{2})", 5, 0, 5);
-    nUnMatchedMu = newTH1D("nUnMatchedMu", "N_{#mu}(unMatch)", 5, 0, 5);
-    nUnMatchedEle = newTH1D("nUnMatchedEle", "N_{e}(unMatch)", 5, 0, 5);
-    nUnMatchedTau = newTH1D("nUnMatchedTau", "N_{#tau}(unMatch)", 5, 0, 5);
 
     dRMu1Mu2 = newTH1D("dRMu1Mu2", "#Delta R(#mu_{1}#mu_{2})", 25, 0, 5.0);
     dRMu3Mu4 = newTH1D("dRMu3Mu4", "#Delta R(#mu_{3}#mu_{4})", 25, 0, 5.0);
@@ -151,23 +146,6 @@ HistoZmumu::HistoZmumu(){
     ele2Iso = newTH1D("ele2Iso", "e_{2}^{iso}", 20, 0, 20);
     tauIsoMVA = newTH1D("tauIsoMVA", "#tau^{iso}", 20, -1, 1);
     tau2IsoMVA = newTH1D("tau2IsoMVA", "#tau_{2}^{iso}", 20, -1, 1);
-
-    unMatchedMuIso = newTH1D("unMatchedMuIso", "#mu^{iso}(unMatch)", 200, 0, 200);
-    unMatchedEleIso = newTH1D("unMatchedEleIso", "e^{iso}(unMatch)", 200, 0, 200);
-    unMatchedTauIsoMVA = newTH1D("unMatchedTauIsoMVA", "#tau^{iso}(unMatch)", 20, -1, 1);
-    unMatchedTauDecayMode = newTH1D("unMatchedTauDecayMode", "DM(unMatch #tau)", 11, 0, 11);
-
-    unMatchedMuPt = newTH1D("unMatchedMuPt", "p_{T}(#mu_{unMatched}) [GeV]", NBinsMu3Pt, Mu3PtBin);
-    unMatchedMuEta = newTH1D("unMatchedMuEta", "#eta(#mu_{unMatched})", 20, -2.1, 2.1);
-    unMatchedMuPhi = newTH1D("unMatchedMuPhi", "#phi(#mu_{unMatched})", 20, -2.5, 2.5);
-
-    unMatchedElePt = newTH1D("unMatchedElePt", "p_{T}(e_{unMatched}) [GeV]", 20, 3, 203);
-    unMatchedEleEta = newTH1D("unMatchedEleEta", "#eta(e_{unMatched})", 20, -2.1, 2.1);
-    unMatchedElePhi = newTH1D("unMatchedElePhi", "#phi(e_{unMatched})", 20, -2.5, 2.5);
-
-    unMatchedTauPt = newTH1D("unMatchedTauPt", "p_{T}(#tau_{unMatched}) [GeV]", 20, 3, 203);
-    unMatchedTauEta = newTH1D("unMatchedTauEta", "#eta(#tau_{unMatched})", 20, -2.1, 2.1);
-    unMatchedTauPhi = newTH1D("unMatchedTauPhi", "#phi(#tau_{unMatched})", 20, -2.5, 2.5);
 
     mu1Pt = newTH1D("mu1Pt", "p_{T}(#mu_{1}) [GeV]", NBinsMu1Pt, Mu1PtBin);
     mu1Eta = newTH1D("mu1Eta", "#eta(#mu_{1})", 20, -2.1, 2.1);

@@ -89,10 +89,10 @@ void MuMuTauETauEAnalyzer::Loop()
               findMu2 = true;
           } // end if pair candidates
       } // end loop for mu2
-          
-      if (!findMu2) continue;
 
-      bool findMuElePair = false;
+      if (!findMu2) continue;
+      bool findEleElePair = false;
+
       // ------- start loop on electron candidates -------
       for (unsigned int iEle=0; iEle<recoElectronPt->size(); iEle++)
       {
@@ -114,8 +114,9 @@ void MuMuTauETauEAnalyzer::Loop()
           float smallestDR = 1.0; // dR cut between Ele1 and Ele2
           bool findEle2 = false;
 
-          for (unsigned int iEle2=iEle+1; iEle2<recoElectronPt->size(); iEle2++)
+          for (unsigned int iEle2=0; iEle2<recoElectronPt->size(); iEle2++)
           {
+
 	    double Ele2IsoThresholdpT;// = 0.3;	   
 	    if(abs(recoElectronEta->at(iEle)) > 1.479){
 	      Ele2IsoThresholdpT = Ele1IsoThresholdEndcap + 0.963/(recoElectronPt->at(iEle));}
@@ -124,6 +125,7 @@ void MuMuTauETauEAnalyzer::Loop()
               TLorentzVector Ele2Cand; // prepare this variable for dR(Ele1, Ele2) implementation
               Ele2Cand.SetPtEtaPhiE(recoElectronPt->at(iEle2), recoElectronEta->at(iEle2), recoElectronPhi->at(iEle2), recoElectronEnergy->at(iEle2));
               if ((Ele1.DeltaR(Ele2Cand) < smallestDR) && (recoElectronPDGId->at(iEle) == (-1) * recoElectronPDGId->at(iEle2)) && ((Ele1+Ele2Cand).M() < 60.0) && (Ele2Cand.DeltaR(Mu1) > 0.4) && (Ele2Cand.DeltaR(Mu2) > 0.4) && (recoElectronIsolation->at(iEle2) < Ele2IsoThresholdpT))
+
               {
                   Ele2.SetPtEtaPhiE(recoElectronPt->at(iEle2), recoElectronEta->at(iEle2), recoElectronPhi->at(iEle2), recoElectronEnergy->at(iEle2));
                   Ele2Iso = recoElectronIsolation->at(iEle2);
@@ -134,7 +136,7 @@ void MuMuTauETauEAnalyzer::Loop()
 
           if (!findEle2) continue;
           else{
-              findMuElePair = true;
+              findEleElePair = true;
               break;
           } // end if findEle2
       } // end loop for electron
@@ -151,7 +153,7 @@ void MuMuTauETauEAnalyzer::Loop()
 
 
       // ---- fill histograms ----
-      if (findMu1 && findMu2 && findMuElePair)
+      if (findMu1 && findMu2 && findEleElePair)
       {
           ptMu1Mu2->Fill((Mu1+Mu2).Pt(), weight);
           dRMu1Mu2->Fill(Mu1.DeltaR(Mu2), weight);
@@ -192,6 +194,7 @@ void MuMuTauETauEAnalyzer::Loop()
 
           ptMuMuTauEleTauEle->Fill((Mu1+Mu2+Ele1+Ele2).Pt(), weight);
           invMassMuMuTauEleTauEle->Fill((Mu1+Mu2+Ele1+Ele2).M(), weight);
+
 	  if (isMC && matchRecGen)
             {
               TLorentzVector GenMu1;
@@ -385,6 +388,33 @@ void MuMuTauETauEAnalyzer::Loop()
 
 	      } // if all gen reco matching satisfied
 	    } //  end if MC and matchGenReco
+
+
+          // ----- fill flat trees -----
+          invMassMuMu = (Mu1+Mu2).M();
+          visMassTauTau = (Ele1+Ele2).M();
+          visMassMuMuTauTau = (Mu1+Mu2+Ele1+Ele2).M();
+
+          deltaRMuMu = Mu1.DeltaR(Mu2);
+          deltaRTauTau = Ele1.DeltaR(Ele2);
+
+          Mu1Pt = Mu1.Pt();
+          Mu1Eta = Mu1.Eta();
+
+          Mu2Pt = Mu2.Pt();
+          Mu2Eta = Mu2.Eta();
+
+          Tau1Pt = Ele1.Pt();
+          Tau1Eta = Ele1.Eta();
+          Tau1Isolation = Ele1Iso;
+
+          Tau2Pt = Ele2.Pt();
+          Tau2Eta = Ele2.Eta();
+          Tau2Isolation = Ele2Iso;
+
+          eventWeight = weight/summedWeights;
+          TreeMuMuTauTau->Fill();
+
       } // end if findMu1 && findMu2 && findMuElePair
    }// end loop for events
 
@@ -401,5 +431,6 @@ void MuMuTauETauEAnalyzer::Loop()
        delete histColl[j];
    } // end loop for deleting all the histograms
 
+   TreeMuMuTauTau->Write("TreeMuMuTauTau", TObject::kOverwrite);
    outputFile->Close();
 }

@@ -1,6 +1,7 @@
 #ifndef _Histomutau_h_
 #define _Histomutau_h_
 
+#include "TTree.h"
 #include "TH1.h"
 #include "TH2.h"
 #include <iostream>
@@ -131,13 +132,11 @@ class Histomutau{
         TH2D* dRInvMassMu3Tau;
         TH2D* dRInvMassEleTau;
         TH2D* dRInvMassTauTau;
-	//	TH2D* dRInvMassTauEleTauEle;
 
 
 	TH1D* dRgenMu1genMu2;
         TH1D* dRgenMu3genMu4;
         TH1D* dRgenMu3genEle;
-	//        TH1D* dRgenElegenEle;
         TH1D* dRgenMu3genTau;
         TH1D* dRgenElegenTau;
         TH1D* dRgenTaugenTau;
@@ -309,6 +308,44 @@ class Histomutau{
         TH2D* ele2PhiVSGenEle2Phi;
 	TH2D* ele1PtVSGenTauEle1Pt;       
 	TH2D* ele2PtVSGenTauEle2Pt;
+
+
+
+        // ----------- flat tree for fit -----------
+        TTree* TreeMuMuTauTau;
+        
+        double invMassMuMu;
+        double visMassTauTau;
+        double visMassMuMuTauTau;
+
+        double deltaRMuMu;
+        double deltaRTauTau;
+
+        double Mu1Pt;
+        double Mu1Eta;
+        double Mu1Phi;
+        double Mu1Energy;
+        double Mu1Charge;
+        double Mu1NTrackerLayers;
+
+        double Mu2Pt;
+        double Mu2Eta;
+        double Mu2Phi;
+        double Mu2Energy;
+        double Mu2Charge;
+        double Mu2NTrackerLayers;
+
+        double Tau1Pt;
+        double Tau1Eta;
+        double Tau1Isolation;
+        double Tau1DecayMode;
+
+        double Tau2Pt;
+        double Tau2Eta;
+        double Tau2Isolation;
+        double Tau2DecayMode;
+
+        double eventWeight;
 
 };
 

@@ -20,7 +20,6 @@ void MuMuTauETauHadAnalyzer::Loop()
    Long64_t nentries = fChain->GetEntries();
    if (nMaxEvents >= 0 && nMaxEvents  < nentries) nentries = nMaxEvents;
    cout << "We will run on " << nentries << " events" << endl;
-   //   std::cout << "line 23 taue tauhad" << std::endl;
    Long64_t nbytes = 0, nb = 0;
 
    bool matchRecGen = true;
@@ -319,7 +318,6 @@ void MuMuTauETauHadAnalyzer::Loop()
                 elePtVSGenElePt->Fill(Ele.Pt(), GenEle.Pt(), weight);
                 eleEtaVSGenEleEta->Fill(Ele.Eta(), GenEle.Eta(), weight);
                 elePhiVSGenElePhi->Fill(Ele.Phi(), GenEle.Phi(), weight);
-
 
 		gentauEle1Pt->Fill(GenTauEle.Pt(), weight);
                 gentauEle1Eta->Fill(GenTauEle.Eta(), weight);

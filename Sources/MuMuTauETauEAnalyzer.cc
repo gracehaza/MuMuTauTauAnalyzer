@@ -116,7 +116,6 @@ void MuMuTauETauEAnalyzer::Loop()
 
           for (unsigned int iEle2=iEle+1; iEle2<recoElectronPt->size(); iEle2++)
           {
-	    //	    double Ele2IsoThresholdpT = Ele2IsoThreshold + 0.506/(recoElectronPt->at(iEle2)); // TIGHT
 	    double Ele2IsoThresholdpT;// = 0.3;	   
 	    if(abs(recoElectronEta->at(iEle)) > 1.479){
 	      Ele2IsoThresholdpT = Ele1IsoThresholdEndcap + 0.963/(recoElectronPt->at(iEle));}

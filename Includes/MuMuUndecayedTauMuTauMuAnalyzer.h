@@ -5,8 +5,8 @@
 // found on file: MuMuTauTauTreelization.root
 //////////////////////////////////////////////////////////
 
-#ifndef MuMuTauMuTauMuAnalyzer_h
-#define MuMuTauMuTauMuAnalyzer_h
+#ifndef MuMuUndecayedTauMuTauMuAnalyzer_h
+#define MuMuUndecayedTauMuTauMuAnalyzer_h
 
 #include <TROOT.h>
 #include <TChain.h>
@@ -18,7 +18,7 @@
 #include <vector>
 #include "Histomutau.h"
 
-class MuMuTauMuTauMuAnalyzer : public Histomutau {
+class MuMuUndecayedTauMuTauMuAnalyzer : public Histomutau {
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
@@ -32,10 +32,14 @@ public :
    vector<float>   *recoMuonEnergy;
    vector<int>     *recoMuonPDGId;
    vector<float>   *recoMuonIsolation;
-   vector<float>   *recoMuonDXY;
-   vector<float>   *recoMuonDZ;
-   vector<int>     *recoMuonNTrackerLayers;
-   vector<int>     *recoMuonTriggerFlag;
+   vector<float>   *recoElectronPt;
+   vector<float>   *recoElectronEta;
+   vector<float>   *recoElectronPhi;
+   vector<float>   *recoElectronEnergy;
+   vector<int>     *recoElectronPDGId;
+   vector<float>   *recoElectronIsolation;
+   vector<float>   *recoElectronEcalTrkEnergyPostCorr;
+   vector<float>   *recoElectronEcalTrkEnergyErrPostCorr;
    vector<float>   *recoJetPt;
    vector<float>   *recoJetEta;
    vector<float>   *recoJetPhi;
@@ -43,30 +47,28 @@ public :
    vector<float>   *recoJetCSV;
    vector<float>   *recoMET;
    vector<float>   *recoMETPhi;
-   vector<float>   *recoMETPx;
-   vector<float>   *recoMETPy;
    Int_t           recoNPrimaryVertex;
-   Int_t           eventID;
    Int_t           recoNPU;
    Int_t           trueNInteraction;
    Float_t         genEventWeight;
 
-   vector<float>   *genMuonPt;
-   vector<float>   *genMuonEta;
-   vector<float>   *genMuonPhi;
-   vector<float>   *genMuonMass;
-   vector<int>     *genMuonPDGId;
-   vector<int>     *genMuonMotherPDGId;
-   vector<float>   *genTauMuPt;
-   vector<float>   *genTauMuEta;
-   vector<float>   *genTauMuPhi;
-   vector<float>   *genTauMuMass;
-   vector<int>     *genTauMuPDGId;
-   vector<int>     *genTauMuMotherPDGId;
-   vector<float>   *genTauMuVisPt;
-   vector<float>   *genTauMuVisMass;
 
-
+   vector<float> *genMuon1Pt;
+   vector<float> *genMuon1Eta;
+   vector<float> *genMuon1Phi;
+   vector<float> *genMuon1Energy;
+   vector<float> *genMuon2Pt;
+   vector<float> *genMuon2Eta;
+   vector<float> *genMuon2Phi;
+   vector<float> *genMuon2Energy;
+   vector<float> *genTauMu1Pt;
+   vector<float> *genTauMu1Eta;
+   vector<float> *genTauMu1Phi;
+   vector<float> *genTauMu1Energy;
+   vector<float> *genTauMu2Pt;
+   vector<float> *genTauMu2Eta;
+   vector<float> *genTauMu2Phi;
+   vector<float> *genTauMu2Energy;
 
    // List of branches
    TBranch        *b_recoMuonPt;   //!
@@ -75,10 +77,14 @@ public :
    TBranch        *b_recoMuonEnergy;   //!
    TBranch        *b_recoMuonPDGId;   //!
    TBranch        *b_recoMuonIsolation;   //!
-   TBranch        *b_recoMuonDXY;   //!
-   TBranch        *b_recoMuonDZ;   //!
-   TBranch        *b_recoMuonNTrackerLayers;   //!
-   TBranch        *b_recoMuonTriggerFlag;   //!
+   TBranch        *b_recoElectronPt;   //!
+   TBranch        *b_recoElectronEta;   //!
+   TBranch        *b_recoElectronPhi;   //!
+   TBranch        *b_recoElectronEnergy;   //!
+   TBranch        *b_recoElectronPDGId;   //!
+   TBranch        *b_recoElectronIsolation;   //!
+   TBranch        *b_recoElectronEcalTrkEnergyPostCorr;   //!
+   TBranch        *b_recoElectronEcalTrkEnergyErrPostCorr;   //!
    TBranch        *b_recoJetPt;   //!
    TBranch        *b_recoJetEta;   //!
    TBranch        *b_recoJetPhi;   //!
@@ -86,31 +92,10 @@ public :
    TBranch        *b_recoJetCSV;   //!
    TBranch        *b_recoMET;   //!
    TBranch        *b_recoMETPhi;   //!
-   TBranch        *b_recoMETPx;   //!
-   TBranch        *b_recoMETPy;   //!
    TBranch        *b_recoNPrimaryVertex;   //!
-   TBranch        *b_eventID;   //!
    TBranch        *b_recoNPU;   //!
    TBranch        *b_trueNInteraction;   //!
    TBranch        *b_genEventWeight;   //!
-
-   TBranch        *b_genMuonPt;   //!                                                                            
-   TBranch        *b_genMuonEta;   //!                                                                           
-   TBranch        *b_genMuonPhi;   //!                                                                           
-   TBranch        *b_genMuonMass;   //! 
-   TBranch        *b_genMuonPDGId;   //!
-   TBranch        *b_genMuonMotherPDGId;   //!
-
-   TBranch        *b_genTauMuPt;   //!
-   TBranch        *b_genTauMuEta;   //!
-   TBranch        *b_genTauMuPhi;   //!
-   TBranch        *b_genTauMuMass;   //!
-   TBranch        *b_genTauMuPDGId;   //!
-   TBranch        *b_genTauMuMotherPDGId;   //!
-   TBranch        *b_genTauMuVisPt;   //!                                                                       
-   TBranch        *b_genTauMuVisMass;   //!
-
-
 
    TString fileName;
    TString outputDir;
@@ -119,20 +104,31 @@ public :
    float summedWeights; // these two factors contribute to the MC normalization
    bool isMC;
    bool invertedMu2Iso;
-   bool invertedMu4Iso;
+   bool invertedEle1Iso;
    double Mu2IsoThreshold;
-   double Mu3IsoThreshold;
-   double Mu4IsoThreshold;
-   double Mu1IsoThresholdBarrel;
-   double Mu2IsoThresholdBarrel;
-   double Mu1IsoThresholdEndcap;
-   double Mu2IsoThresholdEndcap;
-   double diMuonMassLowThreshold;
-   double diMuonMassHighThreshold;
+   double Ele1IsoThreshold;
 
-   MuMuTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, bool invertedMu4Iso_ = false, double Mu2IsoThreshold_ = 0.25, double Mu3IsoThreshold_ = 0.25, double Mu4IsoThreshold_ = 0.25, double diMuonMassLowThreshold_ = 0, double diMuonMassHighThreshold_ = 25.0);
+  
+   TBranch *b_genMuon1Pt;
+   TBranch *b_genMuon1Eta;
+   TBranch *b_genMuon1Phi;
+   TBranch *b_genMuon1Energy;
+   TBranch *b_genMuon2Pt;
+   TBranch *b_genMuon2Eta;
+   TBranch *b_genMuon2Phi;
+   TBranch *b_genMuon2Energy;
+   TBranch *b_genTauMu1Pt;
+   TBranch *b_genTauMu1Eta;
+   TBranch *b_genTauMu1Phi;
+   TBranch *b_genTauMu1Energy;
+   TBranch *b_genTauMu2Pt;
+   TBranch *b_genTauMu2Eta;
+   TBranch *b_genTauMu2Phi;
+   TBranch *b_genTauMu2Energy;
+
+   MuMuUndecayedTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_ = 1.0, Long_t nMaxEvents_ = 0, bool isMC_ = false, bool invertedMu2Iso_ = false, bool invertedEle1Iso_ = false, double Mu2IsoThreshold_ = 0.25, double Ele1IsoThreshold_ = 0.25);
    string createOutputFileName();
-   virtual ~MuMuTauMuTauMuAnalyzer();
+   virtual ~MuMuUndecayedTauMuTauMuAnalyzer();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
@@ -144,8 +140,8 @@ public :
 
 #endif
 
-#ifdef MuMuTauMuTauMuAnalyzer_cxx
-MuMuTauMuTauMuAnalyzer::MuMuTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_, bool invertedMu2Iso_, bool invertedMu4Iso_, double Mu2IsoThreshold_, double Mu3IsoThreshold_, double Mu4IsoThreshold_, double diMuonMassLowThreshold_, double diMuonMassHighThreshold_) : Histomutau() 
+#ifdef MuMuUndecayedTauMuTauMuAnalyzer_cxx
+MuMuUndecayedTauMuTauMuAnalyzer::MuMuUndecayedTauMuTauMuAnalyzer(TString fileName_, TString outputDir_, float lumiScale_, float summedWeights_, Long_t nMaxEvents_, bool isMC_, bool invertedMu2Iso_, bool invertedEle1Iso_, double Mu2IsoThreshold_, double Ele1IsoThreshold_) : Histomutau() 
 {
     fileName = fileName_;
     outputDir = outputDir_;
@@ -154,13 +150,9 @@ MuMuTauMuTauMuAnalyzer::MuMuTauMuTauMuAnalyzer(TString fileName_, TString output
     nMaxEvents = nMaxEvents_;
     isMC = isMC_;
     invertedMu2Iso = invertedMu2Iso_;
-    invertedMu4Iso = invertedMu4Iso_;
+    invertedEle1Iso = invertedEle1Iso_;
     Mu2IsoThreshold = Mu2IsoThreshold_;
-    Mu3IsoThreshold = Mu3IsoThreshold_; 
-    Mu4IsoThreshold = Mu4IsoThreshold_;
-    diMuonMassLowThreshold = diMuonMassLowThreshold_;
-    diMuonMassHighThreshold = diMuonMassHighThreshold_;
-    invMassMu1Mu2->SetBins(20, diMuonMassLowThreshold, diMuonMassHighThreshold);
+    Ele1IsoThreshold = Ele1IsoThreshold_;
 
     //--- Create output directory if necessary ---
     if (nMaxEvents > 0) {
@@ -173,13 +165,13 @@ MuMuTauMuTauMuAnalyzer::MuMuTauMuTauMuAnalyzer(TString fileName_, TString output
     system(command);
 
     TChain *chain = new TChain("", "");
-    TString treePath = fileName + "/DiMuDiTauAnalyzer/objectTree";
+    TString treePath = fileName + "/MuMuUndecayedTauMuTauMuAnalyzer/objectTree";
     chain->Add(treePath);
     fChain = chain;
     Init();
 }
 
-string MuMuTauMuTauMuAnalyzer::createOutputFileName()
+string MuMuUndecayedTauMuTauMuAnalyzer::createOutputFileName()
 {
     ostringstream outputName;
     fileName.Replace(0, fileName.Last('/'), "");
@@ -192,19 +184,19 @@ string MuMuTauMuTauMuAnalyzer::createOutputFileName()
     return outputName.str();
 }
 
-MuMuTauMuTauMuAnalyzer::~MuMuTauMuTauMuAnalyzer()
+MuMuUndecayedTauMuTauMuAnalyzer::~MuMuUndecayedTauMuTauMuAnalyzer()
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
 }
 
-Int_t MuMuTauMuTauMuAnalyzer::GetEntry(Long64_t entry)
+Int_t MuMuUndecayedTauMuTauMuAnalyzer::GetEntry(Long64_t entry)
 {
 // Read contents of entry.
    if (!fChain) return 0;
    return fChain->GetEntry(entry);
 }
-Long64_t MuMuTauMuTauMuAnalyzer::LoadTree(Long64_t entry)
+Long64_t MuMuUndecayedTauMuTauMuAnalyzer::LoadTree(Long64_t entry)
 {
 // Set the environment to read one entry
    if (!fChain) return -5;
@@ -217,7 +209,7 @@ Long64_t MuMuTauMuTauMuAnalyzer::LoadTree(Long64_t entry)
    return centry;
 }
 
-void MuMuTauMuTauMuAnalyzer::Init()
+void MuMuUndecayedTauMuTauMuAnalyzer::Init()
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
@@ -234,10 +226,14 @@ void MuMuTauMuTauMuAnalyzer::Init()
    recoMuonEnergy = 0;
    recoMuonPDGId = 0;
    recoMuonIsolation = 0;
-   recoMuonDXY = 0;
-   recoMuonDZ = 0;
-   recoMuonNTrackerLayers = 0;
-   recoMuonTriggerFlag = 0;
+   recoElectronPt = 0;
+   recoElectronEta = 0;
+   recoElectronPhi = 0;
+   recoElectronEnergy = 0;
+   recoElectronPDGId = 0;
+   recoElectronIsolation = 0;
+   recoElectronEcalTrkEnergyPostCorr = 0;
+   recoElectronEcalTrkEnergyErrPostCorr = 0;
    recoJetPt = 0;
    recoJetEta = 0;
    recoJetPhi = 0;
@@ -245,30 +241,28 @@ void MuMuTauMuTauMuAnalyzer::Init()
    recoJetCSV = 0;
    recoMET = 0;
    recoMETPhi = 0;
-   recoMETPx = 0;
-   recoMETPy = 0;
-
-   genMuonPt = 0;
-   genMuonEta = 0;
-   genMuonPhi = 0;
-   genMuonMass = 0;
-
-   genMuonPDGId = 0;
-   genMuonMotherPDGId = 0;
-   genTauMuPt = 0;
-   genTauMuEta = 0;
-   genTauMuPhi = 0;
-   genTauMuMass = 0;
-   genTauMuPDGId = 0;
-   genTauMuMotherPDGId = 0;
-   genTauMuVisPt = 0;
-   genTauMuVisMass = 0;
-
-
-
    // Set branch addresses and branch pointers
    fCurrent = -1;
    fChain->SetMakeClass(1);
+
+   //      if(isMC){
+     genMuon1Pt = 0;  
+     genMuon1Eta = 0;
+     genMuon1Phi = 0;
+     genMuon1Energy = 0;
+     genMuon2Pt = 0;
+     genMuon2Eta = 0;
+     genMuon2Phi = 0;
+     genMuon2Energy = 0;
+     genTauMu1Pt = 0;
+     genTauMu1Eta = 0;
+     genTauMu1Phi = 0;
+     genTauMu1Energy = 0;
+     genTauMu2Pt = 0;
+     genTauMu2Eta = 0;
+     genTauMu2Phi = 0;
+     genTauMu2Energy = 0;
+     // }
 
    fChain->SetBranchAddress("recoMuonPt", &recoMuonPt, &b_recoMuonPt);
    fChain->SetBranchAddress("recoMuonEta", &recoMuonEta, &b_recoMuonEta);
@@ -276,10 +270,14 @@ void MuMuTauMuTauMuAnalyzer::Init()
    fChain->SetBranchAddress("recoMuonEnergy", &recoMuonEnergy, &b_recoMuonEnergy);
    fChain->SetBranchAddress("recoMuonPDGId", &recoMuonPDGId, &b_recoMuonPDGId);
    fChain->SetBranchAddress("recoMuonIsolation", &recoMuonIsolation, &b_recoMuonIsolation);
-   fChain->SetBranchAddress("recoMuonDXY", &recoMuonDXY, &b_recoMuonDXY);
-   fChain->SetBranchAddress("recoMuonDZ", &recoMuonDZ, &b_recoMuonDZ);
-   fChain->SetBranchAddress("recoMuonNTrackerLayers", &recoMuonNTrackerLayers, &b_recoMuonNTrackerLayers);
-   fChain->SetBranchAddress("recoMuonTriggerFlag", &recoMuonTriggerFlag, &b_recoMuonTriggerFlag);
+   fChain->SetBranchAddress("recoElectronPt", &recoElectronPt, &b_recoElectronPt);
+   fChain->SetBranchAddress("recoElectronEta", &recoElectronEta, &b_recoElectronEta);
+   fChain->SetBranchAddress("recoElectronPhi", &recoElectronPhi, &b_recoElectronPhi);
+   fChain->SetBranchAddress("recoElectronEnergy", &recoElectronEnergy, &b_recoElectronEnergy);
+   fChain->SetBranchAddress("recoElectronPDGId", &recoElectronPDGId, &b_recoElectronPDGId);
+   fChain->SetBranchAddress("recoElectronIsolation", &recoElectronIsolation, &b_recoElectronIsolation);
+   fChain->SetBranchAddress("recoElectronEcalTrkEnergyPostCorr", &recoElectronEcalTrkEnergyPostCorr, &b_recoElectronEcalTrkEnergyPostCorr);
+   fChain->SetBranchAddress("recoElectronEcalTrkEnergyErrPostCorr", &recoElectronEcalTrkEnergyErrPostCorr, &b_recoElectronEcalTrkEnergyErrPostCorr);
    fChain->SetBranchAddress("recoJetPt", &recoJetPt, &b_recoJetPt);
    fChain->SetBranchAddress("recoJetEta", &recoJetEta, &b_recoJetEta);
    fChain->SetBranchAddress("recoJetPhi", &recoJetPhi, &b_recoJetPhi);
@@ -287,37 +285,34 @@ void MuMuTauMuTauMuAnalyzer::Init()
    fChain->SetBranchAddress("recoJetCSV", &recoJetCSV, &b_recoJetCSV);
    fChain->SetBranchAddress("recoMET", &recoMET, &b_recoMET);
    fChain->SetBranchAddress("recoMETPhi", &recoMETPhi, &b_recoMETPhi);
-   fChain->SetBranchAddress("recoMETPx", &recoMETPx, &b_recoMETPx);
-   fChain->SetBranchAddress("recoMETPy", &recoMETPy, &b_recoMETPy);
    fChain->SetBranchAddress("recoNPrimaryVertex", &recoNPrimaryVertex, &b_recoNPrimaryVertex);
-   fChain->SetBranchAddress("eventID", &eventID, &b_eventID);
    if (isMC) 
    {
-       fChain->SetBranchAddress("recoNPU", &recoNPU, &b_recoNPU);
+     fChain->SetBranchAddress("genMuon1Pt", &genMuon1Pt, &b_genMuon1Pt);
+     fChain->SetBranchAddress("genMuon1Eta", &genMuon1Eta, &b_genMuon1Eta);
+     fChain->SetBranchAddress("genMuon1Phi", &genMuon1Phi, &b_genMuon1Phi);
+     fChain->SetBranchAddress("genMuon1Energy", &genMuon1Energy, &b_genMuon1Energy);
+     fChain->SetBranchAddress("genMuon2Pt", &genMuon2Pt, &b_genMuon2Pt);
+     fChain->SetBranchAddress("genMuon2Eta", &genMuon2Eta, &b_genMuon2Eta);
+     fChain->SetBranchAddress("genMuon2Energy", &genMuon2Energy, &b_genMuon2Energy);    
+     fChain->SetBranchAddress("genMuon2Phi", &genMuon2Phi, &b_genMuon2Phi);
+     fChain->SetBranchAddress("genTauMu1Pt", &genTauMu1Pt, &b_genTauMu1Pt);
+     fChain->SetBranchAddress("genTauMu1Eta", &genTauMu1Eta, &b_genTauMu1Eta);
+     fChain->SetBranchAddress("genTauMu1Phi", &genTauMu1Phi, &b_genTauMu1Phi);
+     fChain->SetBranchAddress("genTauMu1Energy", &genTauMu1Energy, &b_genTauMu1Energy);
+
+     fChain->SetBranchAddress("genTauMu2Pt", &genTauMu2Pt, &b_genTauMu2Pt);
+     fChain->SetBranchAddress("genTauMu2Eta", &genTauMu2Eta, &b_genTauMu2Eta);
+     fChain->SetBranchAddress("genTauMu2Phi", &genTauMu2Phi, &b_genTauMu2Phi);
+     fChain->SetBranchAddress("genTauMu2Energy", &genTauMu2Energy, &b_genTauMu2Energy);
+     fChain->SetBranchAddress("recoNPU", &recoNPU, &b_recoNPU);
        fChain->SetBranchAddress("trueNInteraction", &trueNInteraction, &b_trueNInteraction);
        fChain->SetBranchAddress("genEventWeight", &genEventWeight, &b_genEventWeight);
-       fChain->SetBranchAddress("genMuonPt", &genMuonPt, &b_genMuonPt);
-       fChain->SetBranchAddress("genMuonEta", &genMuonEta, &b_genMuonEta);
-       fChain->SetBranchAddress("genMuonPhi", &genMuonPhi, &b_genMuonPhi);
-       fChain->SetBranchAddress("genMuonMass", &genMuonMass, &b_genMuonMass);
-       fChain->SetBranchAddress("genMuonPDGId", &genMuonPDGId, &b_genMuonPDGId);
-       fChain->SetBranchAddress("genMuonMotherPDGId", &genMuonMotherPDGId, &b_genMuonMotherPDGId);
-       fChain->SetBranchAddress("genTauMuPt", &genTauMuPt, &b_genTauMuPt);
-       fChain->SetBranchAddress("genTauMuEta", &genTauMuEta, &b_genTauMuEta);
-       fChain->SetBranchAddress("genTauMuPhi", &genTauMuPhi, &b_genTauMuPhi);
-       fChain->SetBranchAddress("genTauMuMass", &genTauMuMass, &b_genTauMuMass);
-       fChain->SetBranchAddress("genTauMuPDGId", &genTauMuPDGId, &b_genTauMuPDGId);
-       fChain->SetBranchAddress("genTauMuMotherPDGId", &genTauMuMotherPDGId, &b_genTauMuMotherPDGId);
-       fChain->SetBranchAddress("genTauMuVisPt", &genTauMuVisPt, &b_genTauMuVisPt);
-       fChain->SetBranchAddress("genTauMuVisMass", &genTauMuVisMass, &b_genTauMuVisMass);
-
-
-
    } // end if isMC
    Notify();
 }
 
-Bool_t MuMuTauMuTauMuAnalyzer::Notify()
+Bool_t MuMuUndecayedTauMuTauMuAnalyzer::Notify()
 {
    // The Notify() function is called when a new file is opened. This
    // can be either for a new TTree in a TChain or when when a new TTree
@@ -328,18 +323,18 @@ Bool_t MuMuTauMuTauMuAnalyzer::Notify()
    return kTRUE;
 }
 
-void MuMuTauMuTauMuAnalyzer::Show(Long64_t entry)
+void MuMuUndecayedTauMuTauMuAnalyzer::Show(Long64_t entry)
 {
 // Print contents of entry.
 // If entry is not specified, print current entry
    if (!fChain) return;
    fChain->Show(entry);
 }
-Int_t MuMuTauMuTauMuAnalyzer::Cut(Long64_t entry)
+Int_t MuMuUndecayedTauMuTauMuAnalyzer::Cut(Long64_t entry)
 {
 // This function may be called from Loop.
 // returns  1 if entry is accepted.
 // returns -1 otherwise.
    return 1;
 }
-#endif // #ifdef MuMuTauMuTauMuAnalyzer_cxx
+#endif // #ifdef MuMuUndecayedTauMuTauMuAnalyzer_cxx

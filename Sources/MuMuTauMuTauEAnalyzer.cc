@@ -23,6 +23,8 @@ void MuMuTauMuTauEAnalyzer::Loop()
 
    Long64_t nbytes = 0, nb = 0;
 
+   bool matchRecGen = true;
+
    for (Long64_t jentry=0; jentry<nentries; jentry++) {
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
@@ -196,6 +198,180 @@ void MuMuTauMuTauEAnalyzer::Loop()
 
           eventWeight = weight/summedWeights;
           TreeMuMuTauTau->Fill();
+
+          if (isMC && matchRecGen)
+            {
+              TLorentzVector GenMu1;
+              TLorentzVector GenMu2;
+              TLorentzVector GenMu3;
+	      TLorentzVector GenEle;
+              TLorentzVector GenTauEle;
+              TLorentzVector GenTauMu;
+
+              bool findMatchedRecGenMu1 = false;
+              bool findMatchedRecGenMu2 = false;
+              bool findMatchedRecGenMu3 = false;
+	      bool findMatchedRecGenEle = false;
+              bool findMatchedRecGenTauMu = false;
+              bool findMatchedRecGenTauEle = false;
+
+	      unsigned int indexGenMu1 = -1;
+              unsigned int indexGenMu2 = -1;
+
+
+	      // --------- search for matched genMu1 for Mu1 -------------- 
+
+	      if (genMuonPt->size()>0)
+		{
+	    
+		  double smallestDR = 0.15;
+		  for (unsigned int iGenMu=0; iGenMu<genMuonPt->size(); iGenMu++)
+		    {
+		      TLorentzVector GenMuCand;
+		      GenMuCand.SetPtEtaPhiM(genMuonPt->at(iGenMu), genMuonEta->at(iGenMu), genMuonPhi->at(iGenMu), genMuonMass->at(iGenMu));
+		      if (Mu1.DeltaR(GenMuCand) <= smallestDR)
+			{
+			  smallestDR = Mu1.DeltaR(GenMuCand);
+			  findMatchedRecGenMu1 = true;
+			  GenMu1 = GenMuCand;
+			  indexGenMu1 = iGenMu;
+			} // end if Mu1.DeltaR(GenMuCand) <= smallestDR
+		    } // end for loop on GenMu1
+       
+     // --------- search for matched genMu2 for Mu2 --------------
+		
+		  smallestDR = 0.15;
+		  for (unsigned int iGenMu=0; iGenMu<genMuonPt->size(); iGenMu++)
+		    {
+		      TLorentzVector GenMuCand;
+		      GenMuCand.SetPtEtaPhiM(genMuonPt->at(iGenMu), genMuonEta->at(iGenMu), genMuonPhi->at(iGenMu), genMuonMass->at(iGenMu));
+		      if (Mu2.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1)
+			{
+			  smallestDR = Mu2.DeltaR(GenMuCand);
+			  findMatchedRecGenMu2 = true;
+			  GenMu2 = GenMuCand;
+			  indexGenMu2 = iGenMu;
+			} // end if Mu2.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1
+		    } // end for loop on GenMu2     
+
+                  // --------- search for matched genMu3 for Mu3 --------------
+		  smallestDR = 0.15;
+		  for (unsigned int iGenMu=0; iGenMu<genMuonPt->size(); iGenMu++)
+		    {
+		      TLorentzVector GenMuCand;
+		      GenMuCand.SetPtEtaPhiM(genMuonPt->at(iGenMu), genMuonEta->at(iGenMu), genMuonPhi->at(iGenMu), genMuonMass->at(iGenMu));
+		      if (Mu3.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1 && iGenMu != indexGenMu2)
+			{
+			  smallestDR = Mu3.DeltaR(GenMuCand);
+			  findMatchedRecGenMu3 = true;
+			  GenMu3 = GenMuCand;
+			} // end if Mu3.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1 && iGenMu != indexGenMu2
+		    } // end for loop on GenMu3 
+		} // if genMuonPt->size() > 0
+
+
+	      // --------- search for matched genEle for Ele -------------- 
+	      if(genElectronPt->size() > 0){
+		double smallestDR = 0.15;
+		for (unsigned int iGenEle=0; iGenEle<genElectronPt->size(); iGenEle++)
+		  {
+		    TLorentzVector GenEleCand;
+		    GenEleCand.SetPtEtaPhiM(genElectronPt->at(iGenEle), genElectronEta->at(iGenEle), genElectronPhi->at(iGenEle), genElectronMass->at(iGenEle));
+		    if (Ele.DeltaR(GenEleCand) <= smallestDR)
+		      {
+			smallestDR = Ele.DeltaR(GenEleCand);
+			findMatchedRecGenEle = true;
+			GenEle = GenEleCand;
+		      } // end if Ele.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1 && iGenMu != indexGenMu2
+		  } // end for loop on GenEle     
+	      } // end  recoElectronPt->size() > 0
+
+	      // --------- search for matched genTauMu for Mu3 --------------    
+	      if (genTauMuPt->size()>0)
+		{
+		  smallestDR = 0.15;
+		  for (unsigned int iGenTauMu=0; iGenTauMu<genTauMuPt->size(); iGenTauMu++)
+		    {
+		      TLorentzVector GenTauMuCand;
+		      GenTauMuCand.SetPtEtaPhiM(genTauMuPt->at(iGenTauMu), genTauMuEta->at(iGenTauMu), genTauMuPhi->at(iGenTauMu), genTauMuMass->at(iGenTauMu));
+		      if (Mu3.DeltaR(GenTauMuCand) <= smallestDR)
+			{
+			  smallestDR = Mu3.DeltaR(GenTauMuCand);
+			  findMatchedRecGenTauMu = true;
+			  GenTauMu = GenTauMuCand;
+			} // end if Mu3.DeltaR(GenTauMuCand) <= smallestDR
+		    } // end for loop on GenTauMu    
+		} // end if genTauMuPt->size() > 0
+
+	      // --------- search for matched genTauEle for Ele --------------                                                                                         
+	      if (genTauElePt->size()>0)
+                {
+		  smallestDR = 0.15;
+		  for (unsigned int iGenTauEle=0; iGenTauEle<genTauElePt->size(); iGenTauEle++)
+		    {
+		      TLorentzVector GenTauEleCand;
+		      GenTauEleCand.SetPtEtaPhiM(genTauElePt->at(iGenTauEle), genTauEleEta->at(iGenTauEle), genTauElePhi->at(iGenTauEle), genTauEleMass->at(iGenTauEle));
+		      if (Ele.DeltaR(GenTauEleCand) <= smallestDR)
+			{
+			  smallestDR = Ele.DeltaR(GenTauEleCand);
+			  findMatchedRecGenTauEle = true;
+			  GenTauEle = GenTauEleCand;
+			} // end if Ele.DeltaR(GenTauEleCand) <= smallestDR
+		    } // end for loop on GenTauEle   
+		} // end if genTauElePt->size() > 0
+
+
+	      if(findMatchedRecGenMu1 && findMatchedRecGenMu2 && findMatchedRecGenTauEle && findMatchedRecGenTauMu){
+                genmuPt->Fill(GenMu1.Pt(), weight);
+                genmuPt->Fill(GenMu2.Pt(),weight);
+
+		genmu1Pt->Fill(GenMu1.Pt(), weight);
+                genmu1Eta->Fill(GenMu1.Eta(), weight);
+                genmu1Phi->Fill(GenMu1.Phi(), weight);
+                genmu1Mass->Fill(GenMu1.M(), weight);
+                mu1PtVSGenMu1Pt->Fill(Mu1.Pt(), GenMu1.Pt(), weight);
+                mu1EtaVSGenMu1Eta->Fill(Mu1.Eta(), GenMu1.Eta(), weight);
+                mu1PhiVSGenMu1Phi->Fill(Mu1.Phi(), GenMu1.Phi(), weight);
+
+                genmu2Pt->Fill(GenMu2.Pt(), weight);
+                genmu2Eta->Fill(GenMu2.Eta(), weight);
+                genmu2Phi->Fill(GenMu2.Phi(), weight);
+                genmu2Mass->Fill(GenMu2.M(), weight);
+                mu2PtVSGenMu2Pt->Fill(Mu2.Pt(), GenMu2.Pt(), weight);
+                mu2EtaVSGenMu2Eta->Fill(Mu2.Eta(), GenMu2.Eta(), weight);
+                mu2PhiVSGenMu2Phi->Fill(Mu2.Phi(), GenMu2.Phi(), weight);
+
+		genmu3Pt->Fill(GenMu3.Pt(), weight);
+                genmu3Eta->Fill(GenMu3.Eta(), weight);
+                genmu3Phi->Fill(GenMu3.Phi(), weight);
+                genmu3Mass->Fill(GenMu3.M(), weight);
+                mu3PtVSGenMu3Pt->Fill(Mu3.Pt(), GenMu3.Pt(), weight);
+                mu3EtaVSGenMu3Eta->Fill(Mu3.Eta(), GenMu3.Eta(), weight);
+                mu3PhiVSGenMu3Phi->Fill(Mu3.Phi(), GenMu3.Phi(), weight);
+
+                gentauMu1Pt->Fill(GenTauMu.Pt(), weight);
+                gentauMu1Eta->Fill(GenTauMu.Eta(), weight);
+                gentauMu1Phi->Fill(GenTauMu.Phi(), weight);
+                gentauMu1Mass->Fill(GenTauMu.M(), weight);
+
+		dRgenMu1genMu2->Fill(GenMu1.DeltaR(GenMu2), weight);
+		dRgenMu1genMu3->Fill(GenMu1.DeltaR(GenMu3), weight);
+		dRgenMu2genMu3->Fill(GenMu2.DeltaR(GenMu3), weight);
+		dRgenTaugenTau->Fill(GenTauMu.DeltaR(GenTauEle), weight);
+
+		invMassgenMu1genMu2->Fill((GenMu1+GenMu2).M(),weight);
+		invMassgenTaugenTau->Fill((GenTauMu+GenTauEle).M(), weight);
+                invMassgenMuMuTauMuTauEle->Fill((GenMu1+GenMu2+GenTauMu+GenTauEle).M(), weight);
+
+                ptgenMu1genMu2->Fill((GenMu1+GenMu2).Pt(), weight);
+		ptgenTaugenTau->Fill((GenTauMu+GenTauEle).Pt(), weight);
+                ptgenMuMuTauMuTauHad->Fill((GenMu1+GenMu2+GenTauMu+GenTauEle).Pt(), weight);
+
+		dRInvMassgenMu1genMu2->Fill(GenMu1.DeltaR(GenMu2), (GenMu1+GenMu2).M(), weight);
+		dRInvMassgenTaugenTau->Fill(GenTauMu.DeltaR(GenTauEle), (GenTauMu+GenTauEle).M(), weight);
+
+	      } // end if findMatchedRecGenMu1 && findMatchedRecGenMu2 && findMatchedRecGenTauEle && findMatchedRecGenTauMu 
+	    } //end ifMC and match RecGen
       } // end if findMu1 && findMu2 && findMuElePair
    }// end loop for events
 

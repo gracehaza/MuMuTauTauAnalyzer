@@ -90,11 +90,6 @@ int main(int argc, char **argv)
                 getArg(currentArg, diMuonMassHighThreshold);
             }
 
-            else if (currentArg.BeginsWith("tauAntiMuDisc="))
-              {
-                getArg(currentArg, tauAntiMuDisc);
-              }
-
             else if (currentArg.BeginsWith("tauMVAIsoRawORWP="))
             {
                 getArg(currentArg, tauMVAIsoRawORWP);
@@ -140,7 +135,6 @@ int main(int argc, char **argv)
                 getArg(currentArg, tauDecayModeThreshold);
             }
 
->>>>>>> upstream/master
         } // end for loop in argc
     } // end if argc > 1
     
@@ -250,11 +244,7 @@ int main(int argc, char **argv)
         {
             lumiana H125AA5Lumi(inputFile);
             summedWeights = H125AA5Lumi.Loop();
-<<<<<<< HEAD
-            MuMuTauETauHadAnalyzer H125AA5Hist(inputFile, outputDir, 1, 1, maxEvents, true, invertedMu2Iso, invertedTauIso, Mu2IsoThreshold, diMuonMassLowThreshold, diMuonMassHighThreshold,tauMVAIsoRawORWP, tauMVAIsoRawThreshold, tauMVAIsoWP, tauAntiMuDisc);
-=======
             MuMuTauETauHadAnalyzer H125AA5Hist(inputFile, outputDir, 1, summedWeights, maxEvents, true, invertedMu2Iso, invertedTauIso, Mu2IsoThreshold, diMuonMassLowThreshold, diMuonMassHighThreshold, tauMVAIsoRawORWP, tauMVAIsoRawThreshold, tauMVAIsoWP, tauAntiEleDisc, deepTauID, deepTauVSele, deepTauVSmu, deepTauVSjet, tauDecayModeThreshold);
->>>>>>> upstream/master
             H125AA5Hist.Loop();
         } // end if inputFile.EndsWith(".root")
         
@@ -272,11 +262,7 @@ int main(int argc, char **argv)
             finTree.open(inputFile);
             while (getline(finTree, fileName))
             {
-<<<<<<< HEAD
-	      MuMuTauETauHadAnalyzer H125AA5Hist(fileName, outputDir, 1, 1, maxEvents, true, invertedMu2Iso, invertedTauIso, Mu2IsoThreshold, diMuonMassLowThreshold, diMuonMassHighThreshold,tauMVAIsoRawORWP, tauMVAIsoRawThreshold, tauMVAIsoWP, tauAntiMuDisc);
-=======
                 MuMuTauETauHadAnalyzer H125AA5Hist(fileName, outputDir, 1, summedWeights, maxEvents, true, invertedMu2Iso, invertedTauIso, Mu2IsoThreshold, diMuonMassLowThreshold, diMuonMassHighThreshold, tauMVAIsoRawORWP, tauMVAIsoRawThreshold, tauMVAIsoWP, tauAntiEleDisc, deepTauID, deepTauVSele, deepTauVSmu, deepTauVSjet, tauDecayModeThreshold);
->>>>>>> upstream/master
                 H125AA5Hist.Loop();
             } // end while loop on input file list
         } // end else 

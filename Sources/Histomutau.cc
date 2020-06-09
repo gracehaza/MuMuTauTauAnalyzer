@@ -83,27 +83,26 @@ Histomutau::Histomutau(){
     double Ele1PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200}; 
     double Ele2PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200}; 
     double Mu1Mu2PtBin [] = {0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
-<<<<<<< HEAD
 
-    double tauPtBin [] = {8, 10, 15, 20, 25, 30, 35, 40, 45, 50}; 
-   double Mu3TauPtBin [] = {0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
-   double Mu1Mu2Mu3TauPtBin [] = {0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250}; 
+    double tauPtBin [] = {8, 10, 15, 20, 25, 30, 35, 40, 45, 50};
+    double Mu3TauPtBin [] = {0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
+    double Mu1Mu2Mu3TauPtBin [] = {0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250};
    //{0, 5, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46, 50, 54, 58, 62, 66, 70, 75, 80, 86, 92, 99, 107, 116, 126, 137, 149, 162, 176, 200};
 
     double genMuPtBin [] = {3, 18, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93};
     //, 97, 101, 105, 110, 115, 120, 126, 133, 141, 150, 160, 171, 183, 196, 210, 225, 241, 258, 276, 300};
-    double genMu1PtBin [] = {3, 5,10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150};
+    //double genMu1PtBin [] = {3, 5,10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150};
     //, 97, 101, 105, 110, 115, 120, 126, 133, 141, 150, 160, 171, 183, 196, 210, 225, 241, 258, 276, 300};
-    double genMu2PtBin [] = {3, 5,10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150};
+    //double genMu2PtBin [] = {3, 5,10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150};
     //, 97, 101, 105, 110, 115, 120, 126, 133, 141, 150, 160, 171, 183, 196, 210, 225, 241, 258, 276, 300};
-    double genMu3PtBin []= {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56};
+    //double genMu3PtBin []= {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56};
     //, 66, 78, 92, 108, 200};
-    double genMu4PtBin []= {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200};
+    //double genMu4PtBin []= {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 200};
     double genEle1PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 600};
     double genEle2PtBin [] = {3, 10, 14, 18, 22, 26, 30, 34, 38, 42, 48, 56, 66, 78, 92, 108, 600};
     double genTauEle1PtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
-    double genTauMu1PtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
-    double genTauMu2PtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
+    //    double genTauMu1PtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
+    //double genTauMu2PtBin [] = {8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 66, 74, 84, 96, 110, 126, 144, 164, 186, 210};
     double tau2PtBin [] = {8, 20, 30, 80};
 
 
@@ -119,15 +118,15 @@ Histomutau::Histomutau(){
     int NBinsMu1Mu2Mu3TauPt = sizeof(Mu1Mu2Mu3TauPtBin)/sizeof(Mu1Mu2Mu3TauPtBin[0])-1;
 
     int NBinsgenMuPt = sizeof(genMuPtBin)/sizeof(genMuPtBin[0])-1;
-    int NBinsgenMu1Pt = sizeof(genMu1PtBin)/sizeof(genMu1PtBin[0])-1;
-    int NBinsgenMu2Pt = sizeof(genMu2PtBin)/sizeof(genMu2PtBin[0])-1;
-    int NBinsgenMu3Pt = sizeof(genMu3PtBin)/sizeof(genMu3PtBin[0])-1;
-    int NBinsgenMu4Pt = sizeof(genMu4PtBin)/sizeof(genMu4PtBin[0])-1;
+    // int NBinsgenMu1Pt = sizeof(genMu1PtBin)/sizeof(genMu1PtBin[0])-1;
+    // int NBinsgenMu2Pt = sizeof(genMu2PtBin)/sizeof(genMu2PtBin[0])-1;
+    //int NBinsgenMu3Pt = sizeof(genMu3PtBin)/sizeof(genMu3PtBin[0])-1;
+    //int NBinsgenMu4Pt = sizeof(genMu4PtBin)/sizeof(genMu4PtBin[0])-1;
     int NBinsgenEle1Pt = sizeof(genEle1PtBin)/sizeof(genEle1PtBin[0])-1;
     int NBinsgenEle2Pt= sizeof(genEle2PtBin)/sizeof(genEle2PtBin[0])-1;
     int NBinsgenTauEle1Pt = sizeof(genTauEle1PtBin)/sizeof(genTauEle1PtBin[0])-1;
-    int NBinsgenTauMu1Pt = sizeof(genTauMu1PtBin)/sizeof(genTauMu1PtBin[0])-1;
-    int NBinsgenTauMu2Pt = sizeof(genTauMu2PtBin)/sizeof(genTauMu2PtBin[0])-1;
+    //    int NBinsgenTauMu1Pt = sizeof(genTauMu1PtBin)/sizeof(genTauMu1PtBin[0])-1;
+    //int NBinsgenTauMu2Pt = sizeof(genTauMu2PtBin)/sizeof(genTauMu2PtBin[0])-1;
 
     dRMu1Mu2 = newTH1D("dRMu1Mu2", "#Delta R(#mu_{1}#mu_{2})", 40, 0, 1.5);
     dRMu3Mu4 = newTH1D("dRMu3Mu4", "#Delta R(#mu_{3}#mu_{4})", 25, 0, 1.0);
@@ -243,7 +242,6 @@ Histomutau::Histomutau(){
     dRMu2Tau = newTH1D("dRMu2Tau", "#Delta R(#mu_{2}#tau)", 25, 0, 5);
     dRMu2Tau2 = newTH1D("dRMu2Tau2", "#Delta R(#mu_{2}#tau_{2})", 25, 0, 5);
 
-
     dRInvMassMu1Mu2 = newTH2D("dRInvMassMu1Mu2", "#Delta R(#mu_{1}#mu_{2})", "M(#mu_{1}#mu_{2})[GeV]", 25, 0, 1, 100, 0, 100);
     dRInvMassMu3Mu4 = newTH2D("dRInvMassMu3Mu4", "#Delta R(#mu_{3}#mu_{4})", "M(#mu_{3}#mu_{4})[GeV]", 25, 0, 1, 100, 0, 100);
     dRInvMassMu3Ele = newTH2D("dRInvMassMu3Ele", "#Delta R(#mu_{3}e)", "M(#mu_{3}e)[GeV]", 25, 0, 1, 100, 0, 100);
@@ -293,7 +291,7 @@ Histomutau::Histomutau(){
     ptgenMuMuTauHadTauHad = newTH1D("ptgenMuMuTauHadTauHad", "p_{T}(#mu#mu#tau#tau)[GeV]", NBinsMu1Mu2Mu3TauPt, Mu1Mu2Mu3TauPtBin);
 
 
- genmuPt = newTH1D("genmuPt", "p_{T}(#mu) [GeV]", NBinsgenMuPt, genMuPtBin);
+    genmuPt = newTH1D("genmuPt", "p_{T}(#mu) [GeV]", NBinsgenMuPt, genMuPtBin);
 
     genmu1Eta = newTH1D("genmu1Eta", "#eta(#mu_{1})", 20, -2.5, 2.5);
     genmu1Pt = newTH1D("genmu1Pt", "p_{T}(#mu_{1}) [GeV]", NBinsMu1Pt, Mu1PtBin);
@@ -389,8 +387,6 @@ Histomutau::Histomutau(){
     dRgenMu2genTauEle2 = newTH1D("dRgenMu2genTauEle2","Delta R(#mu_{2}#tau_{e2}",25, 0, 5);
     dRgenEle1genEle2 = newTH1D("dRgenEle1genEle2", "Delta R(e_{1}e_{2})",25, 0, 1);
 
-
-
     dRInvMassgenMu1genMu2 = newTH2D("dRInvMassgenMu1genMu2", "#Delta R(#mu#mu)", "M(#mu_{1}#mu_{2})[GeV]", 25, 0, 0.5, 100, 0, 6);
     dRInvMassgenMu3genMu4 = newTH2D("dRInvMassgenMu3genMu4", "#Delta R(#mu#mu)", "M(#mu_{3}#mu_{4})[GeV]", 25, 0, 0.5, 100, 0, 6); 
     dRInvMassgenMu3genEle = newTH2D("dRInvMassgenMu3genEle", "#Delta R(#mu_{3}e)", "M(#mu_{3}e)[GeV]", 25, 0, 1, 100, 0, 100);
@@ -398,8 +394,6 @@ Histomutau::Histomutau(){
     dRInvMassgenMu3genTau = newTH2D("dRInvMassgenMu3genTau", "#Delta R(#mu_{3}#tau)", "M(#mu_{3}#tau)[GeV]", 25, 0, 1, 100, 0, 100);
     dRInvMassgenElegenTau = newTH2D("dRInvMassgenElegenTau", "#Delta R(e#tau)", "M(e#tau)[GeV]", 25, 0, 1, 100, 0, 100);
     dRInvMassgenTaugenTau = newTH2D("dRInvMassgenTaugenTau", "#Delta R(#tau#tau)", "M(#tau#tau)[GeV]", 25, 0, 1, 100, 0, 100);
-
-   
 
     mu1PtVSGenMu1Pt = newTH2D("mu1PtVSGenMu1Pt", "p_{T}^{rec}(#mu_{1})[GeV]", "p_{T}^{gen}(#mu_{1})[GeV]", NBinsMu1Pt, Mu1PtBin, NBinsMu1Pt, Mu1PtBin);
     mu1EtaVSGenMu1Eta = newTH2D("mu1EtaVSGenMu1Eta", "#eta^{rec}(#mu_{1})", "#eta^{gen}(#mu_{1})", 20, -2.1, 2.1, 20, -2.1, 2.1);
@@ -429,22 +423,11 @@ Histomutau::Histomutau(){
     ele2EtaVSGenEle2Eta = newTH2D("ele2EtaVSGenEle2Eta", "#eta^{rec}(e)", "#eta^{gen}(e)", 20, -2.1, 2.1, 20, -2.1, 2.1);
     ele2PhiVSGenEle2Phi = newTH2D("ele2PhiVSGenEle2Phi", "#phi^{rec}(e)", "#phi^{gen}(e)", 20, -3.1, 3.1, 20, -3.1, 3.1);
 
-
-
     tauPtVSGenTauHadPt = newTH2D("tauPtVSGenTauHadPt", "p_{T}^{rec}(#tau)[GeV]", "p_{T}^{gen}(#tau_{h})[GeV]", NBinsTauPt, tauPtBin, NBinsTauPt, tauPtBin);
     tauEtaVSGenTauHadEta = newTH2D("tauEtaVSGenTauHadEta", "#eta^{rec}(#tau)", "#eta^{gen}(#tau_{h})", 20, -2.1, 2.1, 20, -2.1, 2.1);
     tauPhiVSGenTauHadPhi = newTH2D("tauPhiVSGenTauHadPhi", "#phi^{rec}(#tau)", "#phi^{gen}(#tau_{h})", 20, -3.1, 3.1, 20, -3.1, 3.1);
     tauPtVSGenTauHadVisPt = newTH2D("tauPtVSGenTauHadVisPt", "p_{T}^{rec}(#tau)[GeV]", "p_{T}^{gen}(#tau_{h}^{vis})[GeV]", NBinsTauPt, tauPtBin, NBinsTauPt, tauPtBin);
 
-   
-
-    dRInvMassMu1Mu2 = newTH2D("dRInvMassMu1Mu2", "#Delta R(#mu_{1}#mu_{2})", "M(#mu_{1}#mu_{2})[GeV]", 25, 0, 1, 20, 0, 60);
-    dRInvMassMu3Mu4 = newTH2D("dRInvMassMu3Mu4", "#Delta R(#mu_{3}#mu_{4})", "M(#mu_{3}#mu_{4})[GeV]", 25, 0, 1, 20, 0, 60);
-    dRInvMassMu3Ele = newTH2D("dRInvMassMu3Ele", "#Delta R(#mu_{3}e)", "M(#mu_{3}e)[GeV]", 25, 0, 1, 20, 0, 60);
-    dRInvMassEleEle = newTH2D("dRInvMassEleEle", "#Delta R(ee)", "M(ee)[GeV]", 25, 0, 1, 20, 0, 60);
-    dRInvMassMu3Tau = newTH2D("dRInvMassMu3Tau", "#Delta R(#mu_{3}#tau)", "M(#mu_{3}#tau)[GeV]", 25, 0, 1, 20, 0, 60);
-    dRInvMassEleTau = newTH2D("dRInvMassEleTau", "#Delta R(e#tau)", "M(e#tau)[GeV]", 25, 0, 1, 20, 0, 60);
-    dRInvMassTauTau = newTH2D("dRInvMassTauTau", "#Delta R(#tau#tau)", "M(#tau#tau)[GeV]", 25, 0, 1, 20, 0, 60);
 
     // ----------- flat tree for fit -----------
     TreeMuMuTauTau = new TTree("TreeMuMuTauTau","TreeMuMuTauTau");

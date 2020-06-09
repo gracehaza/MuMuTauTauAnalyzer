@@ -187,9 +187,11 @@ void MuMuTauETauHadAnalyzer::Loop()
 
               if ((!invertedTauIso && !passCondTauMVA) || (invertedTauIso && !passCondInvertTauMVA) || !passCondTauAntiEleMVA) continue;
           } // end if !deepTauID (tauMVAID)
-
+      
 	//          if ((invertedTauIso == false && recoTauIsoMVAMedium->at(iTau) <= 0) || (invertedTauIso == true && recoTauIsoMVAMedium->at(iTau) > 0)) continue;
 
+	  TLorentzVector TauCand;
+	  TauCand.SetPtEtaPhiE(recoTauPt->at(iTau), recoTauEta->at(iTau), recoTauPhi->at(iTau), recoTauEnergy->at(iTau));
 
           if (TauCand.DeltaR(Mu1) < 0.8 || TauCand.DeltaR(Mu2) < 0.8) continue;
           if ((recoTauDecayMode->at(iTau) != tauDecayModeThreshold) && (tauDecayModeThreshold == 0 || tauDecayModeThreshold == 1 || tauDecayModeThreshold == 10)) continue;
@@ -197,42 +199,37 @@ void MuMuTauETauHadAnalyzer::Loop()
           TauIso = deepTauID ? recoTauDeepVSjetraw->at(iTau) : recoTauIsoMVArawValue->at(iTau);
           TauDM = recoTauDecayMode->at(iTau);
 
-	if (TauCand.DeltaR(Mu1) < 0.8 || TauCand.DeltaR(Mu2) < 0.8) continue;
-	Tau.SetPtEtaPhiE(recoTauPt->at(iTau), recoTauEta->at(iTau), recoTauPhi->at(iTau), recoTauEnergy->at(iTau));
-	TauIso = recoTauIsoMVArawValue->at(iTau);
-	TauDM = recoTauDecayMode->at(iTau);
+	  float smallestDR = 0.8; // dR cut between electron and tau
+	  bool findEle = false;
 
-	float smallestDR = 0.8; // dR cut between electron and tau
-	bool findEle = false;
-
-	for (unsigned int iEle=0; iEle<recoElectronPt->size(); iEle++)
-          {
+	  for (unsigned int iEle=0; iEle<recoElectronPt->size(); iEle++)
+	    {
 
               TLorentzVector EleCand; // prepare this variable for dR(Ele, tau) implementation
               EleCand.SetPtEtaPhiE(recoElectronPt->at(iEle), recoElectronEta->at(iEle), recoElectronPhi->at(iEle), recoElectronEnergy->at(iEle));
               if ((Tau.DeltaR(EleCand) < smallestDR) && (recoTauPDGId->at(iTau)/fabs(recoTauPDGId->at(iTau)) == (-1) * recoElectronPDGId->at(iEle)/fabs(recoElectronPDGId->at(iEle))) && ((Tau+EleCand).M() < 60.0) && (EleCand.DeltaR(Mu1) > 0.4) && (EleCand.DeltaR(Mu2) > 0.4))
-              {
+		{
                   Ele.SetPtEtaPhiE(recoElectronPt->at(iEle), recoElectronEta->at(iEle), recoElectronPhi->at(iEle), recoElectronEnergy->at(iEle));
                   EleIso = recoElectronIsolation->at(iEle); 
                   smallestDR = Tau.DeltaR(Ele);
                   findEle = true;
 
-              } // end if find electron with tau matched
-          } // end loop for electron
+		} // end if find electron with tau matched
+	    } // end loop for electron
 
-	if (!findEle) continue;
-	else{
-	  findEleTauPair = true;
-	  break;
-	} // end if findEle
+	  if (!findEle) continue;
+	  else{
+	    findEleTauPair = true;
+	    break;
+	  } // end if findEle
       } // end loop for tau
 
       // ---- prepare event weight info ----
       double weight = 1;
       if (isMC == true)
-      {
+	{
           weight *= genEventWeight; 
-      } // end if isMC == true
+	} // end if isMC == true
 
       // ---- fill histograms ----
       if (findMu1 && findMu2 && findEleTauPair)
@@ -279,6 +276,35 @@ void MuMuTauETauHadAnalyzer::Loop()
           ptMuMuTauEleTauHad->Fill((Mu1+Mu2+Ele+Tau).Pt(), weight);
           invMassMuMuTauEleTauHad->Fill((Mu1+Mu2+Ele+Tau).M(), weight);
 
+
+
+          // ----- fill flat trees -----                                                                                                                                
+          invMassMuMu = (Mu1+Mu2).M();
+          visMassTauTau = (Ele+Tau).M();
+          visMassMuMuTauTau = (Mu1+Mu2+Ele+Tau).M();
+
+          deltaRMuMu = Mu1.DeltaR(Mu2);
+          deltaRTauTau = Ele.DeltaR(Tau);
+
+          Mu1Pt = Mu1.Pt();
+          Mu1Eta = Mu1.Eta();
+
+          Mu2Pt = Mu2.Pt();
+          Mu2Eta = Mu2.Eta();
+
+          Tau1Pt = Ele.Pt();
+          Tau1Eta = Ele.Eta();
+          Tau1Isolation = EleIso;
+
+          Tau2Pt = Tau.Pt();
+          Tau2Eta = Tau.Eta();
+          Tau2DecayMode = TauDM;
+          Tau2Isolation = TauIso;
+
+          eventWeight = weight/summedWeights;
+          TreeMuMuTauTau->Fill();
+
+
 	  if (isMC && matchRecGen)
             {
               TLorentzVector GenMu1;
@@ -295,10 +321,10 @@ void MuMuTauETauHadAnalyzer::Loop()
 
 	      double GenTauHadVisiblePt = 0;
               unsigned int indexGenMu1 = -1;
-              unsigned int indexGenMu2 = -1;
 
-              if (genMuonPt->size()>0)
-                {
+
+	      if (genMuonPt->size()>0)
+		{
                   // --------- search for matched genMu1 for Mu1 --------------                                               
                   double smallestDR = 0.15;
                   for (unsigned int iGenMu=0; iGenMu<genMuonPt->size(); iGenMu++)
@@ -325,12 +351,14 @@ void MuMuTauETauHadAnalyzer::Loop()
                           smallestDR = Mu2.DeltaR(GenMuCand);
                           findMatchedRecGenMu2 = true;
                           GenMu2 = GenMuCand;
-                          indexGenMu2 = iGenMu;
-                        } // end if Mu2.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1                              
+			} // end if Mu2.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1                              
                     } // end for loop on GenMu2                                                                               
-
-		  // --------- search for matched genEle for Ele --------------                                               
-		  smallestDR = 0.15;
+		} // end for size GenMu->pt > 0
+		  
+		  // --------- search for matched genEle for Ele --------------   
+	      if (genElectronPt->size() > 0)
+		{                                           
+		  double smallestDR = 0.15;
 		  for (unsigned int iGenEle=0; iGenEle<genElectronPt->size(); iGenEle++)
 		    {
 		      TLorentzVector GenEleCand;
@@ -342,15 +370,15 @@ void MuMuTauETauHadAnalyzer::Loop()
 			  GenEle = GenEleCand;
 		       	} // end if Ele.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1 && iGenMu != indexGenMu2         
 		    } // end for loop on GenEle                                                                                   
-		} // end if genMuonPt->size()>0                                                                                   
+		} // end if genElectronPt->size() > 0
 
-	      
-	      if (genTauElePt->size()>0)
-                {
-                  // --------- search for matched genTauEle for Ele --------------                                             
-                  double smallestDR = 0.15;
-                  for (unsigned int iGenTauEle=0; iGenTauEle<genTauElePt->size(); iGenTauEle++)
-                    {
+
+	      // --------- search for matched genTauEle for Ele --------------  	        
+	      if (genTauElePt->size() > 0)
+		{
+		  double smallestDR = 0.15;
+		  for (unsigned int iGenTauEle=0; iGenTauEle<genTauElePt->size(); iGenTauEle++)
+		    {
                       TLorentzVector GenTauEleCand;
                       GenTauEleCand.SetPtEtaPhiM(genTauElePt->at(iGenTauEle), genTauEleEta->at(iGenTauEle), genTauElePhi->at(iGenTauEle), genTauEleMass->at(iGenTauEle));
                       if (Ele.DeltaR(GenTauEleCand) <= smallestDR)
@@ -360,16 +388,15 @@ void MuMuTauETauHadAnalyzer::Loop()
                           GenTauEle = GenTauEleCand;
                         } // end if Ele.DeltaR(GenTauEleCand) <= smallestDR                                                    
                     } // end for loop on GenTauEle                                                                             
-                } // end if genTauElePt->size()>0
+		 } // end if genTauElePt->size()>0
+	    
+	      // --------- search for matched genTauHad for Tau --------------  
 
+	      if (genTauHadPt->size()>0)
+		{
 
-              if (genTauHadPt->size()>0)
-                {
-                  // --------- search for matched genTauHad for Tau --------------                                            
                   double smallestDR = 0.15;
-                  double GenTauHadVisiblePt = 0;
-
-                  for (unsigned int iGenTauHad=0; iGenTauHad<genTauHadPt->size(); iGenTauHad++)
+		  for (unsigned int iGenTauHad=0; iGenTauHad<genTauHadPt->size(); iGenTauHad++)
                     {
                       TLorentzVector GenTauHadCand;
                       GenTauHadCand.SetPtEtaPhiM(genTauHadPt->at(iGenTauHad), genTauHadEta->at(iGenTauHad), genTauHadPhi->at(iGenTauHad), genTauHadMass->at(iGenTauHad));
@@ -386,7 +413,7 @@ void MuMuTauETauHadAnalyzer::Loop()
 	      if(findMatchedRecGenMu1 && findMatchedRecGenMu2 && findMatchedRecGenTauEle && findMatchedRecGenTauHad){
 		genmuPt->Fill(GenMu1.Pt(), weight);
                 genmuPt->Fill(GenMu2.Pt(),weight);
-
+	     
                 genmu1Pt->Fill(GenMu1.Pt(), weight);
                 genmu1Eta->Fill(GenMu1.Eta(), weight);
                 genmu1Phi->Fill(GenMu1.Phi(), weight);
@@ -407,15 +434,15 @@ void MuMuTauETauHadAnalyzer::Loop()
                 genele1Eta->Fill(GenEle.Eta(), weight);
                 genele1Phi->Fill(GenEle.Phi(), weight);
                 genele1Mass->Fill(GenEle.M(), weight);
-                elePtVSGenElePt->Fill(Ele.Pt(), GenEle.Pt(), weight);
-                eleEtaVSGenEleEta->Fill(Ele.Eta(), GenEle.Eta(), weight);
-                elePhiVSGenElePhi->Fill(Ele.Phi(), GenEle.Phi(), weight);
+                ele1PtVSGenEle1Pt->Fill(Ele.Pt(), GenEle.Pt(), weight);
+                ele1EtaVSGenEle1Eta->Fill(Ele.Eta(), GenEle.Eta(), weight);
+                ele1PhiVSGenEle1Phi->Fill(Ele.Phi(), GenEle.Phi(), weight);
 
 		gentauEle1Pt->Fill(GenTauEle.Pt(), weight);
                 gentauEle1Eta->Fill(GenTauEle.Eta(), weight);
                 gentauEle1Phi->Fill(GenTauEle.Phi(), weight);
                 gentauEle1Mass->Fill(GenTauEle.M(), weight);
-
+	    
 		tauPtVSGenTauHadPt->Fill(Tau.Pt(), GenTauHad.Pt(), weight);
                 tauEtaVSGenTauHadEta->Fill(Tau.Eta(), GenTauHad.Eta(), weight);
                 tauPhiVSGenTauHadPhi->Fill(Tau.Phi(), GenTauHad.Phi(), weight);
@@ -448,56 +475,23 @@ void MuMuTauETauHadAnalyzer::Loop()
 		mu1PtVSGenMu1Pt->Fill(Mu1.Pt(), GenMu1.Pt(), weight);
 		mu1EtaVSGenMu1Eta->Fill(Mu1.Eta(), GenMu1.Eta(), weight);
 		mu1PhiVSGenMu1Phi->Fill(Mu1.Phi(), GenMu1.Phi(), weight);
-
+	      
 		mu2PtVSGenMu2Pt->Fill(Mu2.Pt(), GenMu2.Pt(), weight);
 		mu2EtaVSGenMu2Eta->Fill(Mu2.Eta(), GenMu2.Eta(), weight);
 		mu2PhiVSGenMu2Phi->Fill(Mu2.Phi(), GenMu2.Phi(), weight);
-
-		elePtVSGenElePt->Fill(Ele.Pt(), GenEle.Pt(), weight);
-		eleEtaVSGenEleEta->Fill(Ele.Eta(), GenEle.Eta(), weight);
-		elePhiVSGenElePhi->Fill(Ele.Phi(), GenEle.Phi(), weight);
-
-		recomatchedtauPt->Fill(Tau.Pt(), weight);
+	
+		tauPtVSGenTauHadVisPt->Fill(Tau.Pt(), GenTauHadVisiblePt, weight);
 		tauPtVSGenTauHadPt->Fill(Tau.Pt(), GenTauHad.Pt(), weight);
 		tauEtaVSGenTauHadEta->Fill(Tau.Eta(), GenTauHad.Eta(), weight);
 		tauPhiVSGenTauHadPhi->Fill(Tau.Phi(), GenTauHad.Phi(), weight);
 		tauPtVSGenTauHadVisPt->Fill(Tau.Pt(), GenTauHadVisiblePt, weight);
-
-	      } // if matching all done
-
-	    } // end if MC and match reco gen
-	} // end if findMu1 && findMu2 && findEleTauPair
-
-
-          // ----- fill flat trees -----
-          invMassMuMu = (Mu1+Mu2).M();
-          visMassTauTau = (Ele+Tau).M();
-          visMassMuMuTauTau = (Mu1+Mu2+Ele+Tau).M();
-
-          deltaRMuMu = Mu1.DeltaR(Mu2);
-          deltaRTauTau = Ele.DeltaR(Tau);
-
-          Mu1Pt = Mu1.Pt();
-          Mu1Eta = Mu1.Eta();
-
-          Mu2Pt = Mu2.Pt();
-          Mu2Eta = Mu2.Eta();
-
-          Tau1Pt = Ele.Pt();
-          Tau1Eta = Ele.Eta();
-          Tau1Isolation = EleIso;
-
-          Tau2Pt = Tau.Pt();
-          Tau2Eta = Tau.Eta();
-          Tau2DecayMode = TauDM;
-          Tau2Isolation = TauIso;
-
-          eventWeight = weight/summedWeights;
-          TreeMuMuTauTau->Fill();
-      } // end if findMu1 && findMu2 && findEleTauPair
-
-   }// end loop for events
-
+	     
+	
+ 
+	      } // all reco matched
+	    } // is MC and gen reco matched 
+	} // find mu1 and mu2 and tau ele pair
+   } // event loop
    outputFile->cd();
 
    int numberofhist = histColl.size();

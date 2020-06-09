@@ -21,6 +21,8 @@ void MuMuTauMuTauMuAnalyzer::Loop()
    if (nMaxEvents >= 0 && nMaxEvents  < nentries) nentries = nMaxEvents;
    cout << "We will run on " << nentries << " events" << endl;
 
+   bool matchRecGen = true;
+
    Long64_t nbytes = 0, nb = 0;
   
    for (Long64_t jentry=0; jentry<nentries; jentry++) {
@@ -178,6 +180,33 @@ void MuMuTauMuTauMuAnalyzer::Loop()
           ptMuMuTauMuTauMu->Fill((Mu1+Mu2+Mu3+Mu4).Pt(), weight);
           invMassMuMuTauMuTauMu->Fill((Mu1+Mu2+Mu3+Mu4).M(), weight);
 
+
+          // ----- fill flat trees -----                                                                                                                                
+          invMassMuMu = (Mu1+Mu2).M();
+          visMassTauTau = (Mu3+Mu4).M();
+          visMassMuMuTauTau = (Mu1+Mu2+Mu3+Mu4).M();
+
+          deltaRMuMu = Mu1.DeltaR(Mu2);
+          deltaRTauTau = Mu3.DeltaR(Mu4);
+
+          Mu1Pt = Mu1.Pt();
+          Mu1Eta = Mu1.Eta();
+
+          Mu2Pt = Mu2.Pt();
+          Mu2Eta = Mu2.Eta();
+
+          Tau1Pt = Mu3.Pt();
+          Tau1Eta = Mu3.Eta();
+          Tau1Isolation = Mu3Iso;
+
+          Tau2Pt = Mu4.Pt();
+          Tau2Eta = Mu4.Eta();
+          Tau2Isolation = Mu4Iso;
+
+          eventWeight = weight/summedWeights;
+          TreeMuMuTauTau->Fill();
+
+
 	  if (isMC && matchRecGen)
 	    {
 	      TLorentzVector GenMu1;
@@ -197,7 +226,7 @@ void MuMuTauMuTauMuAnalyzer::Loop()
               unsigned int indexGenMu1 = -1;
               unsigned int indexGenMu2 = -1;
               unsigned int indexGenMu3 = -1;
-              unsigned int indexGenMu4 = -1;
+	      //              unsigned int indexGenMu4 = -1;
               unsigned int indexGenTauMu1 = -1;
 
 	      if (genMuonPt->size()>0)
@@ -234,41 +263,43 @@ void MuMuTauMuTauMuAnalyzer::Loop()
 		    } // end for loop on GenMu2
 
 	      // --------- search for matched genMu3 for Mu3 --------------      
-	      smallestDR = 0.15;
-	      for (unsigned int iGenMu=0; iGenMu<genMuonPt->size(); iGenMu++)
-		{
-		  TLorentzVector GenMu3Cand;
-		  GenMu3Cand.SetPtEtaPhiM(genMuonPt->at(iGenMu), genMuonEta->at(iGenMu), genMuonPhi->at(iGenMu), genMuonMass->at(iGenMu));
-		  if (Mu3.DeltaR(GenMu3Cand) <= smallestDR && iGenMu != indexGenMu1 && iGenMu != indexGenMu2)
+		  smallestDR = 0.15;
+		  for (unsigned int iGenMu=0; iGenMu<genMuonPt->size(); iGenMu++)
 		    {
-		      smallestDR = Mu3.DeltaR(GenMu3Cand);
-		      findMatchedRecGenMu3 = true;
-		      GenMu3 = GenMu3Cand;
-		      indexGenMu3 = iGenMu;
-		    } // end if Mu3.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1 && iGenMu != indexGenMu2
-		}
+		      TLorentzVector GenMu3Cand;
+		      GenMu3Cand.SetPtEtaPhiM(genMuonPt->at(iGenMu), genMuonEta->at(iGenMu), genMuonPhi->at(iGenMu), genMuonMass->at(iGenMu));
+		      if (Mu3.DeltaR(GenMu3Cand) <= smallestDR && iGenMu != indexGenMu1 && iGenMu != indexGenMu2)
+			{
+			  smallestDR = Mu3.DeltaR(GenMu3Cand);
+			  findMatchedRecGenMu3 = true;
+			  GenMu3 = GenMu3Cand;
+			  indexGenMu3 = iGenMu;
+			} // end if Mu3.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1 && iGenMu != indexGenMu2
+		    } // looping over GenMu for mu 3
+
               // --------- search for matched genMu4 for Mu4 --------------  
-              smallestDR = 0.15;
-              for (unsigned int iGenMu=0; iGenMu<genMuonPt->size(); iGenMu++)
-                {
-                  if (iGenMu == indexGenMu1) continue;
-		  if (iGenMu == indexGenMu2) continue;
-		  if (iGenMu == indexGenMu3) continue;
-                  TLorentzVector GenMu4Cand;
-                  GenMu4Cand.SetPtEtaPhiM(genMuonPt->at(iGenMu), genMuonEta->at(iGenMu), genMuonPhi->at(iGenMu), genMuonMass->at(iGenMu));
-                  if (Mu4.DeltaR(GenMu4Cand) <= smallestDR)
-                    {
-                      smallestDR = Mu4.DeltaR(GenMu4Cand);
-                      findMatchedRecGenMu4 = true;
-                      GenMu4 = GenMu4Cand;
-                    }
-		}// end for loop on GenMu                                   
+		  smallestDR = 0.15;
+		  for (unsigned int iGenMu=0; iGenMu<genMuonPt->size(); iGenMu++)
+		    {
+		      if (iGenMu == indexGenMu1) continue;
+		      if (iGenMu == indexGenMu2) continue;
+		      if (iGenMu == indexGenMu3) continue;
+		      TLorentzVector GenMu4Cand;
+		      GenMu4Cand.SetPtEtaPhiM(genMuonPt->at(iGenMu), genMuonEta->at(iGenMu), genMuonPhi->at(iGenMu), genMuonMass->at(iGenMu));
+		      if (Mu4.DeltaR(GenMu4Cand) <= smallestDR)
+			{
+			  smallestDR = Mu4.DeltaR(GenMu4Cand);
+			  findMatchedRecGenMu4 = true;
+			  GenMu4 = GenMu4Cand;
+			} // if mu4.deltaR(genMuCand) <= smallestDR)
+		    }// end for loop on GenMu                                   
 		} // gen muon pt-> size() > 0
 
+
+	      // --------- search for matched genTauMu for Mu3 --------------  
 	      if (genTauMuPt->size()>0)
                 {
-                  // --------- search for matched genTauMu for Mu3 --------------     
-                  double smallestDR = 0.15;
+		  double smallestDR = 0.15;
                   for (unsigned int iGenTauMu=0; iGenTauMu<genTauMuPt->size(); iGenTauMu++)
                     {
                       TLorentzVector GenTauMuCand;
@@ -283,9 +314,9 @@ void MuMuTauMuTauMuAnalyzer::Loop()
 		    } // end for loop on GenTauMu
 		} // end if genTauMuPt->size()>0    
 
+	      // --------- search for matched genTauMu2 for Mu4 --------------  
 	      if (genTauMuPt->size()>1)
                 {
-                  // --------- search for matched genTauMu2 for Mu4 --------------
 		  double smallestDR = 0.15;
                   for (unsigned int iGenTauMu=0; iGenTauMu<genTauMuPt->size(); iGenTauMu++)
                     {
@@ -302,95 +333,64 @@ void MuMuTauMuTauMuAnalyzer::Loop()
 		} // end if genTauMuPt->size()>0   
 
 	      if(findMatchedRecGenMu1 && findMatchedRecGenMu2 && findMatchedRecGenMu3 && findMatchedRecGenMu4 && findMatchedRecGenTauMu && findMatchedRecGenTauMu2){
-	      genmu1Pt->Fill(GenMu1.Pt(), weight);
-	      genmu1Eta->Fill(GenMu1.Eta(), weight);
-	      genmu1Phi->Fill(GenMu1.Phi(), weight);
-	      genmu1Mass->Fill(GenMu1.M(), weight);
-	      mu1PtVSGenMu1Pt->Fill(Mu1.Pt(), GenMu1.Pt(), weight);
-	      mu1EtaVSGenMu1Eta->Fill(Mu1.Eta(), GenMu1.Eta(), weight);
-	      mu1PhiVSGenMu1Phi->Fill(Mu1.Phi(), GenMu1.Phi(), weight);
+		genmu1Pt->Fill(GenMu1.Pt(), weight);
+		genmu1Eta->Fill(GenMu1.Eta(), weight);
+		genmu1Phi->Fill(GenMu1.Phi(), weight);
+		genmu1Mass->Fill(GenMu1.M(), weight);
+		mu1PtVSGenMu1Pt->Fill(Mu1.Pt(), GenMu1.Pt(), weight);
+		mu1EtaVSGenMu1Eta->Fill(Mu1.Eta(), GenMu1.Eta(), weight);
+		mu1PhiVSGenMu1Phi->Fill(Mu1.Phi(), GenMu1.Phi(), weight);
 
-	      genmu2Pt->Fill(GenMu2.Pt(), weight);
-	      genmu2Eta->Fill(GenMu2.Eta(), weight);
-	      genmu2Phi->Fill(GenMu2.Phi(), weight);
-	      genmu2Mass->Fill(GenMu2.M(), weight);
-	      mu2PtVSGenMu2Pt->Fill(Mu2.Pt(), GenMu2.Pt(), weight);
-	      mu2EtaVSGenMu2Eta->Fill(Mu2.Eta(), GenMu2.Eta(), weight);
-	      mu2PhiVSGenMu2Phi->Fill(Mu2.Phi(), GenMu2.Phi(), weight); 
+		genmu2Pt->Fill(GenMu2.Pt(), weight);
+		genmu2Eta->Fill(GenMu2.Eta(), weight);
+		genmu2Phi->Fill(GenMu2.Phi(), weight);
+		genmu2Mass->Fill(GenMu2.M(), weight);
+		mu2PtVSGenMu2Pt->Fill(Mu2.Pt(), GenMu2.Pt(), weight);
+		mu2EtaVSGenMu2Eta->Fill(Mu2.Eta(), GenMu2.Eta(), weight);
+		mu2PhiVSGenMu2Phi->Fill(Mu2.Phi(), GenMu2.Phi(), weight);
 
-	      genmu3Pt->Fill(GenMu3.Pt(), weight);
-              genmu3Eta->Fill(GenMu3.Eta(), weight);
-              genmu3Phi->Fill(GenMu3.Phi(), weight);
-              genmu3Mass->Fill(GenMu3.M(), weight);
-              mu3PtVSGenMu3Pt->Fill(Mu3.Pt(), GenMu3.Pt(), weight);
-              mu3EtaVSGenMu3Eta->Fill(Mu3.Eta(), GenMu3.Eta(), weight);
-              mu3PhiVSGenMu3Phi->Fill(Mu3.Phi(), GenMu3.Phi(), weight);
+		genmu3Pt->Fill(GenMu3.Pt(), weight);
+		genmu3Eta->Fill(GenMu3.Eta(), weight);
+		genmu3Phi->Fill(GenMu3.Phi(), weight);
+		genmu3Mass->Fill(GenMu3.M(), weight);
+		mu3PtVSGenMu3Pt->Fill(Mu3.Pt(), GenMu3.Pt(), weight);
+		mu3EtaVSGenMu3Eta->Fill(Mu3.Eta(), GenMu3.Eta(), weight);
+		mu3PhiVSGenMu3Phi->Fill(Mu3.Phi(), GenMu3.Phi(), weight);
 
-              genmu4Pt->Fill(GenMu4.Pt(), weight);
-              genmu4Eta->Fill(GenMu4.Eta(), weight);
-              genmu4Phi->Fill(GenMu4.Phi(), weight);
-              genmu4Mass->Fill(GenMu4.M(), weight);
-              mu4PtVSGenMu4Pt->Fill(Mu4.Pt(), GenMu4.Pt(), weight);
-              mu4EtaVSGenMu4Eta->Fill(Mu4.Eta(), GenMu4.Eta(), weight);
-              mu4PhiVSGenMu4Phi->Fill(Mu4.Phi(), GenMu4.Phi(), weight);
+		genmu4Pt->Fill(GenMu4.Pt(), weight);
+		genmu4Eta->Fill(GenMu4.Eta(), weight);
+		genmu4Phi->Fill(GenMu4.Phi(), weight);
+		genmu4Mass->Fill(GenMu4.M(), weight);
+		mu4PtVSGenMu4Pt->Fill(Mu4.Pt(), GenMu4.Pt(), weight);
+		mu4EtaVSGenMu4Eta->Fill(Mu4.Eta(), GenMu4.Eta(), weight);
+		mu4PhiVSGenMu4Phi->Fill(Mu4.Phi(), GenMu4.Phi(), weight);
 
-	      gentauMu1Pt->Fill(GenTauMu1.Pt(), weight);
-	      gentauMu1Eta->Fill(GenTauMu1.Eta(), weight);
-	      gentauMu1Phi->Fill(GenTauMu1.Phi(), weight);
-	      gentauMu1Mass->Fill(GenTauMu1.M(), weight);
+		gentauMu1Pt->Fill(GenTauMu1.Pt(), weight);
+		gentauMu1Eta->Fill(GenTauMu1.Eta(), weight);
+		gentauMu1Phi->Fill(GenTauMu1.Phi(), weight);
+		gentauMu1Mass->Fill(GenTauMu1.M(), weight);
 
-	      gentauMu2Pt->Fill(GenTauMu2.Pt(), weight);
-	      gentauMu2Eta->Fill(GenTauMu2.Eta(), weight);
-	      gentauMu2Phi->Fill(GenTauMu2.Phi(), weight);
-	      gentauMu2Mass->Fill(GenTauMu2.M(), weight);
+		gentauMu2Pt->Fill(GenTauMu2.Pt(), weight);
+		gentauMu2Eta->Fill(GenTauMu2.Eta(), weight);
+		gentauMu2Phi->Fill(GenTauMu2.Phi(), weight);
+		gentauMu2Mass->Fill(GenTauMu2.M(), weight);
 
-	      dRgenMu1genMu2->Fill(GenMu1.DeltaR(GenMu2), weight);
-	      dRgenMu3genTauMu1->Fill(GenMu3.DeltaR(GenTauMu1), weight);
-	      dRgenMu4genTauMu2->Fill(GenMu4.DeltaR(GenTauMu2), weight);
-	      dRgenTaugenTau->Fill(GenTauMu1.DeltaR(GenTauMu2), weight);
-	      dRgenMu3genMu4->Fill(GenMu3.DeltaR(GenMu4), weight);
+		dRgenMu1genMu2->Fill(GenMu1.DeltaR(GenMu2), weight);
+		dRgenMu3genTauMu1->Fill(GenMu3.DeltaR(GenTauMu1), weight);
+		dRgenMu4genTauMu2->Fill(GenMu4.DeltaR(GenTauMu2), weight);
+		dRgenTaugenTau->Fill(GenTauMu1.DeltaR(GenTauMu2), weight);
+		dRgenMu3genMu4->Fill(GenMu3.DeltaR(GenMu4), weight);
 
-	      invMassgenMu1genMu2->Fill((GenMu1+GenMu2).M(),weight);
-	      invMassgenTauMugenTauMu->Fill((GenTauMu1+GenTauMu2).M(), weight);
-
-	      ptgenMu1genMu2->Fill((GenMu1+GenMu2).Pt(), weight);
-	      ptgenTaugenTau->Fill((GenTauMu1+GenTauMu2).Pt(), weight);
-
-	      ptgenMuMuTauMuTauMu->Fill((GenMu1+GenMu2+GenTauMu1+GenTauMu2).Pt(), weight);
-
-	      dRInvMassgenMu1genMu2->Fill(GenMu1.DeltaR(GenMu2), (GenMu1+GenMu2).M(), weight);
-
-	      dRInvMassgenTaugenTau->Fill(GenTauMu1.DeltaR(GenTauMu2), (GenTauMu1+GenTauMu2).M(), weight);
-
+		invMassgenMu1genMu2->Fill((GenMu1+GenMu2).M(),weight);
+		invMassgenTauMugenTauMu->Fill((GenTauMu1+GenTauMu2).M(), weight);
+		ptgenMu1genMu2->Fill((GenMu1+GenMu2).Pt(), weight);
+		ptgenTaugenTau->Fill((GenTauMu1+GenTauMu2).Pt(), weight);
+		ptgenMuMuTauMuTauMu->Fill((GenMu1+GenMu2+GenTauMu1+GenTauMu2).Pt(), weight);
+		dRInvMassgenMu1genMu2->Fill(GenMu1.DeltaR(GenMu2), (GenMu1+GenMu2).M(), weight);
+		dRInvMassgenTaugenTau->Fill(GenTauMu1.DeltaR(GenTauMu2), (GenTauMu1+GenTauMu2).M(), weight);
 
 	      } // if find rec gen for 4 muons
 	    } // isMC && matchRecGen
-
-          // ----- fill flat trees -----
-          invMassMuMu = (Mu1+Mu2).M();
-          visMassTauTau = (Mu3+Mu4).M();
-          visMassMuMuTauTau = (Mu1+Mu2+Mu3+Mu4).M();
-
-          deltaRMuMu = Mu1.DeltaR(Mu2);
-          deltaRTauTau = Mu3.DeltaR(Mu4);
-
-          Mu1Pt = Mu1.Pt();
-          Mu1Eta = Mu1.Eta();
-
-          Mu2Pt = Mu2.Pt();
-          Mu2Eta = Mu2.Eta();
-
-          Tau1Pt = Mu3.Pt();
-          Tau1Eta = Mu3.Eta();
-          Tau1Isolation = Mu3Iso;
-
-          Tau2Pt = Mu4.Pt();
-          Tau2Eta = Mu4.Eta();
-          Tau2Isolation = Mu4Iso;
-
-          eventWeight = weight/summedWeights;
-          TreeMuMuTauTau->Fill();
-
       } // end if findMu1 && findMu2 && findMuMuPair
    }// end loop for events
 

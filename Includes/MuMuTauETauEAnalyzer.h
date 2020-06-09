@@ -120,20 +120,17 @@ public :
    TBranch        *b_genElectronPt;   //!
    TBranch        *b_genElectronEta;   //!                                                                 
    TBranch        *b_genElectronPhi;   //!
-   TBranch        *b_genElectronMass;  //!                                                                                                                                        
-   TBranch        *b_genMuonPDGId;   //!                                                                                                                                           
-   TBranch        *b_genMuonMotherPDGId;   //!                                                                                                                                     
-   TBranch        *b_genTauElePt;   //!                                                                                                                                            
-   TBranch        *b_genTauEleEta;   //!                                                                                                                                           
-   TBranch        *b_genTauElePhi;   //!                                                                                                                                           
-   TBranch        *b_genTauEleMass;   //!                                                                                                                                          
-   TBranch        *b_genTauElePDGId;   //!                                                                                                                                         
-   TBranch        *b_genTauEleMotherPDGId;   //!                                                                                                                                   
+   TBranch        *b_genElectronMass;  //!
+   TBranch        *b_genMuonPDGId;   //!
+   TBranch        *b_genMuonMotherPDGId;   //!
+   TBranch        *b_genTauElePt;   //!
+   TBranch        *b_genTauEleEta;   //!
+   TBranch        *b_genTauElePhi;   //!
+   TBranch        *b_genTauEleMass;   //!
+   TBranch        *b_genTauElePDGId;   //! 
+   TBranch        *b_genTauEleMotherPDGId;   //!
    TBranch        *b_genTauEleVisPt;   //!    
    TBranch        *b_genTauEleVisMass;   //! 
-
-
-
 
    TString fileName;
    TString outputDir;

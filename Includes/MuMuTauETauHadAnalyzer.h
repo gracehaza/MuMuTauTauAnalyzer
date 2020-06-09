@@ -302,10 +302,6 @@ MuMuTauETauHadAnalyzer::MuMuTauETauHadAnalyzer(TString fileName_, TString output
     deepTauVSjet = deepTauVSjet_;
     tauDecayModeThreshold = tauDecayModeThreshold_;
     invMassMu1Mu2->SetBins(20, diMuonMassLowThreshold, diMuonMassHighThreshold);
-    tauMVAIsoRawORWP = tauMVAIsoRawORWP_;
-    tauMVAIsoRawThreshold = tauMVAIsoRawThreshold_;
-    tauMVAIsoWP = tauMVAIsoWP_;
-    tauAntiMuDisc = tauAntiMuDisc_;
 
     //--- Create output directory if necessary ---
     if (nMaxEvents > 0) {

@@ -92,10 +92,11 @@ void MuMuTauMuTauHadAnalyzer::Loop()
       bool findMuTauPair = false;
       // ------- start loop on tau candidates -------
       for (unsigned int iTau=0; iTau<recoTauPt->size(); iTau++)
+	{	
 
-      {
           if (deepTauID && recoTauDeepVSjetraw->size() > 0)
-          {
+	    {
+
               // -------------------------------------------------------------------------------
               bool condTauDeepVSeLoose = deepTauVSele == "LOOSE" && recoTauDeepVSeLoose->at(iTau)>0;
               bool condTauDeepVSjetLoose = deepTauVSjet == "LOOSE" && recoTauDeepVSjetLoose->at(iTau)>0;
@@ -147,7 +148,6 @@ void MuMuTauMuTauHadAnalyzer::Loop()
               bool condInvertTauDeepVSeVVVLoose = recoTauDeepVSeVVVLoose->at(iTau)>0;
               bool condInvertTauDeepVSmuVLoose = recoTauDeepVSmuVLoose->at(iTau)>0;
               // -------------------------------------------------------------------------------
-
               bool passCondInvertTauDeepVSjet = ((condInvertTauDeepVSjetLoose || condInvertTauDeepVSjetMedium || condInvertTauDeepVSjetTight || condInvertTauDeepVSjetVLoose || condInvertTauDeepVSjetVTight || condInvertTauDeepVSjetVVLoose || condInvertTauDeepVSjetVVTight) && condInvertTauDeepVSjetVVVLoose && condInvertTauDeepVSeVVVLoose && condInvertTauDeepVSmuVLoose);
               // -------------------------------------------------------------------------------
 
@@ -302,8 +302,6 @@ void MuMuTauMuTauHadAnalyzer::Loop()
 
           eventWeight = weight/summedWeights;
           TreeMuMuTauTau->Fill();
-      } // end if findMu1 && findMu2 && findMuTauPair
-   }// end loop for events
 
 
 	  if (isMC && matchRecGen)
@@ -324,9 +322,11 @@ void MuMuTauMuTauHadAnalyzer::Loop()
               unsigned int indexGenMu1 = -1;
               unsigned int indexGenMu2 = -1;
 
-              if (genMuonPt->size()>0)
-		{
+
+
                   // --------- search for matched genMu1 for Mu1 --------------
+	      if (genMuonPt->size()>0)
+		{
                   double smallestDR = 0.15;
                   for (unsigned int iGenMu=0; iGenMu<genMuonPt->size(); iGenMu++)
 		    {
@@ -355,7 +355,6 @@ void MuMuTauMuTauHadAnalyzer::Loop()
                           indexGenMu2 = iGenMu;
 			} // end if Mu2.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1
 		    } // end for loop on GenMu2
-
 		 
                   // --------- search for matched genMu3 for Mu3 --------------
 		  smallestDR = 0.15;
@@ -370,12 +369,11 @@ void MuMuTauMuTauHadAnalyzer::Loop()
 			  GenMu3 = GenMuCand;
 			} // end if Mu3.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1 && iGenMu != indexGenMu2
 		    } // end for loop on GenMu3
-		} // end if genMuonPt->size()>0
+		} // gen mu size > 0
 
-
+                  // --------- search for matched genTauMu for Mu3 --------------
 	      if (genTauMuPt->size()>0)
 		{
-                  // --------- search for matched genTauMu for Mu3 --------------
                   double smallestDR = 0.15;
                   for (unsigned int iGenTauMu=0; iGenTauMu<genTauMuPt->size(); iGenTauMu++)
 		    {
@@ -388,12 +386,12 @@ void MuMuTauMuTauHadAnalyzer::Loop()
                           GenTauMu = GenTauMuCand;
 			} // end if Mu3.DeltaR(GenTauMuCand) <= smallestDR
 		    } // end for loop on GenTauMu
-		} // end if genTauMuPt->size()>0
+		} // size of genTauMu->pt > 0
 
+                  // --------- search for matched genTauHad for Tau --------------
 	      if (genTauHadPt->size()>0)
 		{
-                  // --------- search for matched genTauHad for Tau --------------
-                  double smallestDR = 0.15;
+                  smallestDR = 0.15;
 		  for (unsigned int iGenTauHad=0; iGenTauHad<genTauHadPt->size(); iGenTauHad++)
 		    {
                       TLorentzVector GenTauHadCand;
@@ -406,7 +404,7 @@ void MuMuTauMuTauHadAnalyzer::Loop()
                           GenTauHadVisiblePt = genTauHadVisPt->at(iGenTauHad);
 			} // end if Tau.DeltaR(GenTauHad) <= smallestDR
 		    }// end for loop on GenTauHad
-		} // end if genTauHadPt->size()>0
+		} // end if size of genTauHad->Pt >0 
 
 	      if(findMatchedRecGenMu1 && findMatchedRecGenMu2 && findMatchedRecGenTauMu && findMatchedRecGenTauHad){
 		genmuPt->Fill(GenMu1.Pt(), weight);
@@ -448,7 +446,7 @@ void MuMuTauMuTauHadAnalyzer::Loop()
 		gentauEta->Fill(GenTauHad.Eta(), weight);
 		gentauPhi->Fill(GenTauHad.Phi(), weight);
 		gentauMass->Fill(GenTauHad.M(), weight);
-		recomatchedtauPt->Fill(Tau.Pt(), weight);
+
 		tauPtVSGenTauHadPt->Fill(Tau.Pt(), GenTauHad.Pt(), weight);
 		tauEtaVSGenTauHadEta->Fill(Tau.Eta(), GenTauHad.Eta(), weight);
 		tauPhiVSGenTauHadPhi->Fill(Tau.Phi(), GenTauHad.Phi(), weight);
@@ -466,7 +464,7 @@ void MuMuTauMuTauHadAnalyzer::Loop()
 		invMassgenMu3genTau->Fill((GenMu3+GenTauHad).M(), weight);
 		invMassgenTaugenTau->Fill((GenTauMu+GenTauHad).M(), weight);
 
-		invMassgenMuMuTauMuTauHad->Fill((GenMu1+GenMu2+GenMu3+GenTauHad).M(), weight);
+		invMassgenMuMuTauMuTauHad->Fill((GenMu1+GenMu2+GenTauMu+GenTauHad).M(), weight);
 				
 		ptgenMu1genMu2->Fill((GenMu1+GenMu2).Pt(), weight);
 		ptgenMu3genTau->Fill((GenMu3+GenTauHad).Pt(), weight);

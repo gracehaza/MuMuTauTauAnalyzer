@@ -36,6 +36,7 @@ void MuMuTauHadTauHadAnalyzer::Loop()
       TLorentzVector Mu2;
       TLorentzVector Tau1;
       TLorentzVector Tau2;
+      //      TLorentzVector DeepDiTaujet;
 
       float Mu1Iso;
       float Mu2Iso;
@@ -44,6 +45,7 @@ void MuMuTauHadTauHadAnalyzer::Loop()
       float Tau2Iso;
       float Tau2DM;
 
+      unsigned int indexGenTau = -1;
       unsigned int indexMu1 = -1;
       // =============================================================================
 
@@ -85,6 +87,79 @@ void MuMuTauHadTauHadAnalyzer::Loop()
           
       if (!findMu2) continue;
       bool findTauTauPair = false;
+
+      float deepvalue;
+      //      std::cout << "deep di tau size" << DeepDiTaujetPt->size() << std::endl;
+      std::cout <<"gen tau had size line 93: " << genTauHadPt->size() << std::endl;
+      for (unsigned int iDeepDiTaujet=0; iDeepDiTaujet<DeepDiTaujetPt->size(); iDeepDiTaujet++){
+	std::cout << "line 94: " << DeepDiTaujetPt->size() << std::endl;	
+	TLorentzVector DeepDiTaujet;
+	TLorentzVector combinedTaus;
+	double smallestDRjettau = 0.15;
+	DeepDiTaujet.SetPtEtaPhiE(DeepDiTaujetPt->at(iDeepDiTaujet), DeepDiTaujetEta->at(iDeepDiTaujet), DeepDiTaujetPhi->at(iDeepDiTaujet), DeepDiTaujetEnergy->at(iDeepDiTaujet));
+	//	std::cout << "line 97" << std::endl;
+	std::cout << "gen tau had pt size: " << genTauHadPt->size() << std::endl;
+	for (unsigned int iGenTau=0; iGenTau<genTauHadPt->size(); iGenTau++){
+	  std::cout << "line 99" << std::endl;
+	  indexGenTau = iGenTau;
+	  TLorentzVector GenTauHad;
+	  GenTauHad.SetPtEtaPhiM(genTauHadPt->at(iGenTau),genTauHadEta->at(iGenTau),genTauHadPhi->at(iGenTau),genTauHadMass->at(iGenTau));
+	  std::cout << "line103" << std::endl;
+	  for (unsigned int iGenTau2=0; iGenTau2<genTauHadPt->size(); iGenTau2++){
+	    std::cout << "line 105" << std::endl;
+	    TLorentzVector GenTauHad2;
+	    // if (iGenTau2 == indexGenTau) continue;
+	    GenTauHad2.SetPtEtaPhiM(genTauHadPt->at(iGenTau2),genTauHadEta->at(iGenTau2),genTauHadPhi->at(iGenTau2),genTauHadMass->at(iGenTau2));
+	    if (GenTauHad2.DeltaR(GenTauHad) < smallestDR){
+		smallestDR = GenTauHad2.DeltaR(GenTauHad);
+		combinedTaus = GenTauHad+GenTauHad2;
+	    }// DR between two taus
+	  } // second tau
+	}// for first tau
+	if(DeepDiTaujet.DeltaR(combinedTaus) < smallestDRjettau){
+	  smallestDRjettau = DeepDiTaujet.DeltaR(combinedTaus);
+	} // smallest DR jet and two gen taus
+	//	matchedDeepDiTauValue->Fill(DeepDiTauValue->at(iDeepDiTaujet));
+	deepvalue = DeepDiTauValue->at(iDeepDiTaujet);
+	std::cout << "deep di tau score: " << deepvalue << std::endl;
+	//	matchedDeepDiTauValue->Fill(deepvalue);
+      } // loop over DeepDiTau jets
+
+      //      matchedDeepDiTauValue->Fill(deepvalue);
+      /*
+      if (genMuonPt->size()>0)
+	{
+	  double smallestDR = 0.15;
+	  for (unsigned int iGenTauHad=0; iTauHad<genTau->size(); iGenTauHad++)
+	    {
+	      TLorentzVector iGenTauHad;
+	      GenTauCand.SetPtEtaPhiM(genMuonPt->at(iGenMu), genMuonEta->at(iGenMu), genMuonPhi->at(iGenMu), genMuonMass->at(iGenMu));
+	      if (Mu1.DeltaR(GenMuCand) <= smallestDR)
+		{
+		  smallestDR = Mu1.DeltaR(GenMuCand);
+		  findMatchedRecGenMu1 = true;
+		  GenMu1 = GenMuCand;
+		  indexGenMu1 = iGenMu;
+		} // end if Mu1.DeltaR(GenMuCand) <= smallestDR                                                                                            
+	    } // end for loop on GenMu1                                                                                                                    
+
+	  // --------- search for matched genMu2 for Mu2 --------------                                                                                    
+	  smallestDR = 0.15;
+	  for (unsigned int iGenMu=0; iGenMu<genMuonPt->size(); iGenMu++)
+	    {
+	      TLorentzVector GenMuCand;
+	      GenMuCand.SetPtEtaPhiM(genMuonPt->at(iGenMu), genMuonEta->at(iGenMu), genMuonPhi->at(iGenMu), genMuonMass->at(iGenMu));
+	      if (Mu2.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1)
+		{
+		  smallestDR = Mu2.DeltaR(GenMuCand);
+		  findMatchedRecGenMu2 = true;
+		  GenMu2 = GenMuCand;
+		  indexGenMu2 = iGenMu;
+		} // end if Mu2.DeltaR(GenMuCand) <= smallestDR && iGenMu != indexGenMu1                                                                   
+	    } // end for loop on GenMu2    
+
+      */
+    
 
       // ------- start loop on tau candidates -------
       for (unsigned int iTau=0; iTau<recoTauPt->size(); iTau++)
@@ -338,6 +413,8 @@ void MuMuTauHadTauHadAnalyzer::Loop()
           weight *= genEventWeight; 
       } // end if isMC == true
 
+      matchedDeepDiTauValue->Fill(deepvalue);
+
       // ---- fill histograms ----
       if (findMu1 && findMu2 && findTauTauPair)
       {
@@ -385,6 +462,8 @@ void MuMuTauHadTauHadAnalyzer::Loop()
 
           ptMuMuTauHadTauHad->Fill((Mu1+Mu2+Tau1+Tau2).Pt(), weight);
           invMassMuMuTauHadTauHad->Fill((Mu1+Mu2+Tau1+Tau2).M(), weight);
+
+	  //  matchedDeepDiTauValue->Fill(deepvalue, weight); 
 
           // ----- fill flat trees -----
           invMassMuMu = (Mu1+Mu2).M();

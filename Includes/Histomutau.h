@@ -248,6 +248,8 @@ class Histomutau{
         TH1D* dRgenMu1genTau;
         TH1D* dRgenMu1genTau2;
 
+	TH1D* matchedDeepDiTauValue;
+
 	TH1D* dRgenMu2genMu3;
         TH1D* dRgenMu2genMu4;
         TH1D* dRgenMu2genEle1;

@@ -90,6 +90,17 @@ public :
    vector<float>   *recoMETPhi;
    vector<float>   *recoMETPx;
    vector<float>   *recoMETPy;
+   //   vector<float>   *deepditaupt;
+   vector<float>   *DeepDiTaujetPt;
+   vector<float>   *DeepDiTaujetEta;
+   vector<float>   *DeepDiTaujetPhi;
+   vector<float>   *DeepDiTaujetEnergy;
+   vector<float>   *DeepDiTauValue;
+   vector<float>   *genTauHadPt;
+   vector<float>   *genTauHadEta;
+   vector<float>   *genTauHadPhi;
+   vector<float>   *genTauHadMass;
+
    Int_t           recoNPrimaryVertex;
    Int_t           eventID;
    Int_t           recoNPU;
@@ -166,6 +177,16 @@ public :
    TBranch        *b_recoNPU;   //!
    TBranch        *b_trueNInteraction;   //!
    TBranch        *b_genEventWeight;   //!
+   TBranch        *b_DeepDiTaujetPt;   //!
+   TBranch        *b_DeepDiTaujetEta;   //!
+   TBranch        *b_DeepDiTaujetPhi;   //!
+   TBranch        *b_DeepDiTaujetEnergy; //!
+   // TBranch       *b_deepditaupt;    //!
+   TBranch        *b_genTauHadPt;    //!
+   TBranch        *b_genTauHadEta;    //!
+   TBranch        *b_genTauHadPhi;    //!
+   TBranch        *b_genTauHadMass;    //!
+   TBranch        *b_DeepDiTauValue;   //!
 
    TString fileName;
    TString outputDir;
@@ -359,6 +380,17 @@ void MuMuTauHadTauHadAnalyzer::Init()
    recoMETPhi = 0;
    recoMETPx = 0;
    recoMETPy = 0;
+   DeepDiTauValue = 0;
+   DeepDiTaujetPt = 0;
+   DeepDiTaujetEta = 0;
+   DeepDiTaujetPhi = 0;
+   DeepDiTaujetEnergy = 0;
+   genTauHadPt = 0;
+   genTauHadEta = 0;
+   genTauHadPhi = 0;
+   genTauHadMass = 0;
+   // deepditaupt = 0;
+
    // Set branch addresses and branch pointers
    fCurrent = -1;
    fChain->SetMakeClass(1);
@@ -442,6 +474,17 @@ void MuMuTauHadTauHadAnalyzer::Init()
        fChain->SetBranchAddress("recoNPU", &recoNPU, &b_recoNPU);
        fChain->SetBranchAddress("trueNInteraction", &trueNInteraction, &b_trueNInteraction);
        fChain->SetBranchAddress("genEventWeight", &genEventWeight, &b_genEventWeight);
+       fChain->SetBranchAddress("DeepDiTauValue", &DeepDiTauValue, &b_DeepDiTauValue);
+       fChain->SetBranchAddress("DeepDiTaujetPt", &DeepDiTaujetPt, &b_DeepDiTaujetPt);
+       fChain->SetBranchAddress("DeepDiTaujetEta", &DeepDiTaujetEta, &b_DeepDiTaujetEta);
+       fChain->SetBranchAddress("DeepDiTaujetPhi", &DeepDiTaujetPhi, &b_DeepDiTaujetPhi);
+       fChain->SetBranchAddress("DeepDiTaujetEnergy", &DeepDiTaujetEnergy, &b_DeepDiTaujetEnergy);
+       fChain->SetBranchAddress("genTauHadPt", &genTauHadPt, &b_genTauHadPt);
+       fChain->SetBranchAddress("genTauHadEta", &genTauHadEta, &b_genTauHadEta);
+       fChain->SetBranchAddress("genTauHadPhi", &genTauHadPhi, &b_genTauHadPhi);
+       fChain->SetBranchAddress("genTauHadMass", &genTauHadMass, &b_genTauHadMass);
+       //  fChain->SetBranchAddress("deepditaupt",&deepditaupt, &b_deepditaupt);
+
    } // end if isMC
    Notify();
 }

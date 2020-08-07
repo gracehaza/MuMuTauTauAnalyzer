@@ -95,7 +95,9 @@ void MuMuTauHadTauHadAnalyzer::Loop()
 	double smallestDRjettau = 0.15;
 	DeepDiTaujet.SetPtEtaPhiE(DeepDiTaujetPt->at(iDeepDiTaujet), DeepDiTaujetEta->at(iDeepDiTaujet), DeepDiTaujetPhi->at(iDeepDiTaujet), DeepDiTaujetEnergy->at(iDeepDiTaujet));
 	std::cout << "gen tau had pt size: " << genTauHadPt->size() << std::endl;
+	//	float smallestDRtwotaus = 0.4;
 	for (unsigned int iGenTau=0; iGenTau<genTauHadPt->size(); iGenTau++){
+	  float smallestDRtwotaus = 0.4;
 	  std::cout << "line 99" << std::endl;
 	  indexGenTau = iGenTau;
 	  TLorentzVector GenTauHad;
@@ -104,8 +106,9 @@ void MuMuTauHadTauHadAnalyzer::Loop()
 	   	    TLorentzVector GenTauHad2;
 	    if (iGenTau2 == indexGenTau) continue;
 	    GenTauHad2.SetPtEtaPhiM(genTauHadPt->at(iGenTau2),genTauHadEta->at(iGenTau2),genTauHadPhi->at(iGenTau2),genTauHadMass->at(iGenTau2));
-	    if (GenTauHad2.DeltaR(GenTauHad) < smallestDR){
-		smallestDR = GenTauHad2.DeltaR(GenTauHad);
+	    std::cout << "line 107" << std::endl;
+	    if (GenTauHad2.DeltaR(GenTauHad) < smallestDRtwotaus){
+		smallestDRtwotaus = GenTauHad2.DeltaR(GenTauHad);
 		combinedTaus = GenTauHad+GenTauHad2;
 	    }// DR between two taus
 	  } // second tau

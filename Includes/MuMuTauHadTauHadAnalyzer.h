@@ -100,6 +100,7 @@ public :
    vector<float>   *genTauHadEta;
    vector<float>   *genTauHadPhi;
    vector<float>   *genTauHadMass;
+   vector <float>  *genTauHadPDGId;
 
    Int_t           recoNPrimaryVertex;
    Int_t           eventID;
@@ -187,6 +188,7 @@ public :
    TBranch        *b_genTauHadPhi;    //!
    TBranch        *b_genTauHadMass;    //!
    TBranch        *b_DeepDiTauValue;   //!
+   TBranch        *b_genTauHadPDGId;   //!
 
    TString fileName;
    TString outputDir;
@@ -389,6 +391,8 @@ void MuMuTauHadTauHadAnalyzer::Init()
    genTauHadEta = 0;
    genTauHadPhi = 0;
    genTauHadMass = 0;
+   genTauHadPDGId = 0;
+
    // deepditaupt = 0;
 
    // Set branch addresses and branch pointers
@@ -483,6 +487,8 @@ void MuMuTauHadTauHadAnalyzer::Init()
        fChain->SetBranchAddress("genTauHadEta", &genTauHadEta, &b_genTauHadEta);
        fChain->SetBranchAddress("genTauHadPhi", &genTauHadPhi, &b_genTauHadPhi);
        fChain->SetBranchAddress("genTauHadMass", &genTauHadMass, &b_genTauHadMass);
+       fChain->SetBranchAddress("genTauHadPDGId", &genTauHadPDGId, &b_genTauHadPDGId);
+
        //  fChain->SetBranchAddress("deepditaupt",&deepditaupt, &b_deepditaupt);
 
    } // end if isMC

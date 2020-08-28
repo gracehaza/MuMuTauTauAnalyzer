@@ -115,6 +115,7 @@ void MuMuTauHadTauHadAnalyzer::Loop()
 		std::cout << "smallest DR:" << smallestDRtwotaus <<  std::endl;
  		combinedTaus = GenTauHad+GenTauHad2;
 		std::cout << " parent ID second tau: " << genTauHadMotherPDGId->at(iGenTau2) << std::endl;           
+		std::cout << "combined Tau pt: " << combinedTaus.Pt() <<  std::endl;
 		findgenTaugenTauPair = true;
 		/*
 	      }// DR between two taus                                                                                                                               

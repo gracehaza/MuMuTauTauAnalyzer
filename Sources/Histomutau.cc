@@ -168,6 +168,8 @@ Histomutau::Histomutau(){
 
     matchedDeepDiTauValue = newTH1D("matchedDeepDiTauValue", "matchedDeepDiTauValue", 50, 0, 1);
 
+    matchedrecojetpt = newTH1D("matchedrecojetpt", "matchedrecojetpt", 50, 0, 400);
+
     mu1Iso = newTH1D("mu1Iso", "#mu_{1}^{iso}", 20, 0, 0.25);
     mu2Iso = newTH1D("mu2Iso", "#mu_{2}^{iso}", 20, 0, 0.25);
     mu3Iso = newTH1D("mu3Iso", "#mu_{3}^{iso}", 20, 0, 20);
@@ -292,6 +294,8 @@ Histomutau::Histomutau(){
     ptgenMuMuTauEleTauHad = newTH1D("ptgenMuMuTauEleTauHad", "p_{T}(#mu#mue#tau)[GeV]", NBinsMu1Mu2Mu3TauPt, Mu1Mu2Mu3TauPtBin);
     ptgenMuMuTauHadTauHad = newTH1D("ptgenMuMuTauHadTauHad", "p_{T}(#mu#mu#tau#tau)[GeV]", NBinsMu1Mu2Mu3TauPt, Mu1Mu2Mu3TauPtBin);
 
+
+    gentauhadpairpt = newTH1D("gentauhadpairpt", "p_{T}(gen#tau_{had}gen#tau_{had}",50,0,400);
 
     genmuPt = newTH1D("genmuPt", "p_{T}(#mu) [GeV]", NBinsgenMuPt, genMuPtBin);
 

@@ -177,6 +177,8 @@ class Histomutau{
         TH1D* ptgenMuMuTauEleTauHad;
         TH1D* ptgenMuMuTauHadTauHad;
 
+	TH1D* matchedrecojetpt;
+	TH1D* gentauhadpairpt;
 	TH1D* genmuPt;
 
         TH1D* genmu1Pt;

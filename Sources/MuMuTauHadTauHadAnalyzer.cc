@@ -91,9 +91,10 @@ void MuMuTauHadTauHadAnalyzer::Loop()
       bool findTauTauPair = false;
       bool findgenTaugenTauPair = false;
 
+      bool matchrecojetditau = false;
       TLorentzVector GenTauHad;
       TLorentzVector GenTauHad2;
-     
+      TLorentzVector matchedjet;     
       TLorentzVector combinedTaus;
 
       double smallestDRjettau = 0.1;
@@ -104,6 +105,7 @@ void MuMuTauHadTauHadAnalyzer::Loop()
 	std::cout << " parent ID first tau: " << genTauHadMotherPDGId->at(iGenTau) << std::endl;                                            
 	GenTauHad.SetPtEtaPhiM(genTauHadPt->at(iGenTau),genTauHadEta->at(iGenTau),genTauHadPhi->at(iGenTau),genTauHadMass->at(iGenTau));
 	float smallestDRtwotaus = 0.4;
+	bool findGenTauHad2 = false;
 	for (unsigned int iGenTau2=0; iGenTau2<genTauHadPt->size(); iGenTau2++){
 	  TLorentzVector GenTauHad2Cand;
 	  if (iGenTau2 != indexGenTau){
@@ -116,30 +118,36 @@ void MuMuTauHadTauHadAnalyzer::Loop()
  		combinedTaus = GenTauHad+GenTauHad2;
 		std::cout << " parent ID second tau: " << genTauHadMotherPDGId->at(iGenTau2) << std::endl;           
 		std::cout << "combined Tau pt: " << combinedTaus.Pt() <<  std::endl;
-		findgenTaugenTauPair = true;
-		/*
-	      }// DR between two taus                                                                                                                               
-	    } // opposite charge                                                                                                                                    
-	  } // not the same tau                                                                                                                                     
-	} // second tau                                                                                                                                             
-      }// for first tau        
-		*/
-
+	       	//	if(combinedTaus.Pt() > 25){
+		  findGenTauHad2 = true; 
+		  // findgenTaugenTauPair = true;
+		  //}
+		  //pT cut on di tau had; seems unnecessary
       for (unsigned int iDeepDiTaujet=0; iDeepDiTaujet<DeepDiTaujetPt->size(); iDeepDiTaujet++){
 	TLorentzVector DeepDiTaujet;
 	DeepDiTaujet.SetPtEtaPhiE(DeepDiTaujetPt->at(iDeepDiTaujet), DeepDiTaujetEta->at(iDeepDiTaujet), DeepDiTaujetPhi->at(iDeepDiTaujet), DeepDiTaujetEnergy->at(iDeepDiTaujet));
 	if(DeepDiTaujet.DeltaR(combinedTaus) < smallestDRjettau){
+	 if(DeepDiTaujet.Pt() > 50){
 	  smallestDRjettau = DeepDiTaujet.DeltaR(combinedTaus);
 	  std::cout << "smallest DR jet tau: " << smallestDRjettau << std::endl;
+	  matchrecojetditau = true;
 	  deepvalue = DeepDiTauValue->at(iDeepDiTaujet);
-	  //std::cout << " deep di tau score: " << deepvalue << std::endl;  
-        }// smallest DR jet and two gen taus
+	  matchedjet.SetPtEtaPhiE(DeepDiTaujetPt->at(iDeepDiTaujet), DeepDiTaujetEta->at(iDeepDiTaujet), DeepDiTaujetPhi->at(iDeepDiTaujet), DeepDiTaujetEnergy->at(iDeepDiTaujet));	
+  //std::cout << " deep di tau score: " << deepvalue << std::endl;  
+	  }// pT cut
+	} // smallest DRjet and two gen taus
       }// loop over DeepDiTau jets
       // matchedDeepDiTauValue->Fill(deepvalue);
 	      } // smallest DR between taus
 	    } // opp charge
 	  } // if different tau
 	} // second tau
+	if(!findGenTauHad2) continue;
+	else{
+	  findgenTaugenTauPair = true;
+	  break;
+	} // end if find GenTauHad2
+
       } //first tau
 
       /*
@@ -432,8 +440,9 @@ void MuMuTauHadTauHadAnalyzer::Loop()
       } // end if isMC == true
 
       //      matchedDeepDiTauValue->Fill(deepvalue);
-      if (findMu1 && findMu2 && findgenTaugenTauPair){
-	//	std::cout << "line 428" << std::endl;
+      if (findMu1 && findMu2 && findgenTaugenTauPair && matchrecojetditau){
+	gentauhadpairpt->Fill(combinedTaus.Pt(), weight);
+	matchedrecojetpt->Fill(matchedjet.Pt(), weight);
 	dRgenTaugenTau->Fill(GenTauHad.DeltaR(GenTauHad2), weight);
 	matchedDeepDiTauValue->Fill(deepvalue);
       }

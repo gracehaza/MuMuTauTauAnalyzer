@@ -178,7 +178,7 @@ Histomutau::Histomutau(){
     ele2Iso = newTH1D("ele2Iso", "e_{2}^{iso}", 20, 0, 20);
     tauIsoMVA = newTH1D("tauIsoMVA", "#tau^{iso}", 20, -1, 1);
     tau2IsoMVA = newTH1D("tau2IsoMVA", "#tau_{2}^{iso}", 20, -1, 1);
-
+    recoTauDeepVSjetrawscore= newTH1D("recoTauDeepVSjetrawscore", "recoTauDeepVSjetrawscore", 20,0,1);
     /*
     unMatchedEleIso = newTH1D("unMatchedEleIso", "e^{iso}(unMatch)", 200, 0, 200);
     unMatchedTauIsoMVA = newTH1D("unMatchedTauIsoMVA", "#tau^{iso}(unMatch)", 20, -1, 1);

@@ -75,6 +75,8 @@ class Histomutau{
         TH1D* tauIsoMVA;
         TH1D* tau2IsoMVA;
 
+	TH1D* recoTauDeepVSjetrawscore;
+
         TH1D* mu1Pt;
         TH1D* mu1Eta;
         TH1D* mu1Phi;

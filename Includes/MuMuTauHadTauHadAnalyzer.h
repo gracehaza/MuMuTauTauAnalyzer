@@ -81,20 +81,20 @@ public :
    vector<float>   *recoTauAntiEleMVAMedium;
    vector<float>   *recoTauAntiEleMVATight;
    vector<float>   *recoTauAntiEleMVAVTight;
-   vector<float>   *recoJetPt;
-   vector<float>   *recoJetEta;
-   vector<float>   *recoJetPhi;
-   vector<float>   *recoJetEnergy;
+   vector<float>   *jet_pt;
+   vector<float>   *jet_eta;
+   vector<float>   *jet_phi;
+   vector<float>   *jet_energy;
    vector<float>   *recoJetCSV;
    vector<float>   *recoMET;
    vector<float>   *recoMETPhi;
    vector<float>   *recoMETPx;
    vector<float>   *recoMETPy;
    //   vector<float>   *deepditaupt;
-   vector<float>   *DeepDiTaujetPt;
-   vector<float>   *DeepDiTaujetEta;
-   vector<float>   *DeepDiTaujetPhi;
-   vector<float>   *DeepDiTaujetEnergy;
+   //   vector<float>   *DeepDiTaujetPt;
+   // vector<float>   *DeepDiTaujetEta;
+   //vector<float>   *DeepDiTaujetPhi;
+   //vector<float>   *DeepDiTaujetEnergy;
    vector<float>   *DeepDiTauValue;
    vector<float>   *genTauHadPt;
    vector<float>   *genTauHadEta;
@@ -164,10 +164,10 @@ public :
    TBranch        *b_recoTauAntiEleMVAMedium;   //!
    TBranch        *b_recoTauAntiEleMVATight;   //!
    TBranch        *b_recoTauAntiEleMVAVTight;   //!
-   TBranch        *b_recoJetPt;   //!
-   TBranch        *b_recoJetEta;   //!
-   TBranch        *b_recoJetPhi;   //!
-   TBranch        *b_recoJetEnergy;   //!
+   TBranch        *b_jet_pt;   //!
+   TBranch        *b_jet_eta;   //!
+   TBranch        *b_jet_phi;   //!
+   TBranch        *b_jet_energy;   //!
    TBranch        *b_recoJetCSV;   //!
    TBranch        *b_recoMET;   //!
    TBranch        *b_recoMETPhi;   //!
@@ -178,10 +178,10 @@ public :
    TBranch        *b_recoNPU;   //!
    TBranch        *b_trueNInteraction;   //!
    TBranch        *b_genEventWeight;   //!
-   TBranch        *b_DeepDiTaujetPt;   //!
-   TBranch        *b_DeepDiTaujetEta;   //!
-   TBranch        *b_DeepDiTaujetPhi;   //!
-   TBranch        *b_DeepDiTaujetEnergy; //!
+   //TBranch        *b_DeepDiTaujetPt;   //!
+   //TBranch        *b_DeepDiTaujetEta;   //!
+   // TBranch        *b_DeepDiTaujetPhi;   //!
+   //TBranch        *b_DeepDiTaujetEnergy; //!
    // TBranch       *b_deepditaupt;    //!
    TBranch        *b_genTauHadPt;    //!
    TBranch        *b_genTauHadEta;    //!
@@ -374,20 +374,20 @@ void MuMuTauHadTauHadAnalyzer::Init()
    recoTauAntiEleMVAMedium = 0;
    recoTauAntiEleMVATight = 0;
    recoTauAntiEleMVAVTight = 0;
-   recoJetPt = 0;
-   recoJetEta = 0;
-   recoJetPhi = 0;
-   recoJetEnergy = 0;
+   jet_pt = 0;
+   jet_eta = 0;
+   jet_phi = 0;
+   jet_energy = 0;
    recoJetCSV = 0;
    recoMET = 0;
    recoMETPhi = 0;
    recoMETPx = 0;
    recoMETPy = 0;
    DeepDiTauValue = 0;
-   DeepDiTaujetPt = 0;
-   DeepDiTaujetEta = 0;
-   DeepDiTaujetPhi = 0;
-   DeepDiTaujetEnergy = 0;
+   // DeepDiTaujetPt = 0;
+   // DeepDiTaujetEta = 0;
+   // DeepDiTaujetPhi = 0;
+   //DeepDiTaujetEnergy = 0;
    genTauHadPt = 0;
    genTauHadEta = 0;
    genTauHadPhi = 0;
@@ -464,10 +464,10 @@ void MuMuTauHadTauHadAnalyzer::Init()
        fChain->SetBranchAddress("recoTauAntiEleMVAVTight", &recoTauAntiEleMVAVTight, &b_recoTauAntiEleMVAVTight);
    } // end if not deepTauID
 
-   fChain->SetBranchAddress("recoJetPt", &recoJetPt, &b_recoJetPt);
-   fChain->SetBranchAddress("recoJetEta", &recoJetEta, &b_recoJetEta);
-   fChain->SetBranchAddress("recoJetPhi", &recoJetPhi, &b_recoJetPhi);
-   fChain->SetBranchAddress("recoJetEnergy", &recoJetEnergy, &b_recoJetEnergy);
+   fChain->SetBranchAddress("jet_pt", &jet_pt, &b_jet_pt);
+   fChain->SetBranchAddress("jet_eta", &jet_eta, &b_jet_eta);
+   fChain->SetBranchAddress("jet_phi", &jet_phi, &b_jet_phi);
+   fChain->SetBranchAddress("jet_energy", &jet_energy, &b_jet_energy);
    fChain->SetBranchAddress("recoJetCSV", &recoJetCSV, &b_recoJetCSV);
    fChain->SetBranchAddress("recoMET", &recoMET, &b_recoMET);
    fChain->SetBranchAddress("recoMETPhi", &recoMETPhi, &b_recoMETPhi);
@@ -481,10 +481,10 @@ void MuMuTauHadTauHadAnalyzer::Init()
        fChain->SetBranchAddress("trueNInteraction", &trueNInteraction, &b_trueNInteraction);
        fChain->SetBranchAddress("genEventWeight", &genEventWeight, &b_genEventWeight);
        fChain->SetBranchAddress("DeepDiTauValue", &DeepDiTauValue, &b_DeepDiTauValue);
-       fChain->SetBranchAddress("DeepDiTaujetPt", &DeepDiTaujetPt, &b_DeepDiTaujetPt);
-       fChain->SetBranchAddress("DeepDiTaujetEta", &DeepDiTaujetEta, &b_DeepDiTaujetEta);
-       fChain->SetBranchAddress("DeepDiTaujetPhi", &DeepDiTaujetPhi, &b_DeepDiTaujetPhi);
-       fChain->SetBranchAddress("DeepDiTaujetEnergy", &DeepDiTaujetEnergy, &b_DeepDiTaujetEnergy);
+       //  fChain->SetBranchAddress("DeepDiTaujetPt", &DeepDiTaujetPt, &b_DeepDiTaujetPt);
+       // fChain->SetBranchAddress("DeepDiTaujetEta", &DeepDiTaujetEta, &b_DeepDiTaujetEta);
+       //fChain->SetBranchAddress("DeepDiTaujetPhi", &DeepDiTaujetPhi, &b_DeepDiTaujetPhi);
+       //fChain->SetBranchAddress("DeepDiTaujetEnergy", &DeepDiTaujetEnergy, &b_DeepDiTaujetEnergy);
        fChain->SetBranchAddress("genTauHadPt", &genTauHadPt, &b_genTauHadPt);
        fChain->SetBranchAddress("genTauHadEta", &genTauHadEta, &b_genTauHadEta);
        fChain->SetBranchAddress("genTauHadPhi", &genTauHadPhi, &b_genTauHadPhi);

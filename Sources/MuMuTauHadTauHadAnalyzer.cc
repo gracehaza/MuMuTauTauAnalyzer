@@ -123,16 +123,16 @@ void MuMuTauHadTauHadAnalyzer::Loop()
 		  // findgenTaugenTauPair = true;
 		  //}
 		  //pT cut on di tau had; seems unnecessary
-      for (unsigned int iDeepDiTaujet=0; iDeepDiTaujet<DeepDiTaujetPt->size(); iDeepDiTaujet++){
+      for (unsigned int iDeepDiTaujet=0; iDeepDiTaujet<jet_pt->size(); iDeepDiTaujet++){
 	TLorentzVector DeepDiTaujet;
-	DeepDiTaujet.SetPtEtaPhiE(DeepDiTaujetPt->at(iDeepDiTaujet), DeepDiTaujetEta->at(iDeepDiTaujet), DeepDiTaujetPhi->at(iDeepDiTaujet), DeepDiTaujetEnergy->at(iDeepDiTaujet));
+	DeepDiTaujet.SetPtEtaPhiE(jet_pt->at(iDeepDiTaujet), jet_eta->at(iDeepDiTaujet), jet_phi->at(iDeepDiTaujet), jet_energy->at(iDeepDiTaujet));
 	if(DeepDiTaujet.DeltaR(combinedTaus) < smallestDRjettau){
 	 if(DeepDiTaujet.Pt() > 50){
 	  smallestDRjettau = DeepDiTaujet.DeltaR(combinedTaus);
 	  std::cout << "smallest DR jet tau: " << smallestDRjettau << std::endl;
 	  matchrecojetditau = true;
 	  deepvalue = DeepDiTauValue->at(iDeepDiTaujet);
-	  matchedjet.SetPtEtaPhiE(DeepDiTaujetPt->at(iDeepDiTaujet), DeepDiTaujetEta->at(iDeepDiTaujet), DeepDiTaujetPhi->at(iDeepDiTaujet), DeepDiTaujetEnergy->at(iDeepDiTaujet));	
+	  matchedjet.SetPtEtaPhiE(jet_pt->at(iDeepDiTaujet), jet_eta->at(iDeepDiTaujet), jet_phi->at(iDeepDiTaujet), jet_energy->at(iDeepDiTaujet));	
   //std::cout << " deep di tau score: " << deepvalue << std::endl;  
 	  }// pT cut
 	} // smallest DRjet and two gen taus

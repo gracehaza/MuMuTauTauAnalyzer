@@ -1,3 +1,4 @@
+
 #define MuMuTauHadTauHadAnalyzer_cxx
 #include "MuMuTauHadTauHadAnalyzer.h"
 #include <TH1.h>
@@ -48,7 +49,7 @@ void MuMuTauHadTauHadAnalyzer::Loop()
       unsigned int indexGenTau = -1;
       unsigned int indexMu1 = -1;
       // =============================================================================
-      std::cout << "******************" << std::endl;
+      //      std::cout << "******************" << std::endl;
       // ---- start loop on muon candidates for mu1 ----
       bool findMu1 = false;
       for (unsigned int iMuon=0; iMuon<recoMuonPt->size(); iMuon++)
@@ -97,12 +98,12 @@ void MuMuTauHadTauHadAnalyzer::Loop()
       TLorentzVector matchedjet;     
       TLorentzVector combinedTaus;
 
-      double smallestDRjettau = 0.1;
+      double smallestDRjettau = 0.2;
       float deepvalue;
 
       for (unsigned int iGenTau=0; iGenTau<genTauHadPt->size(); iGenTau++){                                                                                         
 	indexGenTau = iGenTau; 
-	std::cout << " parent ID first tau: " << genTauHadMotherPDGId->at(iGenTau) << std::endl;                                            
+	//	std::cout << " parent ID first tau: " << genTauHadMotherPDGId->at(iGenTau) << std::endl;                                            
 	GenTauHad.SetPtEtaPhiM(genTauHadPt->at(iGenTau),genTauHadEta->at(iGenTau),genTauHadPhi->at(iGenTau),genTauHadMass->at(iGenTau));
 	float smallestDRtwotaus = 0.4;
 	bool findGenTauHad2 = false;
@@ -114,30 +115,22 @@ void MuMuTauHadTauHadAnalyzer::Loop()
 	      if (GenTauHad2Cand.DeltaR(GenTauHad) < smallestDRtwotaus){
 		GenTauHad2.SetPtEtaPhiM(genTauHadPt->at(iGenTau2),genTauHadEta->at(iGenTau2),genTauHadPhi->at(iGenTau2),genTauHadMass->at(iGenTau2));
 		smallestDRtwotaus = GenTauHad2.DeltaR(GenTauHad);                                                                                                
-		std::cout << "smallest DR:" << smallestDRtwotaus <<  std::endl;
  		combinedTaus = GenTauHad+GenTauHad2;
-		std::cout << " parent ID second tau: " << genTauHadMotherPDGId->at(iGenTau2) << std::endl;           
-		std::cout << "combined Tau pt: " << combinedTaus.Pt() <<  std::endl;
-	       	//	if(combinedTaus.Pt() > 25){
-		  findGenTauHad2 = true; 
-		  // findgenTaugenTauPair = true;
-		  //}
-		  //pT cut on di tau had; seems unnecessary
-      for (unsigned int iDeepDiTaujet=0; iDeepDiTaujet<jet_pt->size(); iDeepDiTaujet++){
-	TLorentzVector DeepDiTaujet;
-	DeepDiTaujet.SetPtEtaPhiE(jet_pt->at(iDeepDiTaujet), jet_eta->at(iDeepDiTaujet), jet_phi->at(iDeepDiTaujet), jet_energy->at(iDeepDiTaujet));
-	if(DeepDiTaujet.DeltaR(combinedTaus) < smallestDRjettau){
-	 if(DeepDiTaujet.Pt() > 50){
-	  smallestDRjettau = DeepDiTaujet.DeltaR(combinedTaus);
-	  std::cout << "smallest DR jet tau: " << smallestDRjettau << std::endl;
-	  matchrecojetditau = true;
-	  deepvalue = DeepDiTauValue->at(iDeepDiTaujet);
-	  matchedjet.SetPtEtaPhiE(jet_pt->at(iDeepDiTaujet), jet_eta->at(iDeepDiTaujet), jet_phi->at(iDeepDiTaujet), jet_energy->at(iDeepDiTaujet));	
-  //std::cout << " deep di tau score: " << deepvalue << std::endl;  
-	  }// pT cut
-	} // smallest DRjet and two gen taus
-      }// loop over DeepDiTau jets
-      // matchedDeepDiTauValue->Fill(deepvalue);
+		findGenTauHad2 = true;
+
+		for (unsigned int iDeepDiTaujet=0; iDeepDiTaujet<jet_pt->size(); iDeepDiTaujet++){
+		  TLorentzVector DeepDiTaujet;
+		  DeepDiTaujet.SetPtEtaPhiE(jet_pt->at(iDeepDiTaujet), jet_eta->at(iDeepDiTaujet), jet_phi->at(iDeepDiTaujet), jet_energy->at(iDeepDiTaujet));
+		  if(DeepDiTaujet.DeltaR(combinedTaus) < smallestDRjettau){
+		    // if(DeepDiTaujet.Pt() > 50{
+			smallestDRjettau = DeepDiTaujet.DeltaR(combinedTaus);
+			//std::cout << "smallest DR jet tau: " << smallestDRjettau << std::endl;
+			matchrecojetditau = true;
+			deepvalue = DeepDiTauValue->at(iDeepDiTaujet);
+			matchedjet.SetPtEtaPhiE(jet_pt->at(iDeepDiTaujet), jet_eta->at(iDeepDiTaujet), jet_phi->at(iDeepDiTaujet), jet_energy->at(iDeepDiTaujet));	
+			//}// pT cut
+		  } // smallest DRjet and two gen taus
+		}// loop over DeepDiTau jets
 	      } // smallest DR between taus
 	    } // opp charge
 	  } // if different tau

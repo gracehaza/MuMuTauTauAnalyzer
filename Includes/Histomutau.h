@@ -135,7 +135,6 @@ class Histomutau{
         TH2D* dRInvMassEleTau;
         TH2D* dRInvMassTauTau;
 
-
 	TH1D* dRgenMu1genMu2;
         TH1D* dRgenMu3genMu4;
         TH1D* dRgenMu3genEle;
@@ -253,6 +252,61 @@ class Histomutau{
         TH1D* dRgenMu1genTau2;
 
 	TH1D* matchedDeepDiTauValue;
+	TH1D* matchedDeepDiTauValueMD;
+
+	TH1D* genmatched_mumujetMass;
+	TH1D* genmatched_mumujetMass_07;
+
+	TH1D* DDTV_count_histo;
+	TH1D* DDTV_MD_count_histo;
+
+	TH1D* jetmass_fakelevela;
+	TH1D* jetmass_fakelevelb;
+	TH1D* jetmass_fakelevelc;
+	TH1D* jetmass_md_fakelevela;
+	TH1D* jetmass_md_fakelevelb;
+	TH1D* jetmass_md_fakelevelc;
+
+	TH1D* jetmass_deep01;
+	TH1D* jetmass_deep02;
+	TH1D* jetmass_deep03;
+	TH1D* jetmass_deep04;
+	TH1D* jetmass_deep05;
+	TH1D* jetmass_deep06;
+	TH1D* jetmass_deep07;
+	TH1D* jetmass_deep08;
+	TH1D* jetmass_deep09;
+
+	TH1D* jetmass_deepmd01;
+	TH1D* jetmass_deepmd02;
+	TH1D* jetmass_deepmd03;
+	TH1D* jetmass_deepmd04;
+	TH1D* jetmass_deepmd05;
+	TH1D* jetmass_deepmd06;
+	TH1D* jetmass_deepmd07;
+	TH1D* jetmass_deepmd08;
+	TH1D* jetmass_deepmd09;
+
+	TH1D* highDDTV_genmatched_mumujetMass;
+	TH1D* highDDTV_MD_genmatched_mumujetMass;
+
+	TH1D* highDDTVjetpt;
+	TH1D* highDDTVtaudR;
+
+	TH1D* highDDTV_MDjetpt;
+	TH1D* highDDTV_MDtaudR;
+
+	TH1D* lowDDTVjetpt;
+	TH1D* lowDDTVtaudR;
+
+	TH1D* lowDDTV_MDjetpt;
+	TH1D* lowDDTV_MDtaudR;
+
+	TH1D* highDDTV_lowDDTV_MDjetpt;
+	TH1D* highDDTV_lowDDTV_MDtaudR;
+
+	TH1D* lowDDTV_highDDTV_MDjetpt;
+	TH1D* lowDDTV_highDDTV_MDtaudR;
 
 	TH1D* dRgenMu2genMu3;
         TH1D* dRgenMu2genMu4;

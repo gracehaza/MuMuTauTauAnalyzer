@@ -167,7 +167,63 @@ Histomutau::Histomutau(){
     ptMuMuTauHadTauHad = newTH1D("ptMuMuTauHadTauHad", "p_{T}(#mu#mu#tau#tau)[GeV]", NBinsMu1Mu2Mu3TauPt, Mu1Mu2Mu3TauPtBin);
 
     matchedDeepDiTauValue = newTH1D("matchedDeepDiTauValue", "matchedDeepDiTauValue", 50, 0, 1);
+    matchedDeepDiTauValueMD = newTH1D("matchedDeepDiTauValueMD", "matchedDeepDiTauValueMD", 50, 0, 1);
 
+    genmatched_mumujetMass = newTH1D("genmatched_mumujetMass", "genmatched_mumujetMass",100,0,1200);  
+    genmatched_mumujetMass_07 = newTH1D("genmatched_mumujetMass_07", "genmatched_mumujetMass_07",100,0,1200);
+
+
+    DDTV_count_histo = newTH1D("DDTV_count_histo", "DDTV_count_histo", 19, 0, 1);
+    DDTV_MD_count_histo = newTH1D("DDTV_MD_count_histo", "DDTV_MD_count_histo",19,0,1);
+
+    jetmass_fakelevela = newTH1D("jetmass_fakelevela","jetmass_fakelevela",100,0,20);
+    jetmass_fakelevelb = newTH1D("jetmass_fakelevelb","jetmass_fakelevelb",100,0,20);
+    jetmass_fakelevelc = newTH1D("jetmass_fakelevelc","jetmass_fakelevelc",100,0,20);
+
+    jetmass_md_fakelevela = newTH1D("jetmass_md_fakelevela","jetmass_md_fakelevela",100,0,20);
+    jetmass_md_fakelevelb = newTH1D("jetmass_md_fakelevelb","jetmass_md_fakelevelb",100,0,20);
+    jetmass_md_fakelevelc = newTH1D("jetmass_md_fakelevelc","jetmass_md_fakelevelc",100,0,20);
+
+    jetmass_deep01 = newTH1D("jetmass_deep01","jetmass_deep01",100,0,35);
+    jetmass_deep02 = newTH1D("jetmass_deep02","jetmass_deep02",100,0,35);
+    jetmass_deep03 = newTH1D("jetmass_deep03","jetmass_deep03",100,0,35);
+    jetmass_deep04 = newTH1D("jetmass_deep04","jetmass_deep04",100,0,35);
+    jetmass_deep05 = newTH1D("jetmass_deep05","jetmass_deep05",100,0,35);
+    jetmass_deep06 = newTH1D("jetmass_deep06","jetmass_deep06",100,0,35);
+    jetmass_deep07 = newTH1D("jetmass_deep07","jetmass_deep07",100,0,35);
+    jetmass_deep08 = newTH1D("jetmass_deep08","jetmass_deep08",100,0,35);
+    jetmass_deep09 = newTH1D("jetmass_deep09","jetmass_deep09",100,0,35);
+
+    jetmass_deepmd01 = newTH1D("jetmass_deepmd01","jetmass_deepmd01",100,0,35);
+    jetmass_deepmd02 = newTH1D("jetmass_deepmd02","jetmass_deepmd02",100,0,35);
+    jetmass_deepmd03 = newTH1D("jetmass_deepmd03","jetmass_deepmd03",100,0,35);
+    jetmass_deepmd04 = newTH1D("jetmass_deepmd04","jetmass_deepmd04",100,0,35);
+    jetmass_deepmd05 = newTH1D("jetmass_deepmd05","jetmass_deepmd05",100,0,35);
+    jetmass_deepmd06 = newTH1D("jetmass_deepmd06","jetmass_deepmd06",100,0,35);
+    jetmass_deepmd07 = newTH1D("jetmass_deepmd07","jetmass_deepmd07",100,0,35);
+    jetmass_deepmd08 = newTH1D("jetmass_deepmd08","jetmass_deepmd08",100,0,35);
+    jetmass_deepmd09 = newTH1D("jetmass_deepmd09","jetmass_deepmd09",100,0,35);
+
+    highDDTVjetpt = newTH1D("highDDTVjetpt", "highDDTVjetpt", 50, 0, 300);
+    highDDTVtaudR = newTH1D("highDDTVtaudR", "highDDTVtaudR", 50, 0, 0.45);
+
+    highDDTV_MDjetpt = newTH1D("highDDTV_MDjetpt", "highDDTV_MDjetpt", 50, 0, 300);
+    highDDTV_MDtaudR = newTH1D("highDDTV_MDtaudR", "highDDTV_MDtaudR", 50, 0, 0.45);
+
+    lowDDTVjetpt = newTH1D("lowDDTVjetpt", "lowDDTVjetpt", 50, 0, 300);
+    lowDDTVtaudR = newTH1D("lowDDTVtaudR", "lowDDTVtaudR", 50, 0, 0.45);
+
+    lowDDTV_MDjetpt = newTH1D("lowDDTV_MDjetpt", "lowDDTV_MDjetpt", 50, 0, 300);
+    lowDDTV_MDtaudR = newTH1D("lowDDTV_MDtaudR", "lowDDTV_MDtaudR", 50, 0, 0.45);
+
+    highDDTV_lowDDTV_MDjetpt = newTH1D("highDDTV_lowDDTV_MDjetpt", "highDDTV_lowDDTV_MDjetpt", 50, 0, 300);
+    highDDTV_lowDDTV_MDtaudR = newTH1D("highDDTV_lowDDTV_MDtaudR", "highDDTV_lowDDTV_MDtaudR", 50, 0, 0.45);
+
+    lowDDTV_highDDTV_MDjetpt = newTH1D("lowDDTV_highDDTV_MDjetpt", "lowDDTV_highDDTV_MDjetpt", 50, 0, 300);
+    lowDDTV_highDDTV_MDtaudR = newTH1D("lowDDTV_highDDTV_MDtaudR", "lowDDTV_highDDTV_MDtaudR", 50, 0, 0.45);
+
+    highDDTV_genmatched_mumujetMass = newTH1D("highDDTV_genmatched_mumujetMass", "highDDTV_genmatched_mumujetMass", 100, 0, 250);
+    highDDTV_MD_genmatched_mumujetMass = newTH1D("highDDTV_MD_genmatched_mumujetMass", "highDDTV_MD_genmatched_mumujetMass", 100, 0, 250);
     matchedrecojetpt = newTH1D("matchedrecojetpt", "matchedrecojetpt", 50, 0, 400);
 
     mu1Iso = newTH1D("mu1Iso", "#mu_{1}^{iso}", 20, 0, 0.25);
@@ -370,7 +426,7 @@ Histomutau::Histomutau(){
     //    dRgenElegenEle = newTH1D("dRgenEle1genEle2", "#Delta_R(e_{1}e_{2}", 25, 0, 1.0);
     dRgenMu3genTau = newTH1D("dRgenMu3genTau", "#Delta R(gen#mu_{3}gen#tau)", 25, 0, 1.0);
     dRgenElegenTau = newTH1D("dRgenElegenTau", "#Delta R(genegen#tau)", 25, 0, 1.0);
-    dRgenTaugenTau = newTH1D("dRgenTaugenTau", "#Delta R(gen#taugen#tau)", 25, 0, 1.0);
+    dRgenTaugenTau = newTH1D("dRgenTaugenTau", "#Delta R(gen#taugen#tau)", 100, 0, 1.75);
 
     dRgenMu1genMu3 = newTH1D("dRgenMu1genMu3", "#Delta R(#mu_{1}#mu_{3})", 25, 0, 5);
     dRgenMu1genMu4 = newTH1D("dRgenMu1genMu4", "#Delta R(#mu_{1}#mu_{4})", 25, 0, 5);

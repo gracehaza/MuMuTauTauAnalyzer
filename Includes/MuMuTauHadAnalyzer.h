@@ -86,6 +86,7 @@ public :
    vector<float>   *recoJetPhi;
    vector<float>   *recoJetEnergy;
    vector<float>   *recoJetCSV;
+   //   vector<float>   *recoTauDM;
    vector<float>   *recoMET;
    vector<float>   *recoMETPhi;
    vector<float>   *recoMETPx;
@@ -175,6 +176,7 @@ public :
    TBranch        *b_recoJetPhi;   //!
    TBranch        *b_recoJetEnergy;   //!
    TBranch        *b_recoJetCSV;   //!
+   //TBranch        *b_recoTauDM;   //!  
    TBranch        *b_recoMET;   //!
    TBranch        *b_recoMETPhi;   //!
    TBranch        *b_recoMETPx;   //!
@@ -390,6 +392,7 @@ void MuMuTauHadAnalyzer::Init()
    recoJetPhi = 0;
    recoJetEnergy = 0;
    recoJetCSV = 0;
+   // recoTauDM = 0;
    recoMET = 0;
    recoMETPhi = 0;
    recoMETPx = 0;
@@ -485,6 +488,7 @@ void MuMuTauHadAnalyzer::Init()
   fChain->SetBranchAddress("recoJetPhi", &recoJetPhi, &b_recoJetPhi);
   fChain->SetBranchAddress("recoJetEnergy", &recoJetEnergy, &b_recoJetEnergy);
    fChain->SetBranchAddress("recoJetCSV", &recoJetCSV, &b_recoJetCSV);
+   // fChain->SetBranchAddress("recoTauDM", &recoTauDM, &b_recoTauDM);
    fChain->SetBranchAddress("recoMET", &recoMET, &b_recoMET);
    fChain->SetBranchAddress("recoMETPhi", &recoMETPhi, &b_recoMETPhi);
    fChain->SetBranchAddress("recoMETPx", &recoMETPx, &b_recoMETPx);

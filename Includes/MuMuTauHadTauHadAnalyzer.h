@@ -26,6 +26,11 @@ public :
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
    // Declaration of leaf types
+
+   vector<float>   *genMuonPt;
+   vector<float>   *genMuonEta;
+   vector<float>   *genMuonPhi;
+   vector<float>   *genMuonMass;
    vector<float>   *recoMuonPt;
    vector<float>   *recoMuonEta;
    vector<float>   *recoMuonPhi;
@@ -96,7 +101,10 @@ public :
    //vector<float>   *DeepDiTaujetPhi;
    //vector<float>   *DeepDiTaujetEnergy;
    vector<float>   *DeepDiTauValue;
-   vector<float>   *genTauHadPt;
+   vector<float>   *DeepDiTauValueMD;
+   vector<float>   *jet_index;
+   vector<float>   *jet_genparticles_pdgid; 
+  vector<float>   *genTauHadPt;
    vector<float>   *genTauHadEta;
    vector<float>   *genTauHadPhi;
    vector<float>   *genTauHadMass;
@@ -109,6 +117,10 @@ public :
    Float_t         genEventWeight;
 
    // List of branches
+   TBranch        *b_genMuonPt;   //!
+   TBranch        *b_genMuonEta; //!
+   TBranch        *b_genMuonPhi; //!
+   TBranch        *b_genMuonMass; //!
    TBranch        *b_recoMuonPt;   //!
    TBranch        *b_recoMuonEta;   //!
    TBranch        *b_recoMuonPhi;   //!
@@ -188,6 +200,9 @@ public :
    TBranch        *b_genTauHadPhi;    //!
    TBranch        *b_genTauHadMass;    //!
    TBranch        *b_DeepDiTauValue;   //!
+   TBranch        *b_DeepDiTauValueMD;  //!
+   TBranch        *b_jet_index;    //!
+   TBranch        *b_jet_genparticles_pdgid;  //!
    TBranch        *b_genTauHadPDGId;   //!
    TBranch        *b_genTauHadMotherPDGId;   //!
 
@@ -319,6 +334,10 @@ void MuMuTauHadTauHadAnalyzer::Init()
    // (once per file to be processed).
 
    // Set object pointer
+  genMuonPt = 0;
+  genMuonEta = 0;
+  genMuonPhi = 0;
+  genMuonMass = 0;
    recoMuonPt = 0;
    recoMuonEta = 0;
    recoMuonPhi = 0;
@@ -384,6 +403,9 @@ void MuMuTauHadTauHadAnalyzer::Init()
    recoMETPx = 0;
    recoMETPy = 0;
    DeepDiTauValue = 0;
+   DeepDiTauValueMD = 0;
+   jet_index = 0;
+   jet_genparticles_pdgid = 0;
    // DeepDiTaujetPt = 0;
    // DeepDiTaujetEta = 0;
    // DeepDiTaujetPhi = 0;
@@ -401,6 +423,10 @@ void MuMuTauHadTauHadAnalyzer::Init()
    fCurrent = -1;
    fChain->SetMakeClass(1);
 
+   fChain->SetBranchAddress("genMuonPt", &genMuonPt, &b_genMuonPt);
+   fChain->SetBranchAddress("genMuonEta", &genMuonEta, &b_genMuonEta);
+   fChain->SetBranchAddress("genMuonPhi", &genMuonPhi, &b_genMuonPhi);
+   fChain->SetBranchAddress("genMuonMass", &genMuonMass, &b_genMuonMass);
    fChain->SetBranchAddress("recoMuonPt", &recoMuonPt, &b_recoMuonPt);
    fChain->SetBranchAddress("recoMuonEta", &recoMuonEta, &b_recoMuonEta);
    fChain->SetBranchAddress("recoMuonPhi", &recoMuonPhi, &b_recoMuonPhi);
@@ -417,6 +443,8 @@ void MuMuTauHadTauHadAnalyzer::Init()
    fChain->SetBranchAddress("recoTauEnergy", &recoTauEnergy, &b_recoTauEnergy);
    fChain->SetBranchAddress("recoTauPDGId", &recoTauPDGId, &b_recoTauPDGId);
    fChain->SetBranchAddress("recoTauDecayMode", &recoTauDecayMode, &b_recoTauDecayMode);
+   fChain->SetBranchAddress("jet_index", &jet_index, &b_jet_index);
+   fChain->SetBranchAddress("jet_genparticles_pdgid", &jet_genparticles_pdgid, &b_jet_genparticles_pdgid);
    
    if (deepTauID)
    {
@@ -481,6 +509,7 @@ void MuMuTauHadTauHadAnalyzer::Init()
        fChain->SetBranchAddress("trueNInteraction", &trueNInteraction, &b_trueNInteraction);
        fChain->SetBranchAddress("genEventWeight", &genEventWeight, &b_genEventWeight);
        fChain->SetBranchAddress("DeepDiTauValue", &DeepDiTauValue, &b_DeepDiTauValue);
+       fChain->SetBranchAddress("DeepDiTauValueMD", &DeepDiTauValueMD, &b_DeepDiTauValueMD);
        //  fChain->SetBranchAddress("DeepDiTaujetPt", &DeepDiTaujetPt, &b_DeepDiTaujetPt);
        // fChain->SetBranchAddress("DeepDiTaujetEta", &DeepDiTaujetEta, &b_DeepDiTaujetEta);
        //fChain->SetBranchAddress("DeepDiTaujetPhi", &DeepDiTaujetPhi, &b_DeepDiTaujetPhi);
